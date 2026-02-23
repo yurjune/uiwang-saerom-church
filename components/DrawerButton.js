@@ -1,5 +1,11 @@
-import React, { useState } from 'react';
-import { Box, Button, useDisclosure, IconButton, Input } from "@chakra-ui/react";
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  useDisclosure,
+  IconButton,
+  Input,
+} from "@chakra-ui/react";
 import { FiMenu } from "react-icons/fi";
 import {
   Drawer,
@@ -10,7 +16,7 @@ import {
   DrawerContent,
   DrawerCloseButton,
 } from "@chakra-ui/react";
-import DrawerAccordian from './DrawerAccordian';
+import DrawerAccordian from "./DrawerAccordian";
 
 const DrawerButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,14 +40,8 @@ const DrawerButton = () => {
       >
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton 
-            mt="7px"
-          />
-          <DrawerHeader
-            fontWeight="normal"
-          >
-            Didimdol Church
-          </DrawerHeader>
+          <DrawerCloseButton mt="7px" />
+          <DrawerHeader fontWeight="normal">Didimdol Church</DrawerHeader>
           <DrawerBody>
             <DrawerAccordian></DrawerAccordian>
           </DrawerBody>

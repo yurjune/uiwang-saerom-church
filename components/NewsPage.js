@@ -1,10 +1,10 @@
-import React from 'react';
-import { Box, Flex, Divider } from '@chakra-ui/react';
-import PostCard from './PostCard';
-import PostArticle from './PostArticle';
-import ContentsTable from './ContentsTable';
-import Pagination from './Pagination';
-import NoPost from './NoPost';
+import React from "react";
+import { Box, Flex, Divider } from "@chakra-ui/react";
+import PostCard from "./PostCard";
+import PostArticle from "./PostArticle";
+import ContentsTable from "./ContentsTable";
+import Pagination from "./Pagination";
+import NoPost from "./NoPost";
 
 const tableStyle = {
   variant: "striped",
@@ -14,8 +14,8 @@ const tableStyle = {
 const NewsPage = ({ articles, firstArticle }) => {
   return (
     <>
-      {firstArticle ?
-        (<>
+      {firstArticle ? (
+        <>
           <Box mb="140px">
             <Flex
               justify={{ base: "flex-start", lg: "space-between" }}
@@ -37,8 +37,10 @@ const NewsPage = ({ articles, firstArticle }) => {
             <ContentsTable articles={articles} tableStyle={tableStyle} />
           </Box>
           <Pagination articles={articles} category="교회소식" />
-        </>)
-      : <NoPost />}
+        </>
+      ) : (
+        <NoPost />
+      )}
     </>
   );
 };

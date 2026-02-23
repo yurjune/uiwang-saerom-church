@@ -1,11 +1,11 @@
-import React from 'react';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { createClient } from 'contentful';
-import AppLayout from '../components/AppLayout';
-import SimplePage from '../components/SimplePage';
-import SearchPage from '../components/SearchPage';
-import { sortArticles, searchArticles } from '../hooks/useArticle';
+import React from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { createClient } from "contentful";
+import AppLayout from "../components/AppLayout";
+import SimplePage from "../components/SimplePage";
+import SearchPage from "../components/SearchPage";
+import { sortArticles, searchArticles } from "../hooks/useArticle";
 
 export const getStaticProps = async () => {
   const client = createClient({
@@ -13,19 +13,19 @@ export const getStaticProps = async () => {
     accessToken: process.env.CONTENTFUL_ACCESS_KEY,
   });
   const pictures = await client.getEntries({
-    content_type: 'picture',
+    content_type: "picture",
   });
   const articles = await client.getEntries({
-    content_type: 'article',
+    content_type: "article",
   });
   const sortedArticles = sortArticles(articles.items);
   return {
     props: {
       pictures: pictures.items,
       articles: sortedArticles,
-    }
-  }
-}
+    },
+  };
+};
 
 const Search = ({ pictures, articles }) => {
   const router = useRouter();

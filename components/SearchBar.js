@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import { Button, Input, IconButton, HStack } from "@chakra-ui/react";
-import { SearchIcon } from '@chakra-ui/icons';
+import { SearchIcon } from "@chakra-ui/icons";
 
-import DrawerButton from './DrawerButton';
-import useInput from '../hooks/useInput';
+import DrawerButton from "./DrawerButton";
+import useInput from "../hooks/useInput";
 
 export default function SearchBar() {
   const router = useRouter();
-  const [value, onChangeValue] = useInput('');
+  const [value, onChangeValue] = useInput("");
 
   const onClickSearch = () => {
     router.push(`/search?s=${value}`);
@@ -19,7 +19,7 @@ export default function SearchBar() {
       return onClickSearch();
     }
   };
-  
+
   return (
     <HStack mr="8px">
       <Input

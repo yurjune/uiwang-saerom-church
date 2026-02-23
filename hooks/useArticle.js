@@ -5,16 +5,18 @@ export const sortArticles = (articles) => {
   const timeParser = (createdAt) => {
     const timeStamp = Date.parse(new Date(createdAt)) / 1000;
     return timeStamp;
-  }
+  };
   const sortedArticles = articles.sort((a, b) => {
     return timeParser(b.sys.createdAt) - timeParser(a.sys.createdAt);
   });
   return sortedArticles;
-}
+};
 
 export const filterByTag = (articles, value) => {
   if (value) {
-    const result = articles.filter(article => article.fields.tag?.find(item => item === value));
+    const result = articles.filter((article) =>
+      article.fields.tag?.find((item) => item === value),
+    );
     return result;
   }
   return articles;
@@ -28,14 +30,14 @@ export const getLimitedArticles = (articles, currentPage) => {
 };
 
 export const searchArticles = (articles, keyword) => {
-  const searchResult = articles.filter(article => (
-    article.fields.title.includes(keyword) || (
-      article.fields.paragraph.content.some(item => {
-        return item.content.some(post => {
+  const searchResult = articles.filter(
+    (article) =>
+      article.fields.title.includes(keyword) ||
+      article.fields.paragraph.content.some((item) => {
+        return item.content.some((post) => {
           return post.value?.includes(keyword);
         });
-      })
-    )
-  ));
+      }),
+  );
   return searchResult;
 };

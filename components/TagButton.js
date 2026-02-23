@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button } from '@chakra-ui/react';
+import React from "react";
+import { Button } from "@chakra-ui/react";
 
 const style = (close, toggle) => {
   const style = {
@@ -11,9 +11,9 @@ const style = (close, toggle) => {
       }
       return close();
     },
-  }
+  };
   return style;
-}
+};
 
 const TagButton = ({ close, toggle }) => {
   return (

@@ -1,6 +1,6 @@
-import { Box, Flex } from '@chakra-ui/layout';
-import React from 'react';
-import { layoutWidth } from './AppLayout';
+import { Box, Flex } from "@chakra-ui/layout";
+import React from "react";
+import { layoutWidth } from "./AppLayout";
 
 const Footer = () => {
   return (
@@ -14,7 +14,7 @@ const Footer = () => {
         fontSize="12px"
         px={{ base: "20px", sm: "30px", md: "40px", lg: "0" }}
         py="40px"
-        justify= "flex-start"
+        justify="flex-start"
         align={{ base: "center", md: "flex-start" }}
         textAlign="center"
         fontFamily="Nanum Gothic"

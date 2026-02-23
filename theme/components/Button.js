@@ -5,8 +5,8 @@ export default {
   sizes: {
     cs: {
       h: "35px",
-      px: "12px"
-    }
+      px: "12px",
+    },
   },
   variants: {
     solid: {

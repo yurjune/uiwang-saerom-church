@@ -1,28 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import { Box } from "@chakra-ui/react";
-import { useRouter } from 'next/router';
-import { categoryToContents } from '../utils/categoryConverter';
+import { useRouter } from "next/router";
+import { categoryToContents } from "../utils/categoryConverter";
 
 const ItemCard = ({ article, pictures }) => {
   const router = useRouter();
   const { title, category } = article.fields;
   const { id, createdAt } = article.sys;
   const thumbnail = article.fields.thumbnail?.fields.file.url;
-  const dummyThumbnail = pictures.find(item => item.fields.title === "더미썸네일")
-    .fields.picture.fields.file.url;
+  const dummyThumbnail = pictures.find(
+    (item) => item.fields.title === "더미썸네일",
+  ).fields.picture.fields.file.url;
 
   const onClickImage = () => {
     router.push(`${categoryToContents(category)}/${id}`);
   };
 
   return (
-    <Box
-      textAlign="center"
-      onClick={onClickImage}
-      cursor="pointer"
-    >
-      {thumbnail
-        ? <Box
+    <Box textAlign="center" onClick={onClickImage} cursor="pointer">
+      {thumbnail ? (
+        <Box
           h="0"
           pb="100%"
           bgImage={`url("http:${thumbnail}")`}
@@ -30,7 +27,8 @@ const ItemCard = ({ article, pictures }) => {
           bgSize="cover"
           bgRepeat="no-repeat"
         />
-        : <Box
+      ) : (
+        <Box
           h="0"
           pb="100%"
           backgroundPosition="center"
@@ -38,7 +36,7 @@ const ItemCard = ({ article, pictures }) => {
           bgSize="cover"
           bgRepeat="no-repeat"
         />
-      }
+      )}
       <Box p="20px 10px 0 10px">
         <Box
           mb="3px"

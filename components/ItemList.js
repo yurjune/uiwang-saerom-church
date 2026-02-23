@@ -1,8 +1,8 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import React from "react";
+import { useRouter } from "next/router";
 import { Grid, GridItem } from "@chakra-ui/react";
-import ItemCard from './ItemCard';
-import { getLimitedArticles } from '../hooks/useArticle';
+import ItemCard from "./ItemCard";
+import { getLimitedArticles } from "../hooks/useArticle";
 
 const ItemList = ({ articles, pictures }) => {
   const router = useRouter();
@@ -14,7 +14,7 @@ const ItemList = ({ articles, pictures }) => {
       columnGap={5}
       rowGap={6}
     >
-      {limitedArticles.map(article => (
+      {limitedArticles.map((article) => (
         <GridItem key={article.sys.id}>
           <ItemCard article={article} pictures={pictures} />
         </GridItem>

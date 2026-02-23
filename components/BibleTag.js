@@ -1,7 +1,7 @@
-import React from 'react';
-import NextLink from 'next/link';
-import { Link, Grid } from '@chakra-ui/react';
-import { categoryToUrl } from '../utils/categoryConverter';
+import React from "react";
+import NextLink from "next/link";
+import { Link, Grid } from "@chakra-ui/react";
+import { categoryToUrl } from "../utils/categoryConverter";
 
 const BibleTag = ({ bible, category, onClose }) => {
   return (
@@ -14,11 +14,8 @@ const BibleTag = ({ bible, category, onClose }) => {
       columnGap={3}
       rowGap={3}
     >
-      {bible.map(item => (
-        <NextLink
-          key={item}
-          href={`${categoryToUrl(category)}?v=${item}`}
-        >
+      {bible.map((item) => (
+        <NextLink key={item} href={`${categoryToUrl(category)}?v=${item}`}>
           <Link onClick={onClose}>{item}</Link>
         </NextLink>
       ))}

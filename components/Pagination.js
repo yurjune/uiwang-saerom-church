@@ -1,10 +1,10 @@
-import React, { useEffect, useCallback } from 'react';
-import { useRouter } from 'next/router';
+import React, { useEffect, useCallback } from "react";
+import { useRouter } from "next/router";
 import { Box, Flex, Icon } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { PageButton, ArrowButton } from './PageButton';
+import { PageButton, ArrowButton } from "./PageButton";
 
-import usePagination from '../hooks/usePagination';
+import usePagination from "../hooks/usePagination";
 
 const Pagination = ({ articles }) => {
   // console.log('Pagination')
@@ -31,7 +31,7 @@ const Pagination = ({ articles }) => {
   }, [memorizedCurrentPageGroup]);
 
   const movePage = (page) => {
-    const url = `${router.pathname}?page=${page}`
+    const url = `${router.pathname}?page=${page}`;
     if (router.query.v) {
       return router.push(`${url}&v=${router.query.v}`);
     }
@@ -53,23 +53,26 @@ const Pagination = ({ articles }) => {
   };
 
   return (
-    <Flex
-      w="full"
-      align="center"
-      justify="center"
-    >
-      {currentPageGroup
-        ? (<Flex>
-          {firstPageGroup[0] === currentPageGroup[0] ? "" : (
+    <Flex w="full" align="center" justify="center">
+      {currentPageGroup ? (
+        <Flex>
+          {firstPageGroup[0] === currentPageGroup[0] ? (
+            ""
+          ) : (
             <>
-              <PageButton onClickButton={onClickButton} currentPage={currentPage}>{firstPage}</PageButton>
+              <PageButton
+                onClickButton={onClickButton}
+                currentPage={currentPage}
+              >
+                {firstPage}
+              </PageButton>
               <ArrowButton onClickButton={onClickPrevArrow}>
                 <Icon as={IoIosArrowBack} boxSize={3} />
               </ArrowButton>
             </>
           )}
           <Box mx={3}>
-            {currentPageGroup.map(value => (
+            {currentPageGroup.map((value) => (
               <PageButton
                 key={value}
                 currentPage={currentPage}
@@ -79,17 +82,25 @@ const Pagination = ({ articles }) => {
               </PageButton>
             ))}
           </Box>
-          {lastPageGroup[0] === currentPageGroup[0] ? "" : (
+          {lastPageGroup[0] === currentPageGroup[0] ? (
+            ""
+          ) : (
             <>
               <ArrowButton onClickButton={onClickNextArrow}>
                 <Icon as={IoIosArrowForward} boxSize={3} />
               </ArrowButton>
-              <PageButton onClickButton={onClickButton} currentPage={currentPage}>{lastPage}</PageButton>
+              <PageButton
+                onClickButton={onClickButton}
+                currentPage={currentPage}
+              >
+                {lastPage}
+              </PageButton>
             </>
           )}
-        </Flex>)
-        : "없는 페이지입니다"
-      }
+        </Flex>
+      ) : (
+        "없는 페이지입니다"
+      )}
     </Flex>
   );
 };

@@ -1,12 +1,14 @@
-import { useState, useEffect, useMemo } from 'react';
-import { useRouter } from 'next/router';
+import { useState, useEffect, useMemo } from "react";
+import { useRouter } from "next/router";
 
 export const postNumberPerOnePage = 8;
 
 const getTotalPages = (articles) => {
   const totalPosts = articles.length;
   const totalPages = Math.ceil(totalPosts / postNumberPerOnePage);
-  const pageList = new Array(totalPages).fill().map((value, index) => index + 1);
+  const pageList = new Array(totalPages)
+    .fill()
+    .map((value, index) => index + 1);
   const result = [];
   for (let i = 0; i < pageList.length; i += 5) {
     result.push(pageList.slice(i, i + 5));
@@ -15,7 +17,9 @@ const getTotalPages = (articles) => {
 };
 
 const getCurrentPageGroup = (currentPage, totalPages) => {
-  const result = totalPages.find(element => element.find(value => value === currentPage));
+  const result = totalPages.find((element) =>
+    element.find((value) => value === currentPage),
+  );
   return result;
 };
 
@@ -28,7 +32,9 @@ const usePagination = (articles) => {
   const memorizedCurrentPageGroup = useMemo(() => {
     return getCurrentPageGroup(currentPage, totalPages);
   }, [currentPage, totalPages]);
-  const [currentPageGroup, setCurrentPageGroup] = useState(memorizedCurrentPageGroup);
+  const [currentPageGroup, setCurrentPageGroup] = useState(
+    memorizedCurrentPageGroup,
+  );
 
   const firstPageGroup = totalPages[0];
   const firstPage = firstPageGroup[0];
@@ -53,7 +59,7 @@ const usePagination = (articles) => {
     lastPageGroup,
     firstPage,
     lastPage,
-  }
+  };
 };
 
 export default usePagination;

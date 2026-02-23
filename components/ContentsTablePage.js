@@ -1,10 +1,10 @@
-import React from 'react';
-import { Box } from '@chakra-ui/react';
+import React from "react";
+import { Box } from "@chakra-ui/react";
 
-import TitleBar from './TitleBar';
-import ContentsTable from './ContentsTable';
-import Pagination from './Pagination';
-import Working from './Working';
+import TitleBar from "./TitleBar";
+import ContentsTable from "./ContentsTable";
+import Pagination from "./Pagination";
+import Working from "./Working";
 
 const ContentsTablePage = ({ articles, category }) => {
   const tableStyle = {
@@ -13,8 +13,8 @@ const ContentsTablePage = ({ articles, category }) => {
 
   return (
     <>
-      {articles.length >=1
-        ? (<>
+      {articles.length >= 1 ? (
+        <>
           <Box mb="20px">
             <TitleBar title={category}></TitleBar>
           </Box>
@@ -22,9 +22,10 @@ const ContentsTablePage = ({ articles, category }) => {
             <ContentsTable articles={articles} tableStyle={tableStyle} />
           </Box>
           <Pagination articles={articles} category={category} />
-        </>)
-        : <Working />
-      }
+        </>
+      ) : (
+        <Working />
+      )}
     </>
   );
 };

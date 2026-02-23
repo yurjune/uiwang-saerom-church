@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box } from '@chakra-ui/react';
-import TitleBar from './TitleBar';
+import React from "react";
+import { Box } from "@chakra-ui/react";
+import TitleBar from "./TitleBar";
 
 const SimplePage = ({ children, title }) => {
   return (

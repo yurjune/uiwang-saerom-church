@@ -1,9 +1,9 @@
-import React from 'react';
-import Head from 'next/head';
-import { createClient } from 'contentful';
+import React from "react";
+import Head from "next/head";
+import { createClient } from "contentful";
 import AppLayout from "../../components/AppLayout";
-import KakaoMap from '../../components/KakaoMap';
-import SimplePage from '../../components/SimplePage';
+import KakaoMap from "../../components/KakaoMap";
+import SimplePage from "../../components/SimplePage";
 
 export const getStaticProps = async () => {
   const client = createClient({
@@ -11,14 +11,14 @@ export const getStaticProps = async () => {
     accessToken: process.env.CONTENTFUL_ACCESS_KEY,
   });
   const pictures = await client.getEntries({
-    content_type: 'picture',
+    content_type: "picture",
   });
   return {
     props: {
       pictures: pictures.items,
-    }
-  }
-}
+    },
+  };
+};
 
 const Map = ({ pictures }) => {
   return (

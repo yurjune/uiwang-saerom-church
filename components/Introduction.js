@@ -3,10 +3,10 @@ import { chakra, Box, Flex, Button, HStack, Text } from "@chakra-ui/react";
 import { layoutWidth } from "./AppLayout";
 import { categoryToUrl } from "../utils/categoryConverter";
 
-const newWidth = layoutWidth * 2 / 3;
+const newWidth = (layoutWidth * 2) / 3;
 
-function Introduction({ pictures }){
-  const background = pictures.find(item => item.fields.title === "소개배경")
+function Introduction({ pictures }) {
+  const background = pictures.find((item) => item.fields.title === "소개배경")
     .fields.picture.fields.file.url;
 
   return (
@@ -36,9 +36,7 @@ function Introduction({ pictures }){
           lineHeight="150%"
         >
           "너희가 서로 사랑하면 이로써 모든 사람이 너희가 내 제자인 줄 알리라"
-          <Text
-            fontSize={{ base: "xl", md: "2xl" }}
-          >(요 13:15)</Text>
+          <Text fontSize={{ base: "xl", md: "2xl" }}>(요 13:15)</Text>
         </chakra.h1>
         <chakra.p
           mb="40px"
@@ -46,18 +44,29 @@ function Introduction({ pictures }){
           fontSize={{ md: "lg" }}
           lineHeight="160%"
         >
-          <strong>하나님 말씀이 가치관과 삶의 중심이 되는 교회<br/></strong>
-          Church where God's Word becomes the center of values and life<br/><br/>
-
-          <strong>나의 이웃과 성도 간에 사랑이 넘치는 교회<br/></strong>
-          Church full of love between my neighbor and the saints<br/><br/>
-
-          <strong>모든 성도가 하나님을 섬기고 경배드리는 교회<br/></strong>
-          Church where all saints serve and worship God<br/><br/>
+          <strong>
+            하나님 말씀이 가치관과 삶의 중심이 되는 교회
+            <br />
+          </strong>
+          Church where God's Word becomes the center of values and life
+          <br />
+          <br />
+          <strong>
+            나의 이웃과 성도 간에 사랑이 넘치는 교회
+            <br />
+          </strong>
+          Church full of love between my neighbor and the saints
+          <br />
+          <br />
+          <strong>
+            모든 성도가 하나님을 섬기고 경배드리는 교회
+            <br />
+          </strong>
+          Church where all saints serve and worship God
+          <br />
+          <br />
         </chakra.p>
-        <HStack
-          justify="center"
-        >
+        <HStack justify="center">
           <Button
             as="a"
             href="#worship-time"
@@ -69,7 +78,7 @@ function Introduction({ pictures }){
           </Button>
           <Button
             as="a"
-            href={categoryToUrl('오시는길')}
+            href={categoryToUrl("오시는길")}
             size="lg"
             cursor="pointer"
           >
@@ -79,6 +88,6 @@ function Introduction({ pictures }){
       </Box>
     </Flex>
   );
-};
+}
 
 export default Introduction;

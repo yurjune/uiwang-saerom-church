@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import React, { useRef } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { HStack, Button, useDisclosure } from "@chakra-ui/react";
 import {
   Menu,
@@ -13,9 +13,9 @@ import {
   MenuIcon,
   MenuCommand,
   MenuDivider,
-} from "@chakra-ui/react"
-import { menuList, movieList, communityList, schoolList } from './Header';
-import { categoryToUrl } from '../utils/categoryConverter';
+} from "@chakra-ui/react";
+import { menuList, movieList, communityList, schoolList } from "./Header";
+import { categoryToUrl } from "../utils/categoryConverter";
 
 const NavMenu = ({ title, menu }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,10 +34,7 @@ const NavMenu = ({ title, menu }) => {
   // };
 
   return (
-    <Menu
-      isOpen={isOpen}
-      gutter="0"
-    >
+    <Menu isOpen={isOpen} gutter="0">
       <MenuButton
         as={Button}
         variant="menu"
@@ -57,12 +54,8 @@ const NavMenu = ({ title, menu }) => {
         onMouseLeave={onClose}
         minW="180px"
       >
-        {menu.map(item => (
-          <MenuItem
-            key={item}
-            w="100%"
-            _focus={{ bg: "second" }}
-          >
+        {menu.map((item) => (
+          <MenuItem key={item} w="100%" _focus={{ bg: "second" }}>
             <Link href={categoryToUrl(item)}>{item}</Link>
           </MenuItem>
         ))}
