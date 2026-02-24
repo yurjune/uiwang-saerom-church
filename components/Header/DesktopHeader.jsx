@@ -33,7 +33,6 @@ const DesktopHeader = () => {
             color="white"
             fontWeight={800}
             fontSize="24px"
-            letterSpacing="-0.02em"
             lineHeight="1"
           >
             Use Logo here

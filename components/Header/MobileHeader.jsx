@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Flex, Box } from "@chakra-ui/react";
+import { Flex, Box, Text } from "@chakra-ui/react";
 
 import DrawerButton from "../DrawerAccordian/DrawerButton";
 
@@ -11,15 +11,18 @@ const MobileHeader = () => {
     <Flex
       display={{ base: "flex", md: "none" }}
       width="100%"
-      height="56px"
+      height="48px"
       justify="space-between"
       align="center"
-      bg="second"
+      bgGradient="linear(to-r, #3f90c7 0%, #2f80bd 45%, #1f69ab 100%)"
       px={4}
     >
-      <Box display={{ base: "block", md: "none" }} color="white">
-        <Link href="/">Didimdol</Link>
+      <Box as={Link} href="/" rounded="xl" transition="all 0.2s ease">
+        <Text color="white" fontWeight={800} fontSize="18px" lineHeight="1">
+          Use Logo here
+        </Text>
       </Box>
+
       <DrawerButton />
     </Flex>
   );
