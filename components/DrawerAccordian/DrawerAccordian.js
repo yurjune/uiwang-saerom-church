@@ -8,7 +8,7 @@ import {
   AccordionPanel,
   AccordionIcon,
 } from "@chakra-ui/react";
-import { menuList, movieList, communityList, schoolList } from "./Header";
+import { menuList, movieList, communityList, schoolList } from "../Header";
 import { BtnNoIcon, Btn, Pan } from "./DrawerAccordianItem";
 
 const DrawerAccordian = () => {

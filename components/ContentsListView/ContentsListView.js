@@ -3,12 +3,12 @@
 import { Box } from "@chakra-ui/react";
 import ContentsBar from "./ContentsBar";
 import ItemList from "./ItemList";
-import Pagination from "./Pagination";
-import NoPost from "./NoPost";
+import Pagination from "../Pagination/Pagination";
+import NoPost from "../NoPost";
 
 const buttonList = ["전체", "성경", "주제"];
 
-const ContentsListPage = ({
+const ContentsListView = ({
   category,
   articles,
   pictures,
@@ -37,4 +37,4 @@ const ContentsListPage = ({
   );
 };
 
-export default ContentsListPage;
+export default ContentsListView;

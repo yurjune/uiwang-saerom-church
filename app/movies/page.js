@@ -1,6 +1,6 @@
 import React from "react";
-import AppLayout from "../../components/AppLayout";
-import ContentsListPage from "../../components/ContentsListPage";
+import AppLayout from "../../components/layouts/AppLayout";
+import ContentsListView from "../../components/ContentsListView/ContentsListView";
 import { filterByTag, sortArticles } from "../../hooks/useArticle";
 import { getArticles, getPictures } from "../../lib/contentful";
 
@@ -25,7 +25,7 @@ export default async function Movies({ searchParams }) {
 
   return (
     <AppLayout pictures={pictures}>
-      <ContentsListPage
+      <ContentsListView
         category="예배와 말씀"
         articles={posts}
         pictures={pictures}

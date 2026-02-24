@@ -13,8 +13,8 @@ import {
   Td,
   TableCaption,
 } from "@chakra-ui/react";
-import { categoryToContents } from "../utils/categoryConverter";
-import { getLimitedArticles } from "../hooks/useArticle";
+import { categoryToContents } from "../../utils/categoryConverter";
+import { getLimitedArticles } from "../../hooks/useArticle";
 
 const noWrap = {
   overflow: "hidden",

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { chakra, Box, Flex, Button, HStack, Text } from "@chakra-ui/react";
-import { layoutWidth } from "./AppLayout";
+import { layoutWidth } from "./layouts/AppLayout";
 import { categoryToUrl } from "../utils/categoryConverter";
 
 const newWidth = (layoutWidth * 2) / 3;

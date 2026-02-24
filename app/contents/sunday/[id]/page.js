@@ -1,7 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import AppLayout from "../../../../components/AppLayout";
-import ContentPage from "../../../../components/ContentPage";
+import AppLayout from "../../../../components/layouts/AppLayout";
+import ContentView from "../../../../components/ContentView/ContentView";
 import { sortArticles } from "../../../../hooks/useArticle";
 import {
   getArticleById,
@@ -34,7 +34,7 @@ export default async function SundayContent({ params: _params }) {
 
   return (
     <AppLayout pictures={pictures}>
-      <ContentPage category="주일예배" article={article} articles={articles} />
+      <ContentView category="주일예배" article={article} articles={articles} />
     </AppLayout>
   );
 }

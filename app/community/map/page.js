@@ -1,6 +1,6 @@
 import React from "react";
 import Script from "next/script";
-import AppLayout from "../../../components/AppLayout";
+import AppLayout from "../../../components/ContentView/AppLayout";
 import KakaoMap from "../../../components/KakaoMap";
 import SimplePage from "../../../components/SimplePage";
 import { getPictures } from "../../../lib/contentful";

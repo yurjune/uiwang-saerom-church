@@ -3,8 +3,8 @@
 import React from "react";
 import { Flex, Heading, Box, HStack, Divider } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import TagButton from "./TagButton";
-import TagList from "./TagList";
+import TagButton from "../TagButton";
+import BibleTagCollapse from "../BibleTags/BibleTagCollapse";
 
 const ContentsBar = ({ category }) => {
   const { isOpen, onClose, onToggle } = useDisclosure();
@@ -19,7 +19,7 @@ const ContentsBar = ({ category }) => {
           <TagButton close={onClose} toggle={onToggle} />
         </HStack>
       </Flex>
-      <TagList category={category} isOpen={isOpen} onClose={onClose} />
+      <BibleTagCollapse category={category} isOpen={isOpen} onClose={onClose} />
       <Divider mt="20px" />
     </Box>
   );

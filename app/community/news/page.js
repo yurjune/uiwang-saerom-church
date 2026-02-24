@@ -1,6 +1,6 @@
 import React from "react";
-import AppLayout from "../../../components/AppLayout";
-import NewsPage from "../../../components/NewsPage";
+import AppLayout from "../../../components/layouts/AppLayout";
+import NewsPage from "./_components/NewsPage";
 import { sortArticles } from "../../../hooks/useArticle";
 import { getArticles, getPictures } from "../../../lib/contentful";
 

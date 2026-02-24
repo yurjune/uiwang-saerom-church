@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Flex, HStack, Button, Icon, Divider } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { categoryToUrl, categoryToContents } from "../utils/categoryConverter";
+import { categoryToUrl, categoryToContents } from "../../utils/categoryConverter";
 
 const PostCardButton = ({ article, articles }) => {
   const router = useRouter();

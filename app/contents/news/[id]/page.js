@@ -1,9 +1,13 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import AppLayout from "../../../../components/AppLayout";
-import ContentPage from "../../../../components/ContentPage";
+import AppLayout from "../../../../components/layouts/AppLayout";
+import ContentView from "../../../../components/ContentView/ContentView";
 import { sortArticles } from "../../../../hooks/useArticle";
-import { getArticleById, getArticles, getPictures } from "../../../../lib/contentful";
+import {
+  getArticleById,
+  getArticles,
+  getPictures,
+} from "../../../../lib/contentful";
 
 export const metadata = {
   title: "교회소식",
@@ -29,7 +33,7 @@ export default async function NewsContent({ params }) {
 
   return (
     <AppLayout pictures={pictures}>
-      <ContentPage category="교회소식" article={article} articles={articles} />
+      <ContentView category="교회소식" article={article} articles={articles} />
     </AppLayout>
   );
 }

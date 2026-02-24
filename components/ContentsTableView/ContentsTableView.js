@@ -3,12 +3,12 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 
-import TitleBar from "./TitleBar";
+import TitleBar from "../TitleBar";
 import ContentsTable from "./ContentsTable";
-import Pagination from "./Pagination";
-import Working from "./Working";
+import Pagination from "../Pagination";
+import Working from "../Working";
 
-const ContentsTablePage = ({ articles, category }) => {
+const ContentsTableView = ({ articles, category }) => {
   const tableStyle = {
     colorScheme: "blackAlpha",
   };
@@ -32,4 +32,4 @@ const ContentsTablePage = ({ articles, category }) => {
   );
 };
 
-export default ContentsTablePage;
+export default ContentsTableView;

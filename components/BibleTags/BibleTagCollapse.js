@@ -3,9 +3,9 @@
 import React from "react";
 import { Box, Divider, Collapse } from "@chakra-ui/react";
 import BibleTag from "./BibleTag";
-import { oldBible, newBible } from "./Bible";
+import { oldBible, newBible } from "../../constants/Bible";
 
-const TagList = ({ category, isOpen, onClose }) => {
+const BibleTagCollapse = ({ category, isOpen, onClose }) => {
   return (
     <Collapse in={isOpen}>
       <Box
@@ -26,4 +26,4 @@ const TagList = ({ category, isOpen, onClose }) => {
   );
 };
 
-export default TagList;
+export default BibleTagCollapse;

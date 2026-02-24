@@ -4,10 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { Flex, Box, Image } from "@chakra-ui/react";
 
-import SearchBar from "./SearchBar";
 import Navigation from "./Navigation";
-import PopoverNav from "./PopoverNav";
-import { layoutWidth } from "./AppLayout";
+import { layoutWidth } from "./layouts/AppLayout";
 
 export const menuList = ["디딤돌교회", "예배와 말씀", "커뮤니티", "교회학교"];
 export const movieList = ["주일예배", "수요예배"];
@@ -32,7 +30,6 @@ const MobileHeader = ({ header }) => {
           <Link href="/">DidimdolCh</Link>
         </Box>
       </Box>
-      <SearchBar />
     </Flex>
   );
 };
@@ -54,9 +51,6 @@ const DesktopHeader = ({ header, logo }) => {
         justify="flex-end"
         fontFamily="Noto Sans KR"
       >
-        <Box pos="absolute" top="5px">
-          <SearchBar />
-        </Box>
         <Box pos="absolute" left="0" bottom="40px">
           <Link href="/">
             <Image src={`https:${logo}`} width="120px" height="90px" />
@@ -64,7 +58,6 @@ const DesktopHeader = ({ header, logo }) => {
         </Box>
         <Box pos="absolute" bottom="45px">
           <Navigation />
-          {/* <PopoverNav /> */}
         </Box>
       </Flex>
     </Box>

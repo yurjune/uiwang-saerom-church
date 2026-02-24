@@ -3,7 +3,7 @@
 import React from "react";
 import NextLink from "next/link";
 import { Link, Grid } from "@chakra-ui/react";
-import { categoryToUrl } from "../utils/categoryConverter";
+import { categoryToUrl } from "../../utils/categoryConverter";
 
 const BibleTag = ({ bible, category, onClose }) => {
   return (

@@ -6,7 +6,7 @@ import { Box, Flex, Icon } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { PageButton, ArrowButton } from "./PageButton";
 
-import usePagination from "../hooks/usePagination";
+import usePagination from "../../hooks/usePagination";
 
 const Pagination = ({ articles, currentPage: initialPage = 1 }) => {
   // console.log('Pagination')

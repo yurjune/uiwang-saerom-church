@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Box, Link, Divider } from "@chakra-ui/react";
-import { categoryToUrl } from "../utils/categoryConverter";
+import { categoryToUrl } from "../../utils/categoryConverter";
 
 const PostTag = ({ article }) => {
   const { category, tag } = article.fields;

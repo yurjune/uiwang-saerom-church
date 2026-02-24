@@ -1,8 +1,8 @@
 "use client"
 
 import { Grid, GridItem } from "@chakra-ui/react";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../Header";
+import Footer from "../Footer";
 
 export const layoutWidth = "1000px";
 

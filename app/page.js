@@ -1,8 +1,9 @@
 import React from "react";
-import SecondLayout from "../components/SecondLayout";
+import { Box, Flex } from "@chakra-ui/react";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 import Introduction from "../components/Introduction";
-import WorshipTime from "../components/WorshipTime";
-import People from "../components/People";
+import WorshipTime from "../components/WorshipTime/WorshipTime";
 import { getPictures } from "../lib/contentful";
 
 export const metadata = {
@@ -13,10 +14,13 @@ export default async function HomePage() {
   const pictures = await getPictures();
 
   return (
-    <SecondLayout pictures={pictures}>
+    <Flex minH="100vh" direction="column">
+      <Header pictures={pictures} />
       <Introduction pictures={pictures} />
-      <People pictures={pictures} />
       <WorshipTime />
-    </SecondLayout>
+      <Box mt="auto">
+        <Footer />
+      </Box>
+    </Flex>
   );
 }

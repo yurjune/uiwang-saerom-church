@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";
-import { categoryToUrl } from "../utils/categoryConverter";
+import { categoryToUrl } from "../../utils/categoryConverter";
 
 export const BtnNoIcon = ({ name }) => {
   return (

@@ -3,7 +3,7 @@
 import React from "react";
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import WorshipTimeItem from "./WorshipTimeItem";
-import { layoutWidth } from "./AppLayout";
+import { layoutWidth } from "../layouts/AppLayout";
 
 const schedule = [
   { title: "주일예배", schedule: "매주 일요일 아침 11:00" },

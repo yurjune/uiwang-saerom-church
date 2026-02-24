@@ -2,12 +2,12 @@
 
 import React from "react";
 import { Box, Flex } from "@chakra-ui/react";
-import PostCard from "./PostCard";
-import PostCardButton from "./PostCardButton";
-import PostArticle from "./PostArticle";
-import PostTag from "./PostTag";
+import PostCard from "../Post/PostCard";
+import PostCardButton from "../Post/PostCardButton";
+import PostArticle from "../Post/PostArticle";
+import PostTag from "../Post/PostTag";
 
-const ContentPage = ({ article, articles }) => {
+const ContentView = ({ article, articles }) => {
   return (
     <Flex
       justify={{ base: "flex-start", lg: "space-between" }}
@@ -27,4 +27,4 @@ const ContentPage = ({ article, articles }) => {
   );
 };
 
-export default ContentPage;
+export default ContentView;

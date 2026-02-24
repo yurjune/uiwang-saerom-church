@@ -2,11 +2,11 @@
 
 import React from "react";
 import { Box, Flex, Divider } from "@chakra-ui/react";
-import PostCard from "./PostCard";
-import PostArticle from "./PostArticle";
-import ContentsTable from "./ContentsTable";
-import Pagination from "./Pagination";
-import NoPost from "./NoPost";
+import PostCard from "../../../../components/Post/PostCard";
+import PostArticle from "../../../../components/Post/PostArticle";
+import ContentsTable from "../../../../components/ContentsTableView/ContentsTable";
+import Pagination from "../../../../components/Pagination";
+import NoPost from "../../../../components/NoPost";
 
 const tableStyle = {
   variant: "striped",

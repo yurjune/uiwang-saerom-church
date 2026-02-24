@@ -3,7 +3,7 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { categoryToContents } from "../utils/categoryConverter";
+import { categoryToContents } from "../../utils/categoryConverter";
 
 const ItemCard = ({ article, pictures }) => {
   const router = useRouter();

@@ -2,7 +2,7 @@
 
 import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
-import { layoutWidth } from "./AppLayout";
+import { layoutWidth } from "./layouts/AppLayout";
 
 const Footer = () => {
   return (
