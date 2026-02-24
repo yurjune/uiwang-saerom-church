@@ -6,8 +6,6 @@ import ItemList from "./ItemList";
 import Pagination from "../Pagination/Pagination";
 import NoPost from "../NoPost";
 
-const buttonList = ["전체", "성경", "주제"];
-
 const ContentsListView = ({
   category,
   articles,
@@ -19,7 +17,7 @@ const ContentsListView = ({
       {articles.length >= 1 ? (
         <>
           <Box mb="30px">
-            <ContentsBar category={category} buttonList={buttonList} />
+            <ContentsBar category={category} />
           </Box>
           <Box px={{ base: "20px", sm: "0", md: "0" }} mb="50px">
             <ItemList

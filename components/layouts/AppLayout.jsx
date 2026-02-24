@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Grid, GridItem } from "@chakra-ui/react";
 import Header from "../Header";

@@ -10,7 +10,7 @@ import { categoryToUrl } from "../utils/categoryConverter";
 
 const NavMenu = ({ title, menu, menuId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btn = useRef();
+  const menuBtnRef = useRef(null);
   const router = useRouter();
 
   const onClickBtn = () => {
@@ -25,13 +25,13 @@ const NavMenu = ({ title, menu, menuId }) => {
   // };
 
   return (
-    <Menu id={menuId} isOpen={isOpen} gutter="0">
+    <Menu id={menuId} isOpen={isOpen} gutter={0}>
       <MenuButton
         as={Button}
         variant="menu"
         onMouseEnter={onOpen}
         onMouseLeave={onClose}
-        ref={btn}
+        ref={menuBtnRef}
         _focus={{ boxShadow: "none" }}
         onClick={onClickBtn}
         // onMouseLeave={onRef}

@@ -1,9 +1,10 @@
 import React from "react";
 import Script from "next/script";
-import AppLayout from "../../../components/ContentView/AppLayout";
 import KakaoMap from "../../../components/KakaoMap";
-import SimplePage from "../../../components/SimplePage";
 import { getPictures } from "../../../lib/contentful";
+import { Box } from "@chakra-ui/react";
+import TitleBar from "../../../components/TitleBar";
+import AppLayout from "../../../components/layouts/AppLayout";
 
 export const metadata = {
   title: "오시는길",
@@ -26,9 +27,10 @@ export default async function CommunityMap() {
         .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
       `}</style>
       <AppLayout pictures={pictures}>
-        <SimplePage title="찾아오시는 길">
-          <KakaoMap />
-        </SimplePage>
+        <Box mb="30px">
+          <TitleBar title="오시는길"></TitleBar>
+        </Box>
+        <KakaoMap />
       </AppLayout>
     </>
   );

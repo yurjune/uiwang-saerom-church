@@ -1,12 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { Fragment } from "react";
 import { Box } from "@chakra-ui/react";
 
 import TitleBar from "../TitleBar";
 import ContentsTable from "./ContentsTable";
-import Pagination from "../Pagination";
-import Working from "../Working";
+import Pagination from "../Pagination/Pagination";
 
 const ContentsTableView = ({ articles, category }) => {
   const tableStyle = {
@@ -14,21 +13,15 @@ const ContentsTableView = ({ articles, category }) => {
   };
 
   return (
-    <>
-      {articles.length >= 1 ? (
-        <>
-          <Box mb="20px">
-            <TitleBar title={category}></TitleBar>
-          </Box>
-          <Box mb="40px">
-            <ContentsTable articles={articles} tableStyle={tableStyle} />
-          </Box>
-          <Pagination articles={articles} category={category} />
-        </>
-      ) : (
-        <Working />
-      )}
-    </>
+    <Fragment>
+      <Box mb="20px">
+        <TitleBar title={category}></TitleBar>
+      </Box>
+      <Box mb="40px">
+        <ContentsTable articles={articles} tableStyle={tableStyle} />
+      </Box>
+      <Pagination articles={articles} />
+    </Fragment>
   );
 };
 

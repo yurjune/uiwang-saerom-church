@@ -5,8 +5,8 @@ import { Box, Flex, Divider } from "@chakra-ui/react";
 import PostCard from "../../../../components/Post/PostCard";
 import PostArticle from "../../../../components/Post/PostArticle";
 import ContentsTable from "../../../../components/ContentsTableView/ContentsTable";
-import Pagination from "../../../../components/Pagination";
 import NoPost from "../../../../components/NoPost";
+import Pagination from "../../../../components/Pagination/Pagination";
 
 const tableStyle = {
   variant: "striped",

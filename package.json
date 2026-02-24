@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "typecheck": "tsc --noEmit -p jsconfig.json",
     "format": "npx prettier . --write"
   },
   "author": "honey",
@@ -35,6 +35,10 @@
     "react-icons": "^4.2.0"
   },
   "devDependencies": {
-    "prettier": "^3.8.1"
+    "@types/node": "^25.3.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3"
   }
 }

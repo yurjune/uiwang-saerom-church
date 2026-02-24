@@ -34,7 +34,7 @@ export default async function SundayContent({ params: _params }) {
 
   return (
     <AppLayout pictures={pictures}>
-      <ContentView category="주일예배" article={article} articles={articles} />
+      <ContentView article={article} articles={articles} />
     </AppLayout>
   );
 }

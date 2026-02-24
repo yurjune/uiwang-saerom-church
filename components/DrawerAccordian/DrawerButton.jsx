@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { Box, useDisclosure, IconButton } from "@chakra-ui/react";
 import { FiMenu } from "react-icons/fi";
 import {
@@ -15,11 +15,12 @@ import DrawerAccordian from "./DrawerAccordian";
 
 const DrawerButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
+  const btnRef = useRef(null);
 
   return (
     <Box display={{ base: "block", md: "none" }}>
       <IconButton
+        aria-label="open"
         bg="none"
         color="white"
         _focus={{ boxShadow: "none" }}

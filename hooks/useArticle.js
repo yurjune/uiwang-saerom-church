@@ -3,7 +3,7 @@ import { postNumberPerOnePage } from "../utils/pagination";
 // 가장 오래된 게시글이 가장 뒤로가게 정렬
 export const sortArticles = (articles) => {
   const timeParser = (createdAt) => {
-    const timeStamp = Date.parse(new Date(createdAt)) / 1000;
+    const timeStamp = Date.parse(createdAt) / 1000;
     return timeStamp;
   };
   const sortedArticles = articles.sort((a, b) => {

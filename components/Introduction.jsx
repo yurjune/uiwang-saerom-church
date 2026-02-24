@@ -2,10 +2,7 @@
 
 import React from "react";
 import { chakra, Box, Flex, Button, HStack, Text } from "@chakra-ui/react";
-import { layoutWidth } from "./layouts/AppLayout";
 import { categoryToUrl } from "../utils/categoryConverter";
-
-const newWidth = (layoutWidth * 2) / 3;
 
 function Introduction({ pictures }) {
   const background = pictures.find((item) => item.fields.title === "소개배경")
@@ -23,16 +20,11 @@ function Introduction({ pictures }) {
       bgSize="cover"
       bgRepeat="no-repeat"
     >
-      <Box
-        w={newWidth}
-        mx="auto"
-        // textAlign="center"
-      >
+      <Box mx="auto">
         <chakra.h1
           mb={{ base: "40px", md: "60px" }}
           fontSize={{ base: "26px", md: "3xl" }}
           fontWeight="bold"
-          lineHeight="shorter"
           color="gray.900"
           textAlign="center"
           lineHeight="150%"

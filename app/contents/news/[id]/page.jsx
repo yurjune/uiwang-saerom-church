@@ -33,7 +33,7 @@ export default async function NewsContent({ params }) {
 
   return (
     <AppLayout pictures={pictures}>
-      <ContentView category="교회소식" article={article} articles={articles} />
+      <ContentView article={article} articles={articles} />
     </AppLayout>
   );
 }

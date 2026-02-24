@@ -16,7 +16,6 @@ const WorshipTimeItem = ({ title, schedule }) => {
         minH="60px"
         p="8px"
         borderRadius="10px 0 0 10px"
-        bgColor="second"
         bgColor="#F0C9A5"
         color="white"
         align="center"

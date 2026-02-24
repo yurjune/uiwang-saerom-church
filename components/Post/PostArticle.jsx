@@ -22,6 +22,7 @@ const option = {
         return (
           <NextImage
             src={`https:${fields.file.url}`}
+            alt="alt"
             width={fields.file.details.image.width}
             height={fields.file.details.image.height}
           />
