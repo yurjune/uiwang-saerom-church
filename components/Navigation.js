@@ -4,12 +4,7 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { HStack, Button, useDisclosure } from "@chakra-ui/react";
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-} from "@chakra-ui/react";
+import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { menuList, movieList, communityList, schoolList } from "./Header";
 import { categoryToUrl } from "../utils/categoryConverter";
 
@@ -37,7 +32,7 @@ const NavMenu = ({ title, menu }) => {
         onMouseEnter={onOpen}
         onMouseLeave={onClose}
         ref={btn}
-        _focus="none"
+        _focus={{ boxShadow: "none" }}
         onClick={onClickBtn}
         // onMouseLeave={onRef}
       >

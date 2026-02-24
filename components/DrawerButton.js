@@ -22,7 +22,7 @@ const DrawerButton = () => {
       <IconButton
         bg="none"
         color="white"
-        _focus="none"
+        _focus={{ boxShadow: "none" }}
         icon={<FiMenu />}
         ref={btnRef}
         onClick={onOpen}

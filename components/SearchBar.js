@@ -39,7 +39,7 @@ export default function SearchBar() {
         h="32px"
         bg="none"
         color="white"
-        _focus="none"
+        _focus={{ boxShadow: "none" }}
         icon={<SearchIcon />}
         onClick={onClickSearch}
       />
