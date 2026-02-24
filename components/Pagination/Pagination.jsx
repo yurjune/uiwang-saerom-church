@@ -1,37 +1,30 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Box, Flex, Icon } from "@chakra-ui/react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import {
+  FaAngleLeft,
+  FaAngleRight,
+  FaAngleDoubleLeft,
+  FaAngleDoubleRight,
+} from "react-icons/fa";
 import { PageButton, ArrowButton } from "./PageButton";
+import usePagination from "./usePagination";
 
-import usePagination from "../../hooks/usePagination";
-
-const Pagination = ({ articles, currentPage: initialPage = 1 }) => {
+const Pagination = ({ totalCount = 0, currentPage: initialPage = 1 }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
   const {
     currentPage,
-    setCurrentPage,
     currentPageGroup,
-    memorizedCurrentPageGroup,
-    setCurrentPageGroup,
-    firstPageGroup,
-    lastPageGroup,
     firstPage,
     lastPage,
-  } = usePagination(articles, initialPage);
-
-  useEffect(() => {
-    const page = parseInt(searchParams.get("page"), 10);
-    setCurrentPage(page || 1);
-  }, [searchParams, setCurrentPage]);
-
-  useEffect(() => {
-    setCurrentPageGroup(memorizedCurrentPageGroup);
-  }, [memorizedCurrentPageGroup]);
+    isFirstGroup,
+    isLastGroup,
+  } = usePagination(totalCount, initialPage);
 
   const movePage = (page) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -39,68 +32,73 @@ const Pagination = ({ articles, currentPage: initialPage = 1 }) => {
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  const onClickButton = (children) => (e) => {
-    movePage(children);
-  };
-
   const onClickPrevArrow = () => {
+    if (currentPageGroup.length === 0) {
+      return;
+    }
+
     const startPage = currentPageGroup[0];
     movePage(startPage - 1);
   };
 
   const onClickNextArrow = () => {
+    if (currentPageGroup.length === 0) {
+      return;
+    }
+
     const endPage = currentPageGroup[currentPageGroup.length - 1];
     movePage(endPage + 1);
   };
 
+  const onClickFirstArrow = () => {
+    if (!firstPage) {
+      return;
+    }
+
+    movePage(firstPage);
+  };
+
+  const onClickLastArrow = () => {
+    if (!lastPage) {
+      return;
+    }
+
+    movePage(lastPage);
+  };
+
   return (
     <Flex w="full" align="center" justify="center">
-      {currentPageGroup ? (
-        <Flex>
-          {firstPageGroup[0] === currentPageGroup[0] ? (
-            ""
-          ) : (
-            <>
-              <PageButton
-                onClickButton={onClickButton}
-                currentPage={currentPage}
-              >
-                {firstPage}
-              </PageButton>
-              <ArrowButton onClickButton={onClickPrevArrow}>
-                <Icon as={IoIosArrowBack} boxSize={3} />
-              </ArrowButton>
-            </>
-          )}
-          <Box mx={3}>
-            {currentPageGroup.map((value) => (
-              <PageButton
-                key={value}
-                currentPage={currentPage}
-                onClickButton={onClickButton}
-              >
-                {value}
-              </PageButton>
-            ))}
-          </Box>
-          {lastPageGroup[0] === currentPageGroup[0] ? (
-            ""
-          ) : (
-            <>
-              <ArrowButton onClickButton={onClickNextArrow}>
-                <Icon as={IoIosArrowForward} boxSize={3} />
-              </ArrowButton>
-              <PageButton
-                onClickButton={onClickButton}
-                currentPage={currentPage}
-              >
-                {lastPage}
-              </PageButton>
-            </>
-          )}
-        </Flex>
-      ) : (
-        "없는 페이지입니다"
+      {isFirstGroup ? null : (
+        <>
+          <ArrowButton onClickButton={onClickFirstArrow}>
+            <Icon as={FaAngleDoubleLeft} boxSize={3} />
+          </ArrowButton>
+          <ArrowButton onClickButton={onClickPrevArrow}>
+            <Icon as={FaAngleLeft} boxSize={3} />
+          </ArrowButton>
+        </>
+      )}
+
+      <Box mx={3}>
+        {currentPageGroup.map((value) => (
+          <PageButton
+            key={value}
+            value={value}
+            selected={currentPage === value}
+            onClickButton={movePage}
+          />
+        ))}
+      </Box>
+
+      {isLastGroup ? null : (
+        <>
+          <ArrowButton onClickButton={onClickNextArrow}>
+            <Icon as={FaAngleRight} boxSize={3} />
+          </ArrowButton>
+          <ArrowButton onClickButton={onClickLastArrow}>
+            <Icon as={FaAngleDoubleRight} boxSize={3} />
+          </ArrowButton>
+        </>
       )}
     </Flex>
   );

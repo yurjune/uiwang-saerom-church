@@ -1,50 +1,37 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { chakra } from "@chakra-ui/react";
+import React from "react";
+import { Button } from "@chakra-ui/react";
 
-const activeStyle = {
-  bg: "first",
-  color: "white",
-};
-
-export const PageButton = (props) => {
-  const [isActive, setIsActive] = useState(false);
-
-  useEffect(() => {
-    props.currentPage === props.children
-      ? setIsActive(true)
-      : setIsActive(false);
-  }, [props.currentPage]);
-
+export const PageButton = ({ value, onClickButton, selected = false }) => {
   return (
-    <chakra.button
+    <Button
       mx="2px"
-      p="2px 8px"
-      rounded="md"
-      bg="second"
-      color="gray.700"
-      _hover={activeStyle}
-      {...(isActive && activeStyle)}
-      onClick={props.onClickButton(props.children)}
+      size="sm"
+      w="36px"
+      px="0"
+      colorScheme="blue"
+      variant={selected ? "solid" : "outline"}
+      sx={{ fontVariantNumeric: "tabular-nums" }}
+      onClick={() => onClickButton(value)}
     >
-      {props.children}
-    </chakra.button>
+      {value}
+    </Button>
   );
 };
 
-export const ArrowButton = (props) => {
+export const ArrowButton = ({ children, onClickButton }) => {
   return (
-    <chakra.button
+    <Button
       mx="2px"
-      p="2px 8px"
-      rounded="md"
-      bg="second"
-      color="gray.700"
-      _hover={activeStyle}
-      onClick={props.onClickButton}
+      size="sm"
+      w="36px"
+      px="0"
+      colorScheme="blue"
+      variant="outline"
+      onClick={onClickButton}
     >
-      {props.children}
-    </chakra.button>
+      {children}
+    </Button>
   );
 };

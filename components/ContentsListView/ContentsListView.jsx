@@ -30,7 +30,7 @@ const ContentsListView = ({
           currentPage={currentPage}
         />
       </Box>
-      <Pagination articles={articles} currentPage={currentPage} />
+      <Pagination totalCount={articles.length} currentPage={currentPage} />
     </Fragment>
   );
 };

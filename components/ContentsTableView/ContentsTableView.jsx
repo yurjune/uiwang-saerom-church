@@ -20,7 +20,7 @@ const ContentsTableView = ({ articles, category }) => {
       <Box mb="40px">
         <ContentsTable articles={articles} tableStyle={tableStyle} />
       </Box>
-      <Pagination articles={articles} />
+      <Pagination totalCount={articles.length} />
     </Fragment>
   );
 };
