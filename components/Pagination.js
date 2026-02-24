@@ -1,14 +1,18 @@
-import React, { useEffect, useCallback } from "react";
-import { useRouter } from "next/router";
+"use client";
+
+import React, { useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Box, Flex, Icon } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { PageButton, ArrowButton } from "./PageButton";
 
 import usePagination from "../hooks/usePagination";
 
-const Pagination = ({ articles }) => {
+const Pagination = ({ articles, currentPage: initialPage = 1 }) => {
   // console.log('Pagination')
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const {
     currentPage,
     setCurrentPage,
@@ -19,23 +23,21 @@ const Pagination = ({ articles }) => {
     lastPageGroup,
     firstPage,
     lastPage,
-  } = usePagination(articles);
+  } = usePagination(articles, initialPage);
 
   useEffect(() => {
-    const page = parseInt(router.query.page, 10);
+    const page = parseInt(searchParams.get("page"), 10);
     setCurrentPage(page || 1);
-  }, [router.query.page]);
+  }, [searchParams, setCurrentPage]);
 
   useEffect(() => {
     setCurrentPageGroup(memorizedCurrentPageGroup);
   }, [memorizedCurrentPageGroup]);
 
   const movePage = (page) => {
-    const url = `${router.pathname}?page=${page}`;
-    if (router.query.v) {
-      return router.push(`${url}&v=${router.query.v}`);
-    }
-    return router.push(url);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   const onClickButton = (children) => (e) => {

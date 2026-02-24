@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/router";
+"use client";
 
-export const postNumberPerOnePage = 8;
+import { useState, useMemo } from "react";
+import { postNumberPerOnePage } from "../utils/pagination";
 
 const getTotalPages = (articles) => {
   const totalPosts = articles.length;
@@ -23,10 +23,8 @@ const getCurrentPageGroup = (currentPage, totalPages) => {
   return result;
 };
 
-const usePagination = (articles) => {
+const usePagination = (articles, initialPage = 1) => {
   // console.log('usePagination')
-  const router = useRouter();
-  const initialPage = router.query.page || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
   const totalPages = useMemo(() => getTotalPages(articles), [articles]);
   const memorizedCurrentPageGroup = useMemo(() => {

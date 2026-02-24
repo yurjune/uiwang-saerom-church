@@ -11,7 +11,7 @@ const tableStyle = {
   colorScheme: "blackAlpha",
 };
 
-const NewsPage = ({ articles, firstArticle }) => {
+const NewsPage = ({ articles, firstArticle, currentPage = 1 }) => {
   return (
     <>
       {firstArticle ? (
@@ -34,9 +34,13 @@ const NewsPage = ({ articles, firstArticle }) => {
           </Box>
           <Divider />
           <Box mb="40px">
-            <ContentsTable articles={articles} tableStyle={tableStyle} />
+            <ContentsTable
+              articles={articles}
+              tableStyle={tableStyle}
+              currentPage={currentPage}
+            />
           </Box>
-          <Pagination articles={articles} category="교회소식" />
+          <Pagination articles={articles} currentPage={currentPage} />
         </>
       ) : (
         <NoPost />

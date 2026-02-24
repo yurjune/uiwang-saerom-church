@@ -1,5 +1,7 @@
+"use client";
+
 import React from "react";
-import { Box, Flex, Divider } from "@chakra-ui/react";
+import { Box, Divider } from "@chakra-ui/react";
 import { Collapse } from "@chakra-ui/transition";
 import BibleTag from "./BibleTag";
 import { oldBible, newBible } from "./Bible";

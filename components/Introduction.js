@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { chakra, Box, Flex, Button, HStack, Text } from "@chakra-ui/react";
 import { layoutWidth } from "./AppLayout";

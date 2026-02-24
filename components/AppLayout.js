@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+
 import { Grid, GridItem } from "@chakra-ui/react";
 import Header from "./Header";
 import Footer from "./Footer";

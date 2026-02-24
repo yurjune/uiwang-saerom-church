@@ -1,18 +1,14 @@
+"use client";
+
 import React, { useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { HStack, Button, useDisclosure } from "@chakra-ui/react";
 import {
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuIcon,
-  MenuCommand,
-  MenuDivider,
 } from "@chakra-ui/react";
 import { menuList, movieList, communityList, schoolList } from "./Header";
 import { categoryToUrl } from "../utils/categoryConverter";

@@ -1,13 +1,10 @@
 import React from "react";
-import { useRouter } from "next/router";
 import { Grid, GridItem } from "@chakra-ui/react";
 import ItemCard from "./ItemCard";
 import { getLimitedArticles } from "../hooks/useArticle";
 
-const ItemList = ({ articles, pictures }) => {
-  const router = useRouter();
-  const page = router.query.page || 1;
-  const limitedArticles = getLimitedArticles(articles, page);
+const ItemList = ({ articles, pictures, currentPage = 1 }) => {
+  const limitedArticles = getLimitedArticles(articles, currentPage);
   return (
     <Grid
       templateColumns="repeat(auto-fill, minmax(220px, 1fr))"

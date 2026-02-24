@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 import { Box, Flex, AspectRatio, Divider, Stack } from "@chakra-ui/react";
 import useKakaoMap from "../hooks/useKakaoMap";

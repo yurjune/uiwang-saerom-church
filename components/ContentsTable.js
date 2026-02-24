@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { Box } from "@chakra-ui/react";
 import {
   Table,
@@ -97,10 +96,8 @@ const MobileTable = ({ articles, tableStyle }) => {
   );
 };
 
-const ContentsTable = ({ articles, tableStyle }) => {
-  const router = useRouter();
-  const page = router.query.page || 1;
-  const limitedArticles = getLimitedArticles(articles, page);
+const ContentsTable = ({ articles, tableStyle, currentPage = 1 }) => {
+  const limitedArticles = getLimitedArticles(articles, currentPage);
 
   return (
     <>

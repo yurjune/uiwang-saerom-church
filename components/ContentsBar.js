@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Flex, Heading, Box, HStack, Divider } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";

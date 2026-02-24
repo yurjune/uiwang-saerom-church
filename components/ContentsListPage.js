@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+"use client";
+
 import { Box } from "@chakra-ui/react";
 import ContentsBar from "./ContentsBar";
 import ItemList from "./ItemList";
@@ -6,7 +7,13 @@ import Pagination from "./Pagination";
 import NoPost from "./NoPost";
 
 const buttonList = ["전체", "성경", "주제"];
-const ContentsListPage = ({ category, articles, pictures }) => {
+
+const ContentsListPage = ({
+  category,
+  articles,
+  pictures,
+  currentPage = 1,
+}) => {
   return (
     <>
       {articles.length >= 1 ? (
@@ -15,9 +22,13 @@ const ContentsListPage = ({ category, articles, pictures }) => {
             <ContentsBar category={category} buttonList={buttonList} />
           </Box>
           <Box px={{ base: "20px", sm: "0", md: "0" }} mb="50px">
-            <ItemList articles={articles} pictures={pictures} />
+            <ItemList
+              articles={articles}
+              pictures={pictures}
+              currentPage={currentPage}
+            />
           </Box>
-          <Pagination articles={articles} />
+          <Pagination articles={articles} currentPage={currentPage} />
         </>
       ) : (
         <NoPost />

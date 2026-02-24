@@ -1,16 +1,11 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  useDisclosure,
-  IconButton,
-  Input,
-} from "@chakra-ui/react";
+"use client";
+
+import React from "react";
+import { Box, useDisclosure, IconButton } from "@chakra-ui/react";
 import { FiMenu } from "react-icons/fi";
 import {
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,

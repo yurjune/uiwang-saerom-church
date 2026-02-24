@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
-import { useRouter } from "next/router";
-import { Button, Input, IconButton, HStack } from "@chakra-ui/react";
+"use client";
+
+import React from "react";
+import { useRouter } from "next/navigation";
+import { Input, IconButton, HStack } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
 import DrawerButton from "./DrawerButton";
@@ -14,9 +16,9 @@ export default function SearchBar() {
     router.push(`/search?s=${value}`);
   };
 
-  const onEnter = () => {
-    if (window && window.event.keyCode == 13) {
-      return onClickSearch();
+  const onEnter = (e) => {
+    if (e.key === "Enter") {
+      onClickSearch();
     }
   };
 
