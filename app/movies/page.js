@@ -18,8 +18,9 @@ export default async function Movies({ searchParams }) {
     );
   });
   const sortedArticles = sortArticles(filteredArticles);
-  const tag = typeof searchParams?.v === "string" ? searchParams.v : undefined;
-  const currentPage = parseInt(searchParams?.page, 10) || 1;
+  const sp = await searchParams;
+  const tag = typeof sp?.v === "string" ? sp.v : undefined;
+  const currentPage = parseInt(sp?.page, 10) || 1;
   const posts = filterByTag(sortedArticles, tag);
 
   return (
