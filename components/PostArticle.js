@@ -13,6 +13,8 @@ const option = {
         {children}
       </Box>
     ),
+    // Quick workaround: avoid invalid <p><div/></p> nesting when inline YouTube renders AspectRatio (div).
+    [BLOCKS.PARAGRAPH]: (node, children) => <Box as="div">{children}</Box>,
     [BLOCKS.EMBEDDED_ASSET]: (node, children) => {
       // console.log(node)
       const fields = node.data.target.fields;

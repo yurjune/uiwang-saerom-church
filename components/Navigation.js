@@ -8,7 +8,7 @@ import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { menuList, movieList, communityList, schoolList } from "./Header";
 import { categoryToUrl } from "../utils/categoryConverter";
 
-const NavMenu = ({ title, menu }) => {
+const NavMenu = ({ title, menu, menuId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btn = useRef();
   const router = useRouter();
@@ -25,7 +25,7 @@ const NavMenu = ({ title, menu }) => {
   // };
 
   return (
-    <Menu isOpen={isOpen} gutter="0">
+    <Menu id={menuId} isOpen={isOpen} gutter="0">
       <MenuButton
         as={Button}
         variant="menu"
@@ -46,8 +46,14 @@ const NavMenu = ({ title, menu }) => {
         minW="180px"
       >
         {menu.map((item) => (
-          <MenuItem key={item} w="100%" _focus={{ bg: "second" }}>
-            <Link href={categoryToUrl(item)}>{item}</Link>
+          <MenuItem
+            key={item}
+            as={Link}
+            href={categoryToUrl(item)}
+            w="100%"
+            _focus={{ bg: "second" }}
+          >
+            {item}
           </MenuItem>
         ))}
       </MenuList>
@@ -58,12 +64,16 @@ const NavMenu = ({ title, menu }) => {
 const Navigation = () => {
   return (
     <HStack>
-      <Button variant="menu">
-        <Link href="/">{menuList[0]}</Link>
+      <Button as={Link} href="/" variant="menu">
+        {menuList[0]}
       </Button>
-      <NavMenu title={menuList[1]} menu={movieList}></NavMenu>
-      <NavMenu title={menuList[2]} menu={communityList}></NavMenu>
-      <NavMenu title={menuList[3]} menu={schoolList}></NavMenu>
+      <NavMenu title={menuList[1]} menu={movieList} menuId="nav-menu-movie" />
+      <NavMenu
+        title={menuList[2]}
+        menu={communityList}
+        menuId="nav-menu-community"
+      />
+      <NavMenu title={menuList[3]} menu={schoolList} menuId="nav-menu-school" />
     </HStack>
   );
 };

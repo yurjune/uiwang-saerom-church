@@ -3,7 +3,11 @@ import { notFound } from "next/navigation";
 import AppLayout from "../../../../components/AppLayout";
 import ContentPage from "../../../../components/ContentPage";
 import { sortArticles } from "../../../../hooks/useArticle";
-import { getArticleById, getArticles, getPictures } from "../../../../lib/contentful";
+import {
+  getArticleById,
+  getArticles,
+  getPictures,
+} from "../../../../lib/contentful";
 
 export const metadata = {
   title: "주일예배",
@@ -14,7 +18,8 @@ export async function generateStaticParams() {
   return articles.map((item) => ({ id: item.sys.id }));
 }
 
-export default async function SundayContent({ params }) {
+export default async function SundayContent({ params: _params }) {
+  const params = await _params;
   const pictures = await getPictures();
   const article = await getArticleById(params.id);
   const allArticles = await getArticles();

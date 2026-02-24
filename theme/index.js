@@ -11,6 +11,10 @@ import Button from "./components/Button";
 // });
 
 const overrides = {
+  config: {
+    initialColorMode: "light",
+    useSystemColorMode: false,
+  },
   // breakpoints,
   styles,
   components: {

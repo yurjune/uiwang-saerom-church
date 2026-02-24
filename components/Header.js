@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Flex, Box, Image, LinkOverlay } from "@chakra-ui/react";
+import { Flex, Box, Image } from "@chakra-ui/react";
 
 import SearchBar from "./SearchBar";
 import Navigation from "./Navigation";
@@ -58,9 +58,9 @@ const DesktopHeader = ({ header, logo }) => {
           <SearchBar />
         </Box>
         <Box pos="absolute" left="0" bottom="40px">
-          <LinkOverlay href="/">
+          <Link href="/">
             <Image src={`https:${logo}`} width="120px" height="90px" />
-          </LinkOverlay>
+          </Link>
         </Box>
         <Box pos="absolute" bottom="45px">
           <Navigation />

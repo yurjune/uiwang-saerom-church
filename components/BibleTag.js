@@ -17,9 +17,14 @@ const BibleTag = ({ bible, category, onClose }) => {
       rowGap={3}
     >
       {bible.map((item) => (
-        <NextLink key={item} href={`${categoryToUrl(category)}?v=${item}`}>
-          <Link onClick={onClose}>{item}</Link>
-        </NextLink>
+        <Link
+          key={item}
+          as={NextLink}
+          href={`${categoryToUrl(category)}?v=${item}`}
+          onClick={onClose}
+        >
+          {item}
+        </Link>
       ))}
     </Grid>
   );
