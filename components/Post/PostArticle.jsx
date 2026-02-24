@@ -8,15 +8,14 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 const option = {
   renderNode: {
-    [BLOCKS.DOCUMENT]: (node, children) => (
+    [BLOCKS.DOCUMENT]: (_node, children) => (
       <Box fontSize="16px" lineHeight="180%">
         {children}
       </Box>
     ),
     // Quick workaround: avoid invalid <p><div/></p> nesting when inline YouTube renders AspectRatio (div).
-    [BLOCKS.PARAGRAPH]: (node, children) => <Box as="div">{children}</Box>,
-    [BLOCKS.EMBEDDED_ASSET]: (node, children) => {
-      // console.log(node)
+    [BLOCKS.PARAGRAPH]: (_node, children) => <Box as="div">{children}</Box>,
+    [BLOCKS.EMBEDDED_ASSET]: (node, _children) => {
       const fields = node.data.target.fields;
       if (fields.file.details.image) {
         return (
@@ -29,8 +28,7 @@ const option = {
         );
       }
     },
-    [INLINES.HYPERLINK]: (node, children) => {
-      // console.log('node:', node);
+    [INLINES.HYPERLINK]: (node, _children) => {
       if (node.data.uri.indexOf("youtube.com") !== -1) {
         return (
           <AspectRatio ratio={16 / 9}>

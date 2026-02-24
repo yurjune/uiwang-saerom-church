@@ -1,33 +1,20 @@
 "use client";
 
 import React from "react";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-} from "@chakra-ui/react";
-import { menuList, movieList, communityList, schoolList } from "../Header";
-import { BtnNoIcon, Btn, Pan } from "./DrawerAccordianItem";
+import { Accordion, AccordionItem } from "@chakra-ui/react";
+import { BtnNoIcon } from "./DrawerAccordianItem";
 
-const DrawerAccordian = () => {
+const DrawerAccordian = ({ onMove }) => {
   return (
     <Accordion allowToggle>
       <AccordionItem>
-        <BtnNoIcon name={menuList[0]} />
+        <BtnNoIcon name={"설교 영상"} to={"/movies"} onMove={onMove} />
       </AccordionItem>
       <AccordionItem>
-        <Btn name={menuList[1]} />
-        <Pan element={movieList} />
+        <BtnNoIcon name={"교회 소식"} to={"/community/news"} onMove={onMove} />
       </AccordionItem>
       <AccordionItem>
-        <Btn name={menuList[2]} />
-        <Pan element={communityList} />
-      </AccordionItem>
-      <AccordionItem>
-        <Btn name={menuList[3]} />
-        <Pan element={schoolList} />
+        <BtnNoIcon name={"오시는 길"} to={"/community/map"} onMove={onMove} />
       </AccordionItem>
     </Accordion>
   );

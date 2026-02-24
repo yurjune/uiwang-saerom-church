@@ -18,6 +18,7 @@ const ContentView = ({ article, articles }) => {
           <PostCardButton article={article} articles={articles} />
         </PostCard>
       </Box>
+
       <Box w={{ base: "100%", lg: "67%" }}>
         <PostArticle article={article}>
           <PostTag article={article} />

@@ -7,6 +7,7 @@ import { getLimitedArticles } from "../../hooks/useArticle";
 
 const ItemList = ({ articles, pictures, currentPage = 1 }) => {
   const limitedArticles = getLimitedArticles(articles, currentPage);
+
   return (
     <Grid
       templateColumns="repeat(auto-fill, minmax(220px, 1fr))"

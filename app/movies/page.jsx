@@ -13,11 +13,12 @@ export default async function Movies({ searchParams }) {
   const articles = await getArticles();
   const filteredArticles = articles.filter((article) => {
     return (
-      article.fields.category === "주일예배" ||
-      article.fields.category === "수요예배"
+      article.fields.category === "설교영상" ||
+      article.fields.category === "주일예배"
     );
   });
   const sortedArticles = sortArticles(filteredArticles);
+
   const sp = await searchParams;
   const tag = typeof sp?.v === "string" ? sp.v : undefined;
   const currentPage = parseInt(sp?.page, 10) || 1;
@@ -26,7 +27,7 @@ export default async function Movies({ searchParams }) {
   return (
     <AppLayout pictures={pictures}>
       <ContentsListView
-        category="예배와 말씀"
+        category="설교영상"
         articles={posts}
         pictures={pictures}
         currentPage={currentPage}

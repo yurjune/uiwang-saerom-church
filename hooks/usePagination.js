@@ -8,7 +8,7 @@ const getTotalPages = (articles) => {
   const totalPages = Math.ceil(totalPosts / postNumberPerOnePage);
   const pageList = new Array(totalPages)
     .fill()
-    .map((value, index) => index + 1);
+    .map((_value, index) => index + 1);
   const result = [];
   for (let i = 0; i < pageList.length; i += 5) {
     result.push(pageList.slice(i, i + 5));
@@ -24,7 +24,6 @@ const getCurrentPageGroup = (currentPage, totalPages) => {
 };
 
 const usePagination = (articles, initialPage = 1) => {
-  // console.log('usePagination')
   const [currentPage, setCurrentPage] = useState(initialPage);
   const totalPages = useMemo(() => getTotalPages(articles), [articles]);
   const memorizedCurrentPageGroup = useMemo(() => {

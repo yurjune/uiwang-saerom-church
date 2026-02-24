@@ -1,8 +1,9 @@
 "use client";
 
 import { Grid, GridItem } from "@chakra-ui/react";
-import Header from "../Header";
 import Footer from "../Footer";
+import DesktopHeader from "../Header/DesktopHeader";
+import MobileHeader from "../Header/MobileHeader";
 
 export const layoutWidth = "1000px";
 
@@ -14,16 +15,16 @@ const AppLayout = ({ children, pictures }) => {
       minH="100vh"
     >
       <GridItem colStart={1} colEnd={4} rowStart={1} rowEnd={2}>
-        <Header pictures={pictures} />
+        <MobileHeader />
+        <DesktopHeader />
       </GridItem>
       <GridItem
         colStart={2}
         colEnd={3}
         rowStart={2}
         rowEnd={3}
-        pt={["30px", "30px", "50px", "50px"]}
-        pb={["60px", "60px", "80px", "80px"]}
-        px={["20px", "30px", "20px", "10px"]}
+        py={{ base: "24px", md: "32px" }}
+        px={{ base: "16px", md: "24px" }}
       >
         {children}
       </GridItem>

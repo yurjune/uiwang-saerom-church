@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import { chakra, Box, Flex, Button, HStack, Text } from "@chakra-ui/react";
-import { categoryToUrl } from "../utils/categoryConverter";
+import { chakra, Box, Flex, Text } from "@chakra-ui/react";
 
 function Introduction({ pictures }) {
   const background = pictures.find((item) => item.fields.title === "소개배경")
@@ -20,7 +19,7 @@ function Introduction({ pictures }) {
       bgSize="cover"
       bgRepeat="no-repeat"
     >
-      <Box mx="auto">
+      <Box mx="auto" textAlign="center">
         <chakra.h1
           mb={{ base: "40px", md: "60px" }}
           fontSize={{ base: "26px", md: "3xl" }}
@@ -32,12 +31,7 @@ function Introduction({ pictures }) {
           "너희가 서로 사랑하면 이로써 모든 사람이 너희가 내 제자인 줄 알리라"
           <Text fontSize={{ base: "xl", md: "2xl" }}>(요 13:15)</Text>
         </chakra.h1>
-        <chakra.p
-          mb="40px"
-          // color="gray.500"
-          fontSize={{ md: "lg" }}
-          lineHeight="160%"
-        >
+        <chakra.p fontSize={{ md: "lg" }} lineHeight="160%">
           <strong>
             하나님 말씀이 가치관과 삶의 중심이 되는 교회
             <br />
@@ -60,25 +54,6 @@ function Introduction({ pictures }) {
           <br />
           <br />
         </chakra.p>
-        <HStack justify="center">
-          <Button
-            as="a"
-            href="#worship-time"
-            colorScheme="brand"
-            size="lg"
-            cursor="pointer"
-          >
-            예배안내
-          </Button>
-          <Button
-            as="a"
-            href={categoryToUrl("오시는길")}
-            size="lg"
-            cursor="pointer"
-          >
-            오시는길
-          </Button>
-        </HStack>
       </Box>
     </Flex>
   );

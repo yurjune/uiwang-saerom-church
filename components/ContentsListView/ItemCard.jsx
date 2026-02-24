@@ -20,25 +20,19 @@ const ItemCard = ({ article, pictures }) => {
 
   return (
     <Box textAlign="center" onClick={onClickImage} cursor="pointer">
-      {thumbnail ? (
-        <Box
-          h="0"
-          pb="100%"
-          bgImage={`url("http:${thumbnail}")`}
-          backgroundPosition="center"
-          bgSize="cover"
-          bgRepeat="no-repeat"
-        />
-      ) : (
-        <Box
-          h="0"
-          pb="100%"
-          backgroundPosition="center"
-          bgImage={`url("http:${dummyThumbnail}")`}
-          bgSize="cover"
-          bgRepeat="no-repeat"
-        />
-      )}
+      <Box
+        h="0"
+        pb="100%"
+        backgroundPosition="center"
+        bgImage={
+          thumbnail
+            ? `url("http:${thumbnail}")`
+            : `url("http:${dummyThumbnail}")`
+        }
+        bgSize="cover"
+        bgRepeat="no-repeat"
+      />
+
       <Box p="20px 10px 0 10px">
         <Box
           mb="3px"

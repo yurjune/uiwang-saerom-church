@@ -39,7 +39,7 @@ const DrawerButton = () => {
           <DrawerCloseButton mt="7px" />
           <DrawerHeader fontWeight="normal">Didimdol Church</DrawerHeader>
           <DrawerBody>
-            <DrawerAccordian></DrawerAccordian>
+            <DrawerAccordian onMove={onClose} />
           </DrawerBody>
         </DrawerContent>
       </Drawer>

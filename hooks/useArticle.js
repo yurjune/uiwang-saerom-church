@@ -22,7 +22,6 @@ export const filterByTag = (articles, value) => {
   return articles;
 };
 
-// 게시글을 한페이지에 12개씩 나타냄
 export const getLimitedArticles = (articles, currentPage) => {
   const num = postNumberPerOnePage * currentPage;
   const limitedArticles = articles.slice(num - postNumberPerOnePage, num);

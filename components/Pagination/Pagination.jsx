@@ -9,7 +9,6 @@ import { PageButton, ArrowButton } from "./PageButton";
 import usePagination from "../../hooks/usePagination";
 
 const Pagination = ({ articles, currentPage: initialPage = 1 }) => {
-  // console.log('Pagination')
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

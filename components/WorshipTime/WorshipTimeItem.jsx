@@ -1,38 +1,71 @@
 "use client";
 
 import React from "react";
-import { Flex, Box, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
-const WorshipTimeItem = ({ title, schedule }) => {
+const WorshipTimeItem = ({ title, day, time }) => {
   return (
     <Flex
-      w={["100%", "100%", "90%", "80%"]}
-      direction="row"
-      mb="20px"
-      fontSize={{ base: "16px", sm: "17px", md: "18px" }}
+      w={{ base: "100%", md: "90%", lg: "80%" }}
+      mb={{ base: "14px", md: "16px" }}
+      borderRadius="16px"
+      overflow="hidden"
+      border="1px solid"
+      borderColor="rgba(1, 85, 160, 0.18)"
+      bg="white"
+      boxShadow="0 10px 24px rgba(28, 32, 36, 0.08)"
+      transition="all 0.2s ease"
+      _hover={{
+        transform: "translateY(-2px)",
+        boxShadow: "0 14px 28px rgba(28, 32, 36, 0.12)",
+      }}
     >
       <Flex
-        minW={{ base: "100px", md: "110px" }}
-        minH="60px"
-        p="8px"
-        borderRadius="10px 0 0 10px"
-        bgColor="#F0C9A5"
+        minW={{ base: "108px", md: "132px" }}
+        px={{ base: "12px", md: "16px" }}
+        py={{ base: "16px", md: "18px" }}
+        bgGradient="linear(to-b, #3F82BE, #1F6CAF)"
         color="white"
         align="center"
         justify="center"
       >
-        <Text textAlign="center">{title}</Text>
+        <Text
+          textAlign="center"
+          fontWeight="700"
+          fontSize={{ base: "15px", md: "17px" }}
+          letterSpacing="-0.01em"
+        >
+          {title}
+        </Text>
       </Flex>
+
       <Flex
-        minH="60px"
-        p="8px"
-        borderRadius="0 10px 10px 0"
-        bgColor="white"
-        flexGrow="1"
+        flex="1"
+        px={{ base: "14px", md: "20px" }}
+        py={{ base: "16px", md: "18px" }}
         align="center"
-        justify="center"
+        justify="space-between"
+        gap="10px"
       >
-        <Text textAlign="center">{schedule}</Text>
+        <Text
+          textAlign="left"
+          color="gray.700"
+          fontWeight="500"
+          fontSize={{ base: "14px", sm: "15px", md: "16px" }}
+          lineHeight="1.5"
+        >
+          {day}{" "}
+          <Text as="span" color="first" fontWeight="700">
+            {time}
+          </Text>
+        </Text>
+        <Box
+          w="8px"
+          h="8px"
+          borderRadius="full"
+          bg="first"
+          flexShrink={0}
+        />
       </Flex>
     </Flex>
   );

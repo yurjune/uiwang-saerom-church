@@ -1,46 +1,44 @@
 "use client";
 
 import React from "react";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-} from "@chakra-ui/react";
+import { AccordionButton } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";
-import { categoryToUrl } from "../../utils/categoryConverter";
+import { usePathname } from "next/navigation";
 
-export const BtnNoIcon = ({ name }) => {
-  return (
-    <AccordionButton py={4} _focus="none" _hover={{ bg: "second" }}>
+export const BtnNoIcon = ({ name, to, onMove }) => {
+  const pathname = usePathname();
+
+  const normalizePath = (path) => {
+    if (!path) return "/";
+    return path !== "/" && path.endsWith("/") ? path.slice(0, -1) : path;
+  };
+
+  const isActive = normalizePath(pathname) === normalizePath(to);
+
+  const button = (
+    <AccordionButton
+      py={4}
+      _focus={{ boxShadow: "none" }}
+      _focusVisible={{ boxShadow: "none" }}
+      _hover={isActive ? {} : { bg: "second" }}
+      bg={isActive ? "second" : "transparent"}
+      fontWeight={isActive ? "bold" : "normal"}
+      cursor={isActive ? "default" : "pointer"}
+    >
       <Box flex="1" textAlign="left">
-        <Link href={categoryToUrl(name)}>{name}</Link>
+        {name}
       </Box>
     </AccordionButton>
   );
-};
 
-export const Btn = ({ name }) => {
-  return (
-    <AccordionButton py={4} _focus="none" _hover={{ bg: "second" }}>
-      <Box flex="1" textAlign="left">
-        <Link href={categoryToUrl(name)}>{name}</Link>
-      </Box>
-      <AccordionIcon />
-    </AccordionButton>
-  );
-};
+  if (isActive) {
+    return button;
+  }
 
-export const Pan = ({ element }) => {
   return (
-    <>
-      {element.map((item) => (
-        <AccordionPanel key={item} py={4} _hover={{ bg: "third" }}>
-          <Link href={categoryToUrl(item)}>{`- ${item}`}</Link>
-        </AccordionPanel>
-      ))}
-    </>
+    <Link href={to} onClick={onMove}>
+      {button}
+    </Link>
   );
 };

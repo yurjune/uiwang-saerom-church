@@ -11,10 +11,10 @@ const Footer = () => {
         maxW={layoutWidth}
         h="100%"
         m="0 auto"
+        px={{ base: "16px", md: "24px" }}
         direction="column"
         color="grayLetter"
         fontSize="12px"
-        px={{ base: "20px", sm: "30px", md: "40px", lg: "0" }}
         py="40px"
         justify="flex-start"
         align={{ base: "center", md: "flex-start" }}

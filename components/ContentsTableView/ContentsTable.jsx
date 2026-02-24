@@ -3,16 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Box } from "@chakra-ui/react";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-} from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import { categoryToContents } from "../../utils/categoryConverter";
 import { getLimitedArticles } from "../../hooks/useArticle";
 

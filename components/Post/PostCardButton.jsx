@@ -5,30 +5,33 @@ import { useRouter } from "next/navigation";
 import { Flex, HStack, Button, Icon, Divider } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { categoryToUrl, categoryToContents } from "../../utils/categoryConverter";
+import {
+  categoryToUrl,
+  categoryToContents,
+} from "../../utils/categoryConverter";
 
 const PostCardButton = ({ article, articles }) => {
   const router = useRouter();
   const { category } = article.fields;
   const { id } = article.sys;
-  const url = categoryToUrl(category);
+  const currentIndex = articles.findIndex((el) => el.sys.id === id);
+  const isLatest = currentIndex === 0;
+  const isOldest = currentIndex === articles.length - 1;
 
   const moveNext = () => {
-    const index = articles.findIndex((element) => element.sys.id === id);
-    if (articles[index - 1]) {
-      const nextId = articles[index - 1].sys.id;
+    const nextArticle = articles[currentIndex - 1];
+    if (nextArticle) {
+      const nextId = nextArticle.sys.id;
       return router.push(`${categoryToContents(category)}/${nextId}`);
     }
-    return alert("마지막 게시글 입니다!");
   };
 
   const movePrev = () => {
-    const index = articles.findIndex((element) => element.sys.id === id);
-    if (articles[index + 1]) {
-      const prevId = articles[index + 1].sys.id;
+    const prevArticle = articles[currentIndex + 1];
+    if (prevArticle) {
+      const prevId = prevArticle.sys.id;
       return router.push(`${categoryToContents(category)}/${prevId}`);
     }
-    return alert("첫 번째 게시글 입니다!");
   };
 
   return (
@@ -36,13 +39,27 @@ const PostCardButton = ({ article, articles }) => {
       <Divider my="20px" />
       <Flex direction={{ base: "row", lg: "column" }} justify="space-between">
         <HStack mb={{ base: "0", lg: "15px" }}>
-          <Button size="sm" onClick={movePrev}>
+          <Button
+            colorScheme="blue"
+            size="sm"
+            disabled={isOldest}
+            onClick={movePrev}
+          >
             <Icon as={IoIosArrowBack} boxSize={3} />
           </Button>
-          <Button size="sm" onClick={() => router.push(url)}>
+          <Button
+            colorScheme="blue"
+            size="sm"
+            onClick={() => router.push("/movies")}
+          >
             <Icon as={HamburgerIcon} boxSize={3} />
           </Button>
-          <Button size="sm" onClick={moveNext}>
+          <Button
+            colorScheme="blue"
+            size="sm"
+            disabled={isLatest}
+            onClick={moveNext}
+          >
             <Icon as={IoIosArrowForward} boxSize={3} />
           </Button>
         </HStack>

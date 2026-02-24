@@ -16,8 +16,6 @@ const BibleTagCollapse = ({ category, isOpen, onClose }) => {
         rounded="md"
         shadow="md"
       >
-        <Box>성경별</Box>
-        <Divider my="20px" />
         <BibleTag bible={oldBible} category={category} onClose={onClose} />
         <Divider my="20px" />
         <BibleTag bible={newBible} category={category} onClose={onClose} />
