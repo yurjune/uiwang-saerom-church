@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Box, AspectRatio } from "@chakra-ui/react";
 import NextImage from "next/image";

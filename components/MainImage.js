@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Image } from "@chakra-ui/react";
 import React from "react";
 import { layoutWidth } from "./AppLayout";
