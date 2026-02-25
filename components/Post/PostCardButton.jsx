@@ -6,8 +6,8 @@ import { Flex, HStack, Button, Icon, Divider } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import {
-  categoryToUrl,
   categoryToContentUrl,
+  categoryToUrl,
 } from "../../utils/categoryConverter";
 
 const PostCardButton = ({ article, articles }) => {
@@ -34,6 +34,10 @@ const PostCardButton = ({ article, articles }) => {
     }
   };
 
+  const onClickListBtn = () => {
+    router.push(categoryToUrl(category));
+  };
+
   return (
     <>
       <Divider my="20px" />
@@ -47,11 +51,7 @@ const PostCardButton = ({ article, articles }) => {
           >
             <Icon as={IoIosArrowBack} boxSize={3} />
           </Button>
-          <Button
-            colorScheme="blue"
-            size="sm"
-            onClick={() => router.push("/movies")}
-          >
+          <Button colorScheme="blue" size="sm" onClick={onClickListBtn}>
             <Icon as={HamburgerIcon} boxSize={3} />
           </Button>
           <Button
