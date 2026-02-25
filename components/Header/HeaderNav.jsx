@@ -1,66 +1,120 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { HStack, Button } from "@chakra-ui/react";
-
-const navItems = [
-  { href: "/movies", label: "설교 영상" },
-  { href: "/community/news", label: "교회 소식" },
-  { href: "/community/map", label: "오시는 길" },
-];
+import { usePathname, useRouter } from "next/navigation";
+import {
+  HStack,
+  Box,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from "@chakra-ui/react";
+import { navItems } from "./constant";
 
 const HeaderNav = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const [openMenu, setOpenMenu] = useState(null);
 
-  const isActive = (href) => pathname === href || pathname.startsWith(`${href}/`);
+  const isActive = (href) =>
+    pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <HStack spacing="1">
       {navItems.map((item) => {
-        const active = isActive(item.href);
+        const hasChildren =
+          Array.isArray(item.children) && item.children.length > 0;
+        const active = hasChildren
+          ? item.children.some((child) => isActive(child.href))
+          : isActive(item.href);
+        const isOpen = hasChildren && openMenu === item.label;
 
         return (
-          <Button
-            key={item.href}
-            as={Link}
-            href={item.href}
-            variant="menu"
-            h="44px"
-            px="14px"
-            bg="transparent"
-            color={active ? "white" : "whiteAlpha.900"}
-            fontSize="17px"
-            fontWeight={active ? 700 : 600}
-            rounded="md"
-            position="relative"
-            _after={{
-              content: '""',
-              position: "absolute",
-              left: "14px",
-              right: "14px",
-              bottom: "6px",
-              height: "2px",
-              borderRadius: "full",
-              bg: active ? "white" : "whiteAlpha.700",
-              opacity: active ? 1 : 0,
-              transform: active ? "scaleX(1)" : "scaleX(0.45)",
-              transformOrigin: "center",
-              transition: "all 0.2s ease",
-            }}
-            _hover={{
-              bg: "transparent",
-              color: "white",
-              _after: {
-                opacity: 1,
-                transform: "scaleX(1)",
-              },
-            }}
-            _active={{ bg: "transparent" }}
+          <Box
+            key={item.label}
+            onMouseEnter={
+              hasChildren ? () => setOpenMenu(item.label) : undefined
+            }
+            onMouseLeave={hasChildren ? () => setOpenMenu(null) : undefined}
           >
-            {item.label}
-          </Button>
+            <Menu isOpen={isOpen} gutter={0}>
+              <MenuButton
+                as={Button}
+                onClick={
+                  !hasChildren && item.href
+                    ? () => router.push(item.href)
+                    : undefined
+                }
+                variant="menu"
+                h="48px"
+                px="16px"
+                bg="transparent"
+                rounded="md"
+                position="relative"
+                fontSize="18px"
+                color={active ? "white" : "whiteAlpha.900"}
+                fontWeight={active ? 700 : 600}
+                _after={{
+                  content: '""',
+                  position: "absolute",
+                  left: "16px",
+                  right: "16px",
+                  bottom: "4px",
+                  height: "3px",
+                  borderRadius: "full",
+                  transition: "all 0.2s ease",
+                  transformOrigin: "center",
+                  bg: active ? "white" : "whiteAlpha.700",
+                  opacity: active ? 1 : 0,
+                  transform: active ? "scaleX(1)" : "scaleX(0.45)",
+                }}
+                _hover={{
+                  bg: "transparent",
+                  color: "white",
+                  _after: {
+                    opacity: 1,
+                    transform: "scaleX(1)",
+                  },
+                }}
+                _active={{ bg: "transparent" }}
+              >
+                {item.label}
+              </MenuButton>
+
+              {hasChildren && (
+                <MenuList
+                  minW="200px"
+                  p="8px"
+                  rounded="md"
+                  borderColor="blackAlpha.200"
+                >
+                  {item.children.map((child) => {
+                    const childActive = isActive(child.href);
+
+                    return (
+                      <MenuItem
+                        key={child.href}
+                        as={Link}
+                        href={child.href}
+                        rounded="sm"
+                        py="10px"
+                        fontSize="16px"
+                        fontWeight={childActive ? 700 : 500}
+                        bg={childActive ? "blue.50" : "transparent"}
+                        _hover={{ bg: "blue.100" }}
+                        _focus={{ bg: "blue.100" }}
+                      >
+                        {child.label}
+                      </MenuItem>
+                    );
+                  })}
+                </MenuList>
+              )}
+            </Menu>
+          </Box>
         );
       })}
     </HStack>
