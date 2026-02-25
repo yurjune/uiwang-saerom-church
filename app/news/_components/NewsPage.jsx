@@ -18,23 +18,24 @@ const NewsPage = ({ articles, firstArticle, currentPage = 1 }) => {
               justify={{ base: "flex-start", lg: "space-between" }}
               direction={{ base: "column", lg: "row" }}
             >
-              <Box
-                w={{ base: "100%", lg: "30%" }}
-                mb={{ base: "40px", lg: "0" }}
-              >
+              <Box w={{ base: "100%", lg: "30%" }}>
                 <PostCard article={firstArticle} />
               </Box>
+
+              <Box my={5}>
+                <Divider />
+              </Box>
+
               <Box w={{ base: "100%", lg: "67%" }}>
                 <PostArticle article={firstArticle} />
               </Box>
             </Flex>
           </Box>
+
           <Divider />
+
           <Box mb="40px">
-            <ContentsTable
-              articles={articles}
-              currentPage={currentPage}
-            />
+            <ContentsTable articles={articles} currentPage={currentPage} />
           </Box>
           <Pagination totalCount={articles.length} currentPage={currentPage} />
         </>
