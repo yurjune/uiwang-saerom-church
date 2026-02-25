@@ -37,7 +37,7 @@ const DrawerButton = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton mt="7px" />
-          <DrawerHeader fontWeight="normal">Didimdol Church</DrawerHeader>
+          <DrawerHeader fontWeight="bold">메뉴</DrawerHeader>
           <DrawerBody>
             <DrawerAccordian onMove={onClose} />
           </DrawerBody>
