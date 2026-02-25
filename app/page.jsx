@@ -7,9 +7,10 @@ import { getPictures } from "../lib/contentful";
 import DesktopHeader from "../components/Header/DesktopHeader";
 import MobileHeader from "../components/Header/MobileHeader";
 import { ChurchLocation } from "../components/ChurchLocation/ChurchLocation";
+import { CHURCH_NAME } from "../constants";
 
 export const metadata = {
-  title: "디딤돌교회",
+  title: CHURCH_NAME,
 };
 
 export default async function HomePage() {

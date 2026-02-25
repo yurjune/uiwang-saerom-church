@@ -1,5 +1,6 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 import KakaoMap from "../KaKaoMap/KakaoMap";
+import { CHURCH_LOCATION } from "../../constants";
 
 export const ChurchLocation = ({ appKey }) => {
   return (
@@ -10,7 +11,7 @@ export const ChurchLocation = ({ appKey }) => {
             오시는 길
           </Heading>
           <Text mt="10px" fontSize={{ base: "sm", md: "md" }} color="gray.600">
-            경기 의왕시 내손로 76 보우상가 3층
+            {CHURCH_LOCATION}
           </Text>
         </Box>
 

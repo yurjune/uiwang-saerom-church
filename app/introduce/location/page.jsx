@@ -1,12 +1,12 @@
 import React from "react";
 import KakaoMap from "../../../components/KaKaoMap/KakaoMap";
-import { getPictures } from "../../../lib/contentful";
-import { Box, Divider, Stack } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import TitleBar from "../../../components/TitleBar";
 import AppLayout from "../../../components/layouts/AppLayout";
+import { CHURCH_LOCATION } from "../../../constants";
 
 export const metadata = {
-  title: "오시는길",
+  title: "오시는 길",
 };
 
 export default async function CommunityMap() {
@@ -15,19 +15,14 @@ export default async function CommunityMap() {
   return (
     <AppLayout>
       <Box mb="30px">
-        <TitleBar title="오시는길" />
+        <TitleBar title="오시는 길" />
+      </Box>
+
+      <Box fontSize="18px" mb={5}>
+        <span>{CHURCH_LOCATION}</span>
       </Box>
 
       <KakaoMap appKey={appKey} />
-
-      <Divider my="25px" />
-
-      <Stack fontSize="17px">
-        <Box>
-          <strong>주소:</strong> 경기 의왕시 내손로 76 보우상가 3층
-        </Box>
-        <Box>(지번) 경기 의왕시 내손동 637</Box>
-      </Stack>
     </AppLayout>
   );
 }

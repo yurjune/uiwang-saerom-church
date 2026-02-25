@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { CHURCH_NAME } from "../../constants";
 
 const useKakaoMap = (container, appKey) => {
   useEffect(() => {
@@ -26,7 +27,7 @@ const useKakaoMap = (container, appKey) => {
         mapInitialized = true;
         // v3 스크립트 동적로드
         const options = {
-          center: new kakao.maps.LatLng(37.38684316418868, 126.97946559947053), // 지도의 중심좌표
+          center: new kakao.maps.LatLng(37.3896433, 126.9956158), // 지도의 중심좌표
           level: 3, // 지도의 레벨(확대, 축소 정도)
         };
         const map = new kakao.maps.Map(container.current, options); // 지도 생성 및 객체 리턴
@@ -58,13 +59,13 @@ const useKakaoMap = (container, appKey) => {
         const content =
           '<div class="customoverlay">' +
           '  <a href="http://kko.to/8IX9yjgfM" target="_blank">' +
-          '    <span class="title">의왕디딤돌교회</span>' +
+          `    <span class="title">${CHURCH_NAME}</span>` +
           "  </a>" +
           "</div>";
         // 커스텀 오버레이가 표시될 위치입니다
         const position = new kakao.maps.LatLng(
-          37.38684316418868,
-          126.97946559947053,
+          37.3896433,
+          126.9956158,
         );
         // 커스텀 오버레이를 생성합니다
         new kakao.maps.CustomOverlay({

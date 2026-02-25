@@ -1,7 +1,8 @@
+import { CHURCH_NAME } from "../constants";
 import Providers from "./providers";
 
 export const metadata = {
-  title: "디딤돌교회",
+  title: CHURCH_NAME,
 };
 
 export default function RootLayout({ children }) {
