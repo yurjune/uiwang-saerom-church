@@ -6,8 +6,9 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 const WorshipTimeItem = ({ title, day, time }) => {
   return (
     <Flex
-      w={{ base: "100%", md: "90%", lg: "80%" }}
-      mb={{ base: "14px", md: "16px" }}
+      maxW="500px"
+      w="100%"
+      mb={4}
       borderRadius="16px"
       overflow="hidden"
       border="1px solid"
@@ -15,10 +16,6 @@ const WorshipTimeItem = ({ title, day, time }) => {
       bg="white"
       boxShadow="0 10px 24px rgba(28, 32, 36, 0.08)"
       transition="all 0.2s ease"
-      _hover={{
-        transform: "translateY(-2px)",
-        boxShadow: "0 14px 28px rgba(28, 32, 36, 0.12)",
-      }}
     >
       <Flex
         minW={{ base: "108px", md: "132px" }}
@@ -29,12 +26,7 @@ const WorshipTimeItem = ({ title, day, time }) => {
         align="center"
         justify="center"
       >
-        <Text
-          textAlign="center"
-          fontWeight="700"
-          fontSize={{ base: "15px", md: "17px" }}
-          letterSpacing="-0.01em"
-        >
+        <Text textAlign="center" fontWeight="700" letterSpacing="-0.01em">
           {title}
         </Text>
       </Flex>
@@ -51,7 +43,6 @@ const WorshipTimeItem = ({ title, day, time }) => {
           textAlign="left"
           color="gray.700"
           fontWeight="500"
-          fontSize={{ base: "14px", sm: "15px", md: "16px" }}
           lineHeight="1.5"
         >
           {day}{" "}
@@ -59,13 +50,7 @@ const WorshipTimeItem = ({ title, day, time }) => {
             {time}
           </Text>
         </Text>
-        <Box
-          w="8px"
-          h="8px"
-          borderRadius="full"
-          bg="first"
-          flexShrink={0}
-        />
+        <Box w="8px" h="8px" borderRadius="full" bg="first" flexShrink={0} />
       </Flex>
     </Flex>
   );
