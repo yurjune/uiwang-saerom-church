@@ -3,17 +3,14 @@
 import React from "react";
 import { chakra, Box, Flex, Text } from "@chakra-ui/react";
 
-function Introduction({ pictures }) {
-  const background = pictures.find((item) => item.fields.title === "소개배경")
-    .fields.picture.fields.file.url;
-
+function Introduction() {
   return (
     <Flex
       w="100%"
       py={{ base: "40px", md: "70px" }}
       px="16px"
       mx="auto"
-      bgImage={`url("http:${background}")`}
+      bgImage={"/introduction.png"}
       backgroundPosition="center"
       bgSize="cover"
       bgRepeat="no-repeat"
