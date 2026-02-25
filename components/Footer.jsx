@@ -12,13 +12,14 @@ const Footer = () => {
         maxW={layoutWidth}
         h="100%"
         m="0 auto"
-        px={{ base: "16px", md: "24px" }}
+        px={5}
+        py={10}
         direction="column"
         color="grayLetter"
         fontSize="12px"
-        py="40px"
         justify="flex-start"
-        align={{ base: "center", md: "flex-start" }}
+        align="center"
+        // align={{ base: "center", md: "flex-start" }}
         textAlign="center"
         fontFamily="Nanum Gothic"
       >
