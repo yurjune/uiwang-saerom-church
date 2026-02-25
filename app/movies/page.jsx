@@ -1,7 +1,7 @@
 import React from "react";
 import AppLayout from "../../components/layouts/AppLayout";
 import ContentsListView from "../../components/ContentsListView/ContentsListView";
-import { filterByTag, sortArticles } from "../../utils/articles";
+import { filterByTag } from "../../utils/articles";
 import { getArticles, getPictures } from "../../lib/contentful";
 import { createPageMetadata, SEO_KEYWORDS } from "../../lib/seo";
 
@@ -19,12 +19,11 @@ export default async function Movies({ searchParams }) {
     getPictures(),
     getArticles({ category: "설교영상" }),
   ]);
-  const sortedArticles = sortArticles(articles);
 
   const sp = await searchParams;
   const tag = typeof sp?.v === "string" ? sp.v : undefined;
   const currentPage = parseInt(sp?.page, 10) || 1;
-  const posts = filterByTag(sortedArticles, tag);
+  const posts = filterByTag(articles, tag);
 
   return (
     <AppLayout>

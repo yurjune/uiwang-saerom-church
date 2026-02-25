@@ -1,7 +1,6 @@
 import React from "react";
 import AppLayout from "../../components/layouts/AppLayout";
 import NewsPage from "./_components/NewsPage";
-import { sortArticles } from "../../utils/articles";
 import { getArticles } from "../../lib/contentful";
 import { createPageMetadata, SEO_KEYWORDS } from "../../lib/seo";
 
@@ -16,15 +15,14 @@ export const revalidate = 300;
 
 export default async function CommunityNews({ searchParams }) {
   const articles = await getArticles({ category: "교회소식" });
-  const sortedArticles = sortArticles(articles);
-  const firstArticle = sortedArticles[0];
+  const firstArticle = articles[0];
   const sp = await searchParams;
   const currentPage = parseInt(sp?.page, 10) || 1;
 
   return (
     <AppLayout>
       <NewsPage
-        articles={sortedArticles}
+        articles={articles}
         firstArticle={firstArticle}
         currentPage={currentPage}
       />

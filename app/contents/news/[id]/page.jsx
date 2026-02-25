@@ -2,7 +2,6 @@ import React from "react";
 import { notFound } from "next/navigation";
 import AppLayout from "../../../../components/layouts/AppLayout";
 import ContentView from "../../../../components/ContentView/ContentView";
-import { sortArticles } from "../../../../utils/articles";
 import { getArticleById, getArticles } from "../../../../lib/contentful";
 import { getArticleDescription, SITE_URL } from "../../../../lib/seo";
 
@@ -49,11 +48,10 @@ export async function generateStaticParams() {
 
 export default async function NewsContent({ params: _params }) {
   const params = await _params;
-  const [article, allArticles] = await Promise.all([
+  const [article, articles] = await Promise.all([
     getArticleById(params.id),
     getArticles({ category: "교회소식" }),
   ]);
-  const articles = sortArticles(allArticles);
 
   if (!article) {
     notFound();
