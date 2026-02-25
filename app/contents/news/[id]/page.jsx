@@ -2,7 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import AppLayout from "../../../../components/layouts/AppLayout";
 import ContentView from "../../../../components/ContentView/ContentView";
-import { sortArticles } from "../../../../hooks/useArticle";
+import { sortArticles } from "../../../../utils/articles";
 import { getArticleById, getArticles } from "../../../../lib/contentful";
 import { getArticleDescription, SITE_URL } from "../../../../lib/seo";
 

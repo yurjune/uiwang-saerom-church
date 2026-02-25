@@ -1,7 +1,7 @@
 import React from "react";
 import AppLayout from "../../components/layouts/AppLayout";
 import NewsPage from "./_components/NewsPage";
-import { sortArticles } from "../../hooks/useArticle";
+import { sortArticles } from "../../utils/articles";
 import { getArticles } from "../../lib/contentful";
 import { createPageMetadata, SEO_KEYWORDS } from "../../lib/seo";
 

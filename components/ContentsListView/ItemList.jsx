@@ -3,7 +3,7 @@
 import React from "react";
 import { Grid, GridItem } from "@chakra-ui/react";
 import ItemCard from "./ItemCard";
-import { getLimitedArticles } from "../../hooks/useArticle";
+import { getLimitedArticles } from "../../utils/articles";
 
 const ItemList = ({ articles, pictures, currentPage = 1 }) => {
   const limitedArticles = getLimitedArticles(articles, currentPage);

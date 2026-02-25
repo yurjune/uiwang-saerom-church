@@ -1,7 +1,7 @@
 import React from "react";
 import AppLayout from "../../components/layouts/AppLayout";
 import ContentsListView from "../../components/ContentsListView/ContentsListView";
-import { filterByTag, sortArticles } from "../../hooks/useArticle";
+import { filterByTag, sortArticles } from "../../utils/articles";
 import { getArticles, getPictures } from "../../lib/contentful";
 import { createPageMetadata, SEO_KEYWORDS } from "../../lib/seo";
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useMediaQuery, useTheme } from "@chakra-ui/react";
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import { categoryToContentUrl } from "../../utils/categoryConverter";
-import { getLimitedArticles } from "../../hooks/useArticle";
+import { getLimitedArticles } from "../../utils/articles";
 
 const noWrap = {
   overflow: "hidden",

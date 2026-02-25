@@ -1,4 +1,4 @@
-import { postNumberPerOnePage } from "../utils/pagination";
+import { postNumberPerOnePage } from "./pagination";
 
 // 가장 오래된 게시글이 가장 뒤로가게 정렬
 export const sortArticles = (articles) => {
