@@ -13,7 +13,6 @@ function Introduction({ pictures }) {
       py={{ base: "40px", md: "70px" }}
       px="16px"
       mx="auto"
-      fontFamily="Gowun Dodum"
       bgImage={`url("http:${background}")`}
       backgroundPosition="center"
       bgSize="cover"

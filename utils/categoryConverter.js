@@ -1,7 +1,4 @@
 export const categoryToUrl = (category) => {
-  if (category === "오시는길") {
-    return "/introduce/map";
-  }
   if (category === "설교영상") {
     return "/movies";
   }
@@ -11,10 +8,7 @@ export const categoryToUrl = (category) => {
   return "/#";
 };
 
-export const categoryToContents = (category) => {
-  if (category === "주일예배") {
-    return "/contents/movies";
-  }
+export const categoryToContentUrl = (category) => {
   if (category === "설교영상") {
     return "/contents/movies";
   }

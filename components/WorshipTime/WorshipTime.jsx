@@ -26,12 +26,9 @@ const WorshipTime = () => {
           <Heading as="h3" size="lg" color="gray.800" letterSpacing="tight">
             <div id="worship-time">예배시간 안내</div>
           </Heading>
-          <Text mt="10px" fontSize={{ base: "sm", md: "md" }} color="gray.600">
-            함께 모여 예배드리는 시간을 확인해보세요.
-          </Text>
         </Box>
 
-        <Box w="100%" maxW={layoutWidth}>
+        <Box w="60%" maxW={layoutWidth}>
           {schedule.map((item) => (
             <Flex key={item.title} justify="center">
               <WorshipTimeItem

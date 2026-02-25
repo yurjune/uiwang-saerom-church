@@ -3,7 +3,7 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { categoryToContents } from "../../utils/categoryConverter";
+import { categoryToContentUrl } from "../../utils/categoryConverter";
 
 const ItemCard = ({ article, pictures }) => {
   const router = useRouter();
@@ -15,7 +15,7 @@ const ItemCard = ({ article, pictures }) => {
   ).fields.picture.fields.file.url;
 
   const onClickImage = () => {
-    router.push(`${categoryToContents(category)}/${id}`);
+    router.push(`${categoryToContentUrl(category)}/${id}`);
   };
 
   return (

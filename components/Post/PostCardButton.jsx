@@ -7,7 +7,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   categoryToUrl,
-  categoryToContents,
+  categoryToContentUrl,
 } from "../../utils/categoryConverter";
 
 const PostCardButton = ({ article, articles }) => {
@@ -22,7 +22,7 @@ const PostCardButton = ({ article, articles }) => {
     const nextArticle = articles[currentIndex - 1];
     if (nextArticle) {
       const nextId = nextArticle.sys.id;
-      return router.push(`${categoryToContents(category)}/${nextId}`);
+      return router.push(`${categoryToContentUrl(category)}/${nextId}`);
     }
   };
 
@@ -30,7 +30,7 @@ const PostCardButton = ({ article, articles }) => {
     const prevArticle = articles[currentIndex + 1];
     if (prevArticle) {
       const prevId = prevArticle.sys.id;
-      return router.push(`${categoryToContents(category)}/${prevId}`);
+      return router.push(`${categoryToContentUrl(category)}/${prevId}`);
     }
   };
 

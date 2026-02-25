@@ -12,10 +12,7 @@ export default async function Movies({ searchParams }) {
   const pictures = await getPictures();
   const articles = await getArticles();
   const filteredArticles = articles.filter((article) => {
-    return (
-      article.fields.category === "설교영상" ||
-      article.fields.category === "주일예배"
-    );
+    return article.fields.category === "설교영상";
   });
   const sortedArticles = sortArticles(filteredArticles);
 
@@ -25,7 +22,7 @@ export default async function Movies({ searchParams }) {
   const posts = filterByTag(sortedArticles, tag);
 
   return (
-    <AppLayout pictures={pictures}>
+    <AppLayout>
       <ContentsListView
         category="설교영상"
         articles={posts}

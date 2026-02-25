@@ -12,9 +12,7 @@ export const metadata = {
 export async function generateStaticParams() {
   const articles = await getArticles();
   const filteredArticles = articles.filter(
-    (item) =>
-      item.fields.category === "주일예배" ||
-      item.fields.category === "설교영상",
+    (item) => item.fields.category === "설교영상",
   );
   return filteredArticles.map((item) => ({ id: item.sys.id }));
 }
@@ -24,7 +22,7 @@ export default async function MovieContent({ params: _params }) {
   const article = await getArticleById(params.id);
   const allArticles = await getArticles();
   const filteredArticles = allArticles.filter(
-    (item) => item.fields.category === "주일예배",
+    (item) => item.fields.category === "설교영상",
   );
   const articles = sortArticles(filteredArticles);
 

@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useMediaQuery, useTheme } from "@chakra-ui/react";
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
-import { categoryToContents } from "../../utils/categoryConverter";
+import { categoryToContentUrl } from "../../utils/categoryConverter";
 import { getLimitedArticles } from "../../hooks/useArticle";
 
 const noWrap = {
@@ -42,7 +42,7 @@ const ContentsTable = ({ articles: _articles, currentPage = 1 }) => {
                 {isDesktop && <Td {...noWrap}>관리자</Td>}
                 <Td maxWidth={0} w="60%">
                   <Link
-                    href={`${categoryToContents(article.fields.category)}/${article.sys.id}`}
+                    href={`${categoryToContentUrl(article.fields.category)}/${article.sys.id}`}
                   >
                     {article.fields.title}
                   </Link>

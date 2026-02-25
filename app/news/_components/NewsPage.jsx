@@ -8,11 +8,6 @@ import ContentsTable from "../../../components/ContentsTableView/ContentsTable";
 import NoPost from "../../../components/NoPost";
 import Pagination from "../../../components/Pagination/Pagination";
 
-const tableStyle = {
-  variant: "striped",
-  colorScheme: "blackAlpha",
-};
-
 const NewsPage = ({ articles, firstArticle, currentPage = 1 }) => {
   return (
     <>
@@ -38,7 +33,6 @@ const NewsPage = ({ articles, firstArticle, currentPage = 1 }) => {
           <Box mb="40px">
             <ContentsTable
               articles={articles}
-              tableStyle={tableStyle}
               currentPage={currentPage}
             />
           </Box>
