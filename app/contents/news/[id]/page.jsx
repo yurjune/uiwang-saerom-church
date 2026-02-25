@@ -6,6 +6,8 @@ import { sortArticles } from "../../../../utils/articles";
 import { getArticleById, getArticles } from "../../../../lib/contentful";
 import { getArticleDescription, SITE_URL } from "../../../../lib/seo";
 
+export const revalidate = 300;
+
 export async function generateMetadata({ params: _params }) {
   const params = await _params;
   const article = await getArticleById(params.id);
@@ -41,21 +43,17 @@ export async function generateMetadata({ params: _params }) {
 }
 
 export async function generateStaticParams() {
-  const articles = await getArticles();
-  const filteredArticles = articles.filter(
-    (item) => item.fields.category === "교회소식",
-  );
-  return filteredArticles.map((item) => ({ id: item.sys.id }));
+  const articles = await getArticles({ category: "교회소식" });
+  return articles.map((item) => ({ id: item.sys.id }));
 }
 
 export default async function NewsContent({ params: _params }) {
   const params = await _params;
-  const article = await getArticleById(params.id);
-  const allArticles = await getArticles();
-  const filteredArticles = allArticles.filter(
-    (item) => item.fields.category === "교회소식",
-  );
-  const articles = sortArticles(filteredArticles);
+  const [article, allArticles] = await Promise.all([
+    getArticleById(params.id),
+    getArticles({ category: "교회소식" }),
+  ]);
+  const articles = sortArticles(allArticles);
 
   if (!article) {
     notFound();

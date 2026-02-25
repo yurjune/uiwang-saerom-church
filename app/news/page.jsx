@@ -12,12 +12,11 @@ export const metadata = createPageMetadata({
   keywords: SEO_KEYWORDS.news,
 });
 
+export const revalidate = 300;
+
 export default async function CommunityNews({ searchParams }) {
-  const articles = await getArticles();
-  const filteredArticles = articles.filter(
-    (article) => article.fields.category === "교회소식",
-  );
-  const sortedArticles = sortArticles(filteredArticles);
+  const articles = await getArticles({ category: "교회소식" });
+  const sortedArticles = sortArticles(articles);
   const firstArticle = sortedArticles[0];
   const sp = await searchParams;
   const currentPage = parseInt(sp?.page, 10) || 1;

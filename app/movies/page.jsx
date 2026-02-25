@@ -12,13 +12,14 @@ export const metadata = createPageMetadata({
   keywords: SEO_KEYWORDS.sermons,
 });
 
+export const revalidate = 300;
+
 export default async function Movies({ searchParams }) {
-  const pictures = await getPictures();
-  const articles = await getArticles();
-  const filteredArticles = articles.filter((article) => {
-    return article.fields.category === "설교영상";
-  });
-  const sortedArticles = sortArticles(filteredArticles);
+  const [pictures, articles] = await Promise.all([
+    getPictures(),
+    getArticles({ category: "설교영상" }),
+  ]);
+  const sortedArticles = sortArticles(articles);
 
   const sp = await searchParams;
   const tag = typeof sp?.v === "string" ? sp.v : undefined;
