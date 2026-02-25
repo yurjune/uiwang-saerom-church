@@ -13,7 +13,7 @@ export const metadata = createPageMetadata({
   keywords: SEO_KEYWORDS.location,
 });
 
-export default async function CommunityMap() {
+export default async function IntroduceLocation() {
   const appKey = process.env.KAKAOMAP_ACCESS_KEY;
 
   return (
