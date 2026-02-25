@@ -10,11 +10,10 @@ export const metadata = {
 };
 
 export default async function CommunityMap() {
-  const pictures = await getPictures();
   const appKey = process.env.KAKAOMAP_ACCESS_KEY;
 
   return (
-    <AppLayout pictures={pictures}>
+    <AppLayout>
       <Box mb="30px">
         <TitleBar title="오시는길" />
       </Box>

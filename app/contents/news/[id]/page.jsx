@@ -3,11 +3,7 @@ import { notFound } from "next/navigation";
 import AppLayout from "../../../../components/layouts/AppLayout";
 import ContentView from "../../../../components/ContentView/ContentView";
 import { sortArticles } from "../../../../hooks/useArticle";
-import {
-  getArticleById,
-  getArticles,
-  getPictures,
-} from "../../../../lib/contentful";
+import { getArticleById, getArticles } from "../../../../lib/contentful";
 
 export const metadata = {
   title: "교회소식",
@@ -15,11 +11,14 @@ export const metadata = {
 
 export async function generateStaticParams() {
   const articles = await getArticles();
-  return articles.map((item) => ({ id: item.sys.id }));
+  const filteredArticles = articles.filter(
+    (item) => item.fields.category === "교회소식",
+  );
+  return filteredArticles.map((item) => ({ id: item.sys.id }));
 }
 
-export default async function NewsContent({ params }) {
-  const pictures = await getPictures();
+export default async function NewsContent({ params: _params }) {
+  const params = await _params;
   const article = await getArticleById(params.id);
   const allArticles = await getArticles();
   const filteredArticles = allArticles.filter(
@@ -32,7 +31,7 @@ export default async function NewsContent({ params }) {
   }
 
   return (
-    <AppLayout pictures={pictures}>
+    <AppLayout>
       <ContentView article={article} articles={articles} />
     </AppLayout>
   );

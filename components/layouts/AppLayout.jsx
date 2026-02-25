@@ -7,7 +7,7 @@ import MobileHeader from "../Header/MobileHeader";
 
 export const layoutWidth = "1000px";
 
-const AppLayout = ({ children, pictures }) => {
+const AppLayout = ({ children }) => {
   return (
     <Grid
       templateColumns={`1fr minmax(auto, ${layoutWidth}) 1fr`}

@@ -35,24 +35,26 @@ const ContentsTable = ({ articles: _articles, currentPage = 1 }) => {
 
       <Tbody>
         {articles.length >= 1 &&
-          articles.map((article) => (
-            <Tr key={article.sys.id}>
-              <Td {...noWrap}>{article.fields.category}</Td>
-              {isDesktop && <Td {...noWrap}>관리자</Td>}
-              <Td maxWidth={0} w="60%">
-                <Link
-                  href={`${categoryToContents(article.fields.category)}/${article.sys.id}`}
-                >
-                  {article.fields.title}
-                </Link>
-              </Td>
-              {isDesktop && (
-                <Td {...noWrap} isNumeric>
-                  {article.sys.createdAt.slice(0, 10)}
+          articles.map((article) => {
+            return (
+              <Tr key={article.sys.id}>
+                <Td {...noWrap}>{article.fields.category}</Td>
+                {isDesktop && <Td {...noWrap}>관리자</Td>}
+                <Td maxWidth={0} w="60%">
+                  <Link
+                    href={`${categoryToContents(article.fields.category)}/${article.sys.id}`}
+                  >
+                    {article.fields.title}
+                  </Link>
                 </Td>
-              )}
-            </Tr>
-          ))}
+                {isDesktop && (
+                  <Td {...noWrap} isNumeric>
+                    {article.sys.createdAt.slice(0, 10)}
+                  </Td>
+                )}
+              </Tr>
+            );
+          })}
       </Tbody>
     </Table>
   );
