@@ -22,7 +22,7 @@ const DrawerButton = () => {
       <IconButton
         aria-label="open"
         bg="none"
-        color="white"
+        color="blue.700"
         _focus={{ boxShadow: "none" }}
         icon={<FiMenu />}
         ref={btnRef}

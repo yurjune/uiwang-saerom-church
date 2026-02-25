@@ -2,7 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { Flex, Box, Text } from "@chakra-ui/react";
+import Image from "next/image";
+import { Flex, Box } from "@chakra-ui/react";
 
 import HeaderNav from "./HeaderNav";
 import { layoutWidth } from "../layouts/AppLayout";
@@ -13,10 +14,9 @@ const DesktopHeader = () => {
       display={{ base: "none", md: "block" }}
       width="100%"
       height="72px"
-      bgGradient="linear(to-r, #3f90c7 0%, #2f80bd 45%, #1f69ab 100%)"
+      bg="white"
       borderBottom="1px solid"
-      borderColor="whiteAlpha.300"
-      boxShadow="0 6px 20px rgba(0, 0, 0, 0.14)"
+      borderColor="gray.200"
     >
       <Flex
         position="relative"
@@ -29,14 +29,13 @@ const DesktopHeader = () => {
         align="center"
       >
         <Box as={Link} href="/" rounded="xl" transition="all 0.2s ease">
-          <Text
-            color="white"
-            fontWeight={800}
-            fontSize="24px"
-            lineHeight="1"
-          >
-            Use Logo here
-          </Text>
+          <Image
+            src="/logo.jpg"
+            alt="Church logo"
+            width={150}
+            height={32}
+            priority
+          />
         </Box>
 
         <HeaderNav />

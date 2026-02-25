@@ -1,8 +1,8 @@
 "use client";
-
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { Flex, Box, Text } from "@chakra-ui/react";
+import { Flex, Box } from "@chakra-ui/react";
 
 import DrawerButton from "../DrawerAccordian/DrawerButton";
 
@@ -11,16 +11,16 @@ const MobileHeader = () => {
     <Flex
       display={{ base: "flex", md: "none" }}
       width="100%"
-      height="48px"
+      height="56px"
       justify="space-between"
       align="center"
-      bgGradient="linear(to-r, #3f90c7 0%, #2f80bd 45%, #1f69ab 100%)"
+      bg="white"
+      borderBottom="1px solid"
+      borderColor="gray.200"
       px={4}
     >
       <Box as={Link} href="/" rounded="xl" transition="all 0.2s ease">
-        <Text color="white" fontWeight={800} fontSize="18px" lineHeight="1">
-          Use Logo here
-        </Text>
+        <Image alt="logo" src="/logo.jpg" width={120} height={40} priority />
       </Box>
 
       <DrawerButton />

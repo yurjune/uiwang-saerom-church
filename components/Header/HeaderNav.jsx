@@ -55,7 +55,7 @@ const HeaderNav = () => {
                 rounded="md"
                 position="relative"
                 fontSize="18px"
-                color={active ? "white" : "whiteAlpha.900"}
+                color={active ? "blue.700" : "blue.600"}
                 fontWeight={active ? 700 : 600}
                 _after={{
                   content: '""',
@@ -67,13 +67,13 @@ const HeaderNav = () => {
                   borderRadius: "full",
                   transition: "all 0.2s ease",
                   transformOrigin: "center",
-                  bg: active ? "white" : "whiteAlpha.700",
+                  bg: active ? "blue.700" : "blue.300",
                   opacity: active ? 1 : 0,
                   transform: active ? "scaleX(1)" : "scaleX(0.45)",
                 }}
                 _hover={{
                   bg: "transparent",
-                  color: "white",
+                  color: "blue.700",
                   _after: {
                     opacity: 1,
                     transform: "scaleX(1)",
