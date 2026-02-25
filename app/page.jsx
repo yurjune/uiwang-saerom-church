@@ -8,10 +8,14 @@ import DesktopHeader from "../components/Header/DesktopHeader";
 import MobileHeader from "../components/Header/MobileHeader";
 import { ChurchLocation } from "../components/ChurchLocation/ChurchLocation";
 import { CHURCH_NAME } from "../constants";
+import { createPageMetadata, SEO_KEYWORDS, SITE_DESCRIPTION } from "../lib/seo";
 
-export const metadata = {
+export const metadata = createPageMetadata({
   title: CHURCH_NAME,
-};
+  description: SITE_DESCRIPTION,
+  path: "/",
+  keywords: SEO_KEYWORDS.home,
+});
 
 export default async function HomePage() {
   const pictures = await getPictures();

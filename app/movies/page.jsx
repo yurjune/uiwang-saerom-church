@@ -3,10 +3,14 @@ import AppLayout from "../../components/layouts/AppLayout";
 import ContentsListView from "../../components/ContentsListView/ContentsListView";
 import { filterByTag, sortArticles } from "../../hooks/useArticle";
 import { getArticles, getPictures } from "../../lib/contentful";
+import { createPageMetadata, SEO_KEYWORDS } from "../../lib/seo";
 
-export const metadata = {
+export const metadata = createPageMetadata({
   title: "예배와 말씀",
-};
+  description: "주일예배 설교영상과 말씀 콘텐츠를 확인할 수 있습니다.",
+  path: "/movies",
+  keywords: SEO_KEYWORDS.sermons,
+});
 
 export default async function Movies({ searchParams }) {
   const pictures = await getPictures();
