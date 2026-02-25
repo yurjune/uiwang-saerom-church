@@ -1,3 +1,4 @@
+import "./global.css";
 import { CHURCH_NAME } from "../constants";
 import Providers from "./providers";
 
