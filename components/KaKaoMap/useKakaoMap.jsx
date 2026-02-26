@@ -3,6 +3,12 @@
 import { useEffect } from "react";
 import { CHURCH_NAME } from "../../constants";
 
+const LOC = {
+  url: "https://kko.to/Jty5zmr2Oe",
+  latitude: 37.3896433, // 위도
+  longitude: 126.9956158, // 경도
+};
+
 const useKakaoMap = (container, appKey) => {
   useEffect(() => {
     if (typeof window === "undefined" || typeof document === "undefined") {
@@ -27,7 +33,7 @@ const useKakaoMap = (container, appKey) => {
         mapInitialized = true;
         // v3 스크립트 동적로드
         const options = {
-          center: new kakao.maps.LatLng(37.3896433, 126.9956158), // 지도의 중심좌표
+          center: new kakao.maps.LatLng(LOC.latitude, LOC.longitude), // 지도의 중심좌표
           level: 3, // 지도의 레벨(확대, 축소 정도)
         };
         const map = new kakao.maps.Map(container.current, options); // 지도 생성 및 객체 리턴
@@ -52,21 +58,18 @@ const useKakaoMap = (container, appKey) => {
 
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, "click", function () {
-          window.open("http://kko.to/8IX9yjgfM");
+          window.open(LOC.url);
         });
 
         // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
         const content =
           '<div class="customoverlay">' +
-          '  <a href="http://kko.to/8IX9yjgfM" target="_blank">' +
+          `  <a href="${LOC.url}" target="_blank">` +
           `    <span class="title">${CHURCH_NAME}</span>` +
           "  </a>" +
           "</div>";
         // 커스텀 오버레이가 표시될 위치입니다
-        const position = new kakao.maps.LatLng(
-          37.3896433,
-          126.9956158,
-        );
+        const position = new kakao.maps.LatLng(LOC.latitude, LOC.longitude);
         // 커스텀 오버레이를 생성합니다
         new kakao.maps.CustomOverlay({
           map: map,
