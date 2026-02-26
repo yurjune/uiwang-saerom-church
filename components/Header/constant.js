@@ -2,7 +2,7 @@ export const navItems = [
   {
     label: "교회 소개",
     children: [
-      { href: "/introduce/about", label: "교회 소개" },
+      // { href: "/introduce/about", label: "교회 소개" },
       { href: "/introduce/time", label: "예배 시간" },
       { href: "/introduce/location", label: "오시는 길" },
     ],
