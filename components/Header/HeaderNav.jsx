@@ -79,7 +79,8 @@ const HeaderNav = () => {
                     transform: "scaleX(1)",
                   },
                 }}
-                _active={{ bg: "transparent" }}
+                _focus={{ outline: "none", boxShadow: "none" }}
+                _focusVisible={{ outline: "none", boxShadow: "none" }}
               >
                 {item.label}
               </MenuButton>
