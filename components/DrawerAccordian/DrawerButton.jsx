@@ -11,7 +11,7 @@ import {
   DrawerContent,
   DrawerCloseButton,
 } from "@chakra-ui/react";
-import DrawerAccordian from "./DrawerAccordian";
+import DrawerAccordian from "@/components/DrawerAccordian/DrawerAccordian";
 
 const DrawerButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

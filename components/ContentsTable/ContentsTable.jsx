@@ -4,8 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { useMediaQuery, useTheme } from "@chakra-ui/react";
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
-import { categoryToContentUrl } from "../../utils/category";
-import { getLimitedArticles } from "../../utils/articles";
+import { categoryToContentUrl } from "@/utils/category";
+import { getLimitedArticles } from "@/utils/articles";
 
 const noWrap = {
   overflow: "hidden",

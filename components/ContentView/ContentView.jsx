@@ -2,10 +2,10 @@
 
 import React from "react";
 import { Box, Divider, Flex } from "@chakra-ui/react";
-import ContentMeta from "./ContentMeta";
-import ContentsNavigator from "./ContentsNavigator";
-import ContentBody from "./ContentBody";
-import ContentTagSection from "./ContentTagSection";
+import ContentMeta from "@/components/ContentView/ContentMeta";
+import ContentsNavigator from "@/components/ContentView/ContentsNavigator";
+import ContentBody from "@/components/ContentView/ContentBody";
+import ContentTagSection from "@/components/ContentView/ContentTagSection";
 
 const ContentView = ({ article, articles }) => {
   return (

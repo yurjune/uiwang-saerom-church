@@ -1,10 +1,10 @@
 "use client";
 
 import { Box } from "@chakra-ui/react";
-import ContentListViewHeader from "./ContentListViewHeader";
-import ContentList from "./ContentList";
-import Pagination from "../Pagination/Pagination";
-import NoPost from "../NoPost/NoPost";
+import ContentListViewHeader from "@/components/ContentListView/ContentListViewHeader";
+import ContentList from "@/components/ContentListView/ContentList";
+import Pagination from "@/components/Pagination/Pagination";
+import NoPost from "@/components/NoPost/NoPost";
 import { Fragment } from "react";
 
 const ContentListView = ({ category, articles, currentPage = 1 }) => {

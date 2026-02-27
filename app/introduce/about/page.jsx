@@ -1,8 +1,8 @@
 import React from "react";
-import AppLayout from "../../../components/layouts/AppLayout";
-import { CHURCH_NAME } from "../../../constants";
-import { ProjectUrl } from "../../../constants/projectUrl";
-import { ProjectMenu } from "../../../constants/menu";
+import AppLayout from "@/components/layouts/AppLayout";
+import { CHURCH_NAME } from "@/constants";
+import { ProjectUrl } from "@/constants/projectUrl";
+import { ProjectMenu } from "@/constants/menu";
 
 export const metadata = {
   title: ProjectMenu.introduce.about.label,

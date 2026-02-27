@@ -7,7 +7,7 @@ import {
   SITE_ICON,
   SITE_IMAGE,
   SITE_URL,
-} from "../constants";
+} from "@/constants";
 import Providers from "./providers";
 
 const pretendard = localFont({

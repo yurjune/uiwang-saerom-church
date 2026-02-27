@@ -1,5 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
-import styles from "./styles";
+import styles from "@/theme/styles";
 
 const overrides = {
   config: {

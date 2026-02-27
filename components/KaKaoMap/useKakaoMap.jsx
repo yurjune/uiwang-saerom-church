@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { CHURCH_NAME } from "../../constants";
+import { CHURCH_NAME } from "@/constants";
 
 const LOC = {
   url: "https://kko.to/Jty5zmr2Oe",

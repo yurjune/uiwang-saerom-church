@@ -1,7 +1,7 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
-import KakaoMap from "../KaKaoMap/KakaoMap";
-import { CHURCH_LOCATION } from "../../constants";
-import { ProjectMenu } from "../../constants/menu";
+import KakaoMap from "@/components/KaKaoMap/KakaoMap";
+import { CHURCH_LOCATION } from "@/constants";
+import { ProjectMenu } from "@/constants/menu";
 
 export const ChurchLocation = ({ appKey }) => {
   return (

@@ -1,6 +1,6 @@
 import { Fragment } from "react";
-import DesktopHeader from "./DesktopHeader";
-import MobileHeader from "./MobileHeader";
+import DesktopHeader from "@/components/Header/DesktopHeader";
+import MobileHeader from "@/components/Header/MobileHeader";
 
 const Header = () => {
   return (

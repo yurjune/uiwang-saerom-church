@@ -1,12 +1,12 @@
 import React from "react";
-import AppLayout from "../../components/layouts/AppLayout";
-import ContentListView from "../../components/ContentListView/ContentListView";
-import { filterByTag } from "../../utils/articles";
-import { getArticles } from "../../lib/contentful";
-import { CHURCH_NAME } from "../../constants";
-import { CONTENTFUL_CATEGORY } from "../../constants/category";
-import { ProjectUrl } from "../../constants/projectUrl";
-import { ProjectMenu } from "../../constants/menu";
+import AppLayout from "@/components/layouts/AppLayout";
+import ContentListView from "@/components/ContentListView/ContentListView";
+import { filterByTag } from "@/utils/articles";
+import { getArticles } from "@/lib/contentful";
+import { CHURCH_NAME } from "@/constants";
+import { CONTENTFUL_CATEGORY } from "@/constants/category";
+import { ProjectUrl } from "@/constants/projectUrl";
+import { ProjectMenu } from "@/constants/menu";
 
 export const metadata = {
   title: ProjectMenu.movies.label,

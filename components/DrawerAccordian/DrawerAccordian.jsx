@@ -12,7 +12,7 @@ import {
   VStack,
   Link,
 } from "@chakra-ui/react";
-import { navItems } from "../Header/navItems";
+import { navItems } from "@/components/Header/navItems";
 
 const normalizePath = (path) => {
   if (!path) return "/";

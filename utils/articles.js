@@ -1,4 +1,4 @@
-import { postNumberPerOnePage } from "../constants/pagination";
+import { postNumberPerOnePage } from "@/constants/pagination";
 
 export const filterByTag = (articles, value) => {
   if (value) {

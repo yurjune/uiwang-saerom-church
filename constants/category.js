@@ -1,4 +1,4 @@
-import { ProjectUrl } from "./projectUrl";
+import { ProjectUrl } from "@/constants/projectUrl";
 
 export const CONTENTFUL_CATEGORY = {
   movies: "설교영상",

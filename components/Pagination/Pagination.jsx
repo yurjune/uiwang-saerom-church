@@ -9,8 +9,8 @@ import {
   FaAngleDoubleLeft,
   FaAngleDoubleRight,
 } from "react-icons/fa";
-import { PageButton, ArrowButton } from "./PageButton";
-import usePagination from "./usePagination";
+import { PageButton, ArrowButton } from "@/components/Pagination/PageButton";
+import usePagination from "@/components/Pagination/usePagination";
 
 const Pagination = ({ totalCount = 0, currentPage: initialPage = 1 }) => {
   const router = useRouter();

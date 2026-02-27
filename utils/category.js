@@ -1,4 +1,4 @@
-import { categoryMap } from "../constants/category";
+import { categoryMap } from "@/constants/category";
 
 export const categoryToUrl = (category) => {
   return categoryMap[category]?.url ?? "/#";

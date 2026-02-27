@@ -1,14 +1,14 @@
 import React from "react";
-import AppLayout from "../../components/layouts/AppLayout";
+import AppLayout from "@/components/layouts/AppLayout";
 import NewsPage from "./_components/NewsPage";
-import { getArticles } from "../../lib/contentful";
-import { CHURCH_NAME } from "../../constants";
-import { CONTENTFUL_CATEGORY } from "../../constants/category";
-import { ProjectUrl } from "../../constants/projectUrl";
-import { ProjectMenu } from "../../constants/menu";
+import { getArticles } from "@/lib/contentful";
+import { CHURCH_NAME } from "@/constants";
+import { CONTENTFUL_CATEGORY } from "@/constants/category";
+import { ProjectUrl } from "@/constants/projectUrl";
+import { ProjectMenu } from "@/constants/menu";
 
 export const metadata = {
-  title: ProjectMenu.news.label, 
+  title: ProjectMenu.news.label,
   description: "의왕 새롬교회의 공지와 최근 소식을 확인할 수 있습니다.",
   alternates: {
     canonical: ProjectUrl.news.toString(),

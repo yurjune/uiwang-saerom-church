@@ -1,5 +1,5 @@
-import { ProjectMenu } from "../../constants/menu";
-import { ProjectUrl } from "../../constants/projectUrl";
+import { ProjectMenu } from "@/constants/menu";
+import { ProjectUrl } from "@/constants/projectUrl";
 
 export const navItems = [
   {

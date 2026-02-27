@@ -2,11 +2,11 @@
 
 import React, { Fragment } from "react";
 import { Box, Flex, Divider } from "@chakra-ui/react";
-import ContentMeta from "../../../components/ContentView/ContentMeta";
-import ContentBody from "../../../components/ContentView/ContentBody";
-import ContentsTable from "../../../components/ContentsTable/ContentsTable";
-import NoPost from "../../../components/NoPost/NoPost";
-import Pagination from "../../../components/Pagination/Pagination";
+import ContentMeta from "@/components/ContentView/ContentMeta";
+import ContentBody from "@/components/ContentView/ContentBody";
+import ContentsTable from "@/components/ContentsTable/ContentsTable";
+import NoPost from "@/components/NoPost/NoPost";
+import Pagination from "@/components/Pagination/Pagination";
 
 const NewsPage = ({ articles, currentPage = 1 }) => {
   const firstArticle = articles[0];
@@ -25,7 +25,6 @@ const NewsPage = ({ articles, currentPage = 1 }) => {
           <Box flex={1} flexShrink={0}>
             <ContentMeta article={firstArticle} />
           </Box>
-
 
           <Box flex={2}>
             <ContentBody article={firstArticle} />

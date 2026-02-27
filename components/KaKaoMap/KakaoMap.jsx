@@ -2,7 +2,7 @@
 
 import React, { Fragment, useRef } from "react";
 import { Box, AspectRatio } from "@chakra-ui/react";
-import useKakaoMap from "./useKakaoMap";
+import useKakaoMap from "@/components/KaKaoMap/useKakaoMap";
 
 const KakaoMap = ({ appKey }) => {
   const container = useRef(null);

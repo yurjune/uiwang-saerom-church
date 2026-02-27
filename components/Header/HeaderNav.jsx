@@ -12,7 +12,7 @@ import {
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
-import { navItems } from "./navItems";
+import { navItems } from "@/components/Header/navItems";
 
 const HeaderNav = () => {
   const pathname = usePathname();

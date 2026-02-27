@@ -1,11 +1,11 @@
 import React from "react";
-import KakaoMap from "../../../components/KaKaoMap/KakaoMap";
+import KakaoMap from "@/components/KaKaoMap/KakaoMap";
 import { Box } from "@chakra-ui/react";
-import TitleBar from "../../../components/TitleBar/TitleBar";
-import AppLayout from "../../../components/layouts/AppLayout";
-import { CHURCH_LOCATION, CHURCH_NAME } from "../../../constants";
-import { ProjectUrl } from "../../../constants/projectUrl";
-import { ProjectMenu } from "../../../constants/menu";
+import TitleBar from "@/components/TitleBar/TitleBar";
+import AppLayout from "@/components/layouts/AppLayout";
+import { CHURCH_LOCATION, CHURCH_NAME } from "@/constants";
+import { ProjectUrl } from "@/constants/projectUrl";
+import { ProjectMenu } from "@/constants/menu";
 
 export const metadata = {
   title: ProjectMenu.introduce.location.label,

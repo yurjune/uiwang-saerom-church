@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Flex, Box } from "@chakra-ui/react";
 
-import DrawerButton from "../DrawerAccordian/DrawerButton";
+import DrawerButton from "@/components/DrawerAccordian/DrawerButton";
 
 const MobileHeader = () => {
   return (

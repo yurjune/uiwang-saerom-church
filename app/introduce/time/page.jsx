@@ -1,11 +1,11 @@
 import React from "react";
-import AppLayout from "../../../components/layouts/AppLayout";
-import { CHURCH_NAME } from "../../../constants";
+import AppLayout from "@/components/layouts/AppLayout";
+import { CHURCH_NAME } from "@/constants";
 import { Flex } from "@chakra-ui/react";
-import TitleBar from "../../../components/TitleBar/TitleBar";
-import { worshipSchedule } from "../../../components/WorshipTime/constant";
-import WorshipTimeItem from "../../../components/WorshipTime/WorshipTimeItem";
-import { ProjectMenu } from "../../../constants/menu";
+import TitleBar from "@/components/TitleBar/TitleBar";
+import { worshipSchedule } from "@/components/WorshipTime/constant";
+import WorshipTimeItem from "@/components/WorshipTime/WorshipTimeItem";
+import { ProjectMenu } from "@/constants/menu";
 
 export const metadata = {
   title: ProjectMenu.introduce.time.label,
