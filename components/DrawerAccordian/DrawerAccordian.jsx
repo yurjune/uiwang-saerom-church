@@ -12,7 +12,7 @@ import {
   Box,
   VStack,
 } from "@chakra-ui/react";
-import { navItems } from "../Header/constant";
+import { navItems } from "../Header/navItems";
 
 const normalizePath = (path) => {
   if (!path) return "/";

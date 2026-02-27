@@ -2,8 +2,7 @@
 
 import { Grid, GridItem } from "@chakra-ui/react";
 import Footer from "../Footer";
-import DesktopHeader from "../Header/DesktopHeader";
-import MobileHeader from "../Header/MobileHeader";
+import Header from "../Header/Header";
 
 export const layoutWidth = "1000px";
 
@@ -15,8 +14,7 @@ const AppLayout = ({ children }) => {
       minH="100vh"
     >
       <GridItem colStart={1} colEnd={4} rowStart={1} rowEnd={2}>
-        <MobileHeader />
-        <DesktopHeader />
+        <Header />
       </GridItem>
       <GridItem
         colStart={2}

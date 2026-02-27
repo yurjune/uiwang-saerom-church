@@ -3,11 +3,10 @@ import { Flex } from "@chakra-ui/react";
 import Footer from "../components/Footer";
 import Introduction from "../components/Introduction";
 import WorshipTime from "../components/WorshipTime/WorshipTime";
-import DesktopHeader from "../components/Header/DesktopHeader";
-import MobileHeader from "../components/Header/MobileHeader";
 import { ChurchLocation } from "../components/ChurchLocation/ChurchLocation";
 import { CHURCH_NAME } from "../constants";
 import { createPageMetadata, SEO_KEYWORDS, SITE_DESCRIPTION } from "../lib/seo";
+import Header from "../components/Header/Header";
 
 export const metadata = createPageMetadata({
   title: CHURCH_NAME,
@@ -21,8 +20,7 @@ export default async function HomePage() {
 
   return (
     <Flex minH="100vh" direction="column">
-      <MobileHeader />
-      <DesktopHeader />
+      <Header />
       <Introduction />
       <WorshipTime />
       <ChurchLocation appKey={appKey} />

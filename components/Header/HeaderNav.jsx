@@ -12,11 +12,12 @@ import {
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
-import { navItems } from "./constant";
+import { navItems } from "./navItems";
 
 const HeaderNav = () => {
   const pathname = usePathname();
   const router = useRouter();
+
   const [openMenu, setOpenMenu] = useState(null);
 
   const isActive = (href) =>
@@ -43,11 +44,6 @@ const HeaderNav = () => {
             <Menu isOpen={isOpen} gutter={0}>
               <MenuButton
                 as={Button}
-                onClick={
-                  !hasChildren && item.href
-                    ? () => router.push(item.href)
-                    : undefined
-                }
                 variant="menu"
                 h="48px"
                 px="16px"
@@ -81,6 +77,11 @@ const HeaderNav = () => {
                 }}
                 _focus={{ outline: "none", boxShadow: "none" }}
                 _focusVisible={{ outline: "none", boxShadow: "none" }}
+                onClick={
+                  !hasChildren && item.href
+                    ? () => router.push(item.href)
+                    : undefined
+                }
               >
                 {item.label}
               </MenuButton>
@@ -102,7 +103,6 @@ const HeaderNav = () => {
                         href={child.href}
                         rounded="sm"
                         py="10px"
-                        fontSize="16px"
                         fontWeight={childActive ? 700 : 500}
                         bg={childActive ? "blue.50" : "transparent"}
                         _hover={{ bg: "blue.100" }}
