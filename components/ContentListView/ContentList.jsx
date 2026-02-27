@@ -7,7 +7,7 @@ import { getLimitedArticles } from "../../utils/articles";
 import { useRouter } from "next/navigation";
 import { categoryToContentUrl } from "../../utils/category";
 
-const ContentList = ({ articles, pictures, currentPage = 1 }) => {
+const ContentList = ({ articles, currentPage = 1 }) => {
   const router = useRouter();
 
   const limitedArticles = getLimitedArticles(articles, currentPage);
@@ -22,7 +22,6 @@ const ContentList = ({ articles, pictures, currentPage = 1 }) => {
         <GridItem key={article.sys.id}>
           <ContentItemCard
             article={article}
-            pictures={pictures}
             onClickCard={() => {
               const category = article.fields.category;
               const id = article.sys.id;

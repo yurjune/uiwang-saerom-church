@@ -7,7 +7,7 @@ import Pagination from "../Pagination/Pagination";
 import NoPost from "../NoPost/NoPost";
 import { Fragment } from "react";
 
-const ContentListView = ({ category, articles, pictures, currentPage = 1 }) => {
+const ContentListView = ({ category, articles, currentPage = 1 }) => {
   const hasArticles = articles.length > 0;
   if (!hasArticles) {
     return <NoPost />;
@@ -20,11 +20,7 @@ const ContentListView = ({ category, articles, pictures, currentPage = 1 }) => {
       </Box>
 
       <Box mb="50px">
-        <ContentList
-          articles={articles}
-          pictures={pictures}
-          currentPage={currentPage}
-        />
+        <ContentList articles={articles} currentPage={currentPage} />
       </Box>
 
       <Pagination totalCount={articles.length} currentPage={currentPage} />

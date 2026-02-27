@@ -2,7 +2,7 @@ import React from "react";
 import AppLayout from "../../components/layouts/AppLayout";
 import ContentListView from "../../components/ContentListView/ContentListView";
 import { filterByTag } from "../../utils/articles";
-import { getArticles, getPictures } from "../../lib/contentful";
+import { getArticles } from "../../lib/contentful";
 import { CHURCH_NAME } from "../../constants";
 import { CONTENTFUL_CATEGORY } from "../../constants/category";
 import { ProjectUrl } from "../../constants/projectUrl";
@@ -20,10 +20,7 @@ export const metadata = {
 export const revalidate = 300;
 
 export default async function Movies({ searchParams }) {
-  const [pictures, articles] = await Promise.all([
-    getPictures(),
-    getArticles({ category: CONTENTFUL_CATEGORY.movies }),
-  ]);
+  const articles = await getArticles({ category: CONTENTFUL_CATEGORY.movies });
 
   const sp = await searchParams;
   const tag = typeof sp?.v === "string" ? sp.v : undefined;
@@ -35,7 +32,6 @@ export default async function Movies({ searchParams }) {
       <ContentListView
         category={CONTENTFUL_CATEGORY.movies}
         articles={posts}
-        pictures={pictures}
         currentPage={currentPage}
       />
     </AppLayout>

@@ -2,30 +2,27 @@
 
 import React from "react";
 import { Box } from "@chakra-ui/react";
+import Image from "next/image";
 
-const ContentItemCard = ({ article, pictures, onClickCard }) => {
+const ContentItemCard = ({ article, onClickCard }) => {
   const { title } = article.fields;
   const { createdAt } = article.sys;
 
   const thumbnailUrl = article.fields.thumbnail?.fields.file.url;
-  const dummyThumbnailUrl = pictures.find(
-    (item) => item.fields.title === "더미썸네일",
-  ).fields.picture.fields.file.url;
 
   return (
     <Box textAlign="center" onClick={onClickCard} cursor="pointer">
-      <Box
-        h="0"
-        pb="100%"
-        backgroundPosition="center"
-        bgImage={
-          thumbnailUrl
-            ? `url("http:${thumbnailUrl}")`
-            : `url("http:${dummyThumbnailUrl}")`
-        }
-        bgSize="cover"
-        bgRepeat="no-repeat"
-      />
+      <Box h="0" pb="100%" position="relative" overflow="hidden" bg="gray.100">
+        {thumbnailUrl ? (
+          <Image
+            src={`https:${thumbnailUrl}`}
+            alt="thumbnail"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            style={{ objectFit: "cover" }}
+          />
+        ) : null}
+      </Box>
 
       <Box p="20px 10px 0 10px">
         <Box
