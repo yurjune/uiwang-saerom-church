@@ -1,8 +1,14 @@
 import localFont from "next/font/local";
 import "./global.css";
-import { CHURCH_LOCATION, CHURCH_NAME } from "../constants";
+import {
+  CHURCH_LOCATION,
+  CHURCH_NAME,
+  SITE_DESCRIPTION,
+  SITE_ICON,
+  SITE_IMAGE,
+  SITE_URL,
+} from "../constants";
 import Providers from "./providers";
-import { SITE_DESCRIPTION, SITE_ICON, SITE_IMAGE, SITE_URL } from "../lib/seo";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",

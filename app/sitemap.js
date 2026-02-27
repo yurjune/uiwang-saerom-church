@@ -1,7 +1,7 @@
+import { SITE_URL } from "../constants";
 import { CONTENTFUL_CATEGORY } from "../constants/category";
 import { ProjectUrl } from "../constants/projectUrl";
 import { getArticles } from "../lib/contentful";
-import { SITE_URL } from "../lib/seo";
 
 export default async function sitemap() {
   const now = new Date();

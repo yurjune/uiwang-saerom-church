@@ -3,11 +3,11 @@ import { notFound } from "next/navigation";
 import AppLayout from "../../../../components/layouts/AppLayout";
 import ContentView from "../../../../components/ContentView/ContentView";
 import { getArticleById, getArticles } from "../../../../lib/contentful";
-import { getArticleDescription } from "../../../../lib/seo";
 import { CONTENTFUL_CATEGORY } from "../../../../constants/category";
 import { CHURCH_NAME } from "../../../../constants";
 import { ProjectUrl } from "../../../../constants/projectUrl";
 import { ProjectMenu } from "../../../../constants/menu";
+import { getArticleDescription } from "../../../../utils/articles";
 
 export const revalidate = 300;
 
