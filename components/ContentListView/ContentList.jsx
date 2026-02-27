@@ -5,7 +5,7 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import ContentItemCard from "./ContentItemCard";
 import { getLimitedArticles } from "../../utils/articles";
 import { useRouter } from "next/navigation";
-import { categoryToContentUrl } from "../../utils/categoryConverter";
+import { categoryToContentUrl } from "../../utils/category";
 
 const ContentList = ({ articles, pictures, currentPage = 1 }) => {
   const router = useRouter();

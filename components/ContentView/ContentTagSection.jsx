@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Box, Link } from "@chakra-ui/react";
-import { categoryToUrl } from "../../utils/categoryConverter";
+import { categoryToUrl } from "../../utils/category";
 
 const ContentTagSection = ({ article }) => {
   const { category, tag } = article.fields;

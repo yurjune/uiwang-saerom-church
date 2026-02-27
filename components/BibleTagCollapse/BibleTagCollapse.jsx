@@ -3,7 +3,7 @@
 import React from "react";
 import { Box, Divider, Collapse } from "@chakra-ui/react";
 import BibleTag from "./BibleTag";
-import { oldBible, newBible } from "../../constants/Bible";
+import { oldBible, newBible } from "../../constants/bible";
 
 const BibleTagCollapse = ({ category, isOpen, onClose }) => {
   return (

@@ -1,17 +1,12 @@
 import { extendTheme } from "@chakra-ui/react";
 import styles from "./styles";
-import Button from "./components/Button";
 
 const overrides = {
   config: {
     initialColorMode: "light",
     useSystemColorMode: false,
   },
-  // breakpoints,
   styles,
-  components: {
-    Button,
-  },
   colors: {
     first: "#0155a0",
     second: "#4d9fd1",

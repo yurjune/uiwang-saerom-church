@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import { Flex, Heading, Box, HStack, Divider, Button } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import BibleTagCollapse from "../BibleTagCollapse/BibleTagCollapse";
-import { categoryToUrl } from "../../utils/categoryConverter";
+import { categoryToUrl } from "../../utils/category";
 
 const ContentListViewHeader = ({ category }) => {
   const { isOpen, onClose, onToggle } = useDisclosure();

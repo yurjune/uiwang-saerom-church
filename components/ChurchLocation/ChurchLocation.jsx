@@ -8,7 +8,7 @@ export const ChurchLocation = ({ appKey }) => {
       <Box maxW="900px" mx="auto">
         <Box textAlign="center" mb={{ base: "28px", md: "40px" }}>
           <Heading as="h3" size="lg" color="gray.800" letterSpacing="tight">
-            오시는 길
+            오시는길
           </Heading>
           <Text mt="10px" fontSize={{ base: "sm", md: "md" }} color="gray.600">
             {CHURCH_LOCATION}

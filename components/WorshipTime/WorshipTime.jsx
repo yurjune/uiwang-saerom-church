@@ -17,7 +17,7 @@ const WorshipTime = () => {
       >
         <Box textAlign="center" mb={{ base: "28px", md: "40px" }}>
           <Heading as="h3" size="lg" color="gray.800" letterSpacing="tight">
-            <div id="worship-time">예배 시간 안내</div>
+            <div id="worship-time">예배시간 안내</div>
           </Heading>
         </Box>
 

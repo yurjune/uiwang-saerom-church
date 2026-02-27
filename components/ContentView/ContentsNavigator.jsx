@@ -5,10 +5,7 @@ import { useRouter } from "next/navigation";
 import { Flex, HStack, Button, Icon } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import {
-  categoryToContentUrl,
-  categoryToUrl,
-} from "../../utils/categoryConverter";
+import { categoryToContentUrl, categoryToUrl } from "../../utils/category";
 
 const ContentsNavigator = ({ article, articles }) => {
   const router = useRouter();
