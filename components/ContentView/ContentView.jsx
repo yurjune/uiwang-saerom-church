@@ -6,8 +6,11 @@ import ContentMeta from "@/components/ContentView/ContentMeta";
 import ContentsNavigator from "@/components/ContentView/ContentsNavigator";
 import ContentBody from "@/components/ContentView/ContentBody";
 import ContentTagSection from "@/components/ContentView/ContentTagSection";
+import { CONTENTFUL_CATEGORY } from "@/constants/category";
 
 const ContentView = ({ article, articles }) => {
+  const showTag = article.fields.category === CONTENTFUL_CATEGORY.movies;
+
   return (
     <Flex
       justify={{ base: "flex-start", lg: "space-between" }}
@@ -22,8 +25,13 @@ const ContentView = ({ article, articles }) => {
 
       <Box flex={2}>
         <ContentBody article={article} />
-        <Divider mt="50px" mb="20px" />
-        <ContentTagSection article={article} />
+
+        {showTag && (
+          <>
+            <Divider mt="50px" mb="20px" />
+            <ContentTagSection article={article} />
+          </>
+        )}
       </Box>
     </Flex>
   );
