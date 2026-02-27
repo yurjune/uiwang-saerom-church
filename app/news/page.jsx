@@ -15,17 +15,12 @@ export const revalidate = 300;
 
 export default async function CommunityNews({ searchParams }) {
   const articles = await getArticles({ category: "교회소식" });
-  const firstArticle = articles[0];
   const sp = await searchParams;
   const currentPage = parseInt(sp?.page, 10) || 1;
 
   return (
     <AppLayout>
-      <NewsPage
-        articles={articles}
-        firstArticle={firstArticle}
-        currentPage={currentPage}
-      />
+      <NewsPage articles={articles} currentPage={currentPage} />
     </AppLayout>
   );
 }
