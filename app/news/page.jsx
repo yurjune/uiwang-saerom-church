@@ -2,15 +2,17 @@ import React from "react";
 import AppLayout from "../../components/layouts/AppLayout";
 import NewsPage from "./_components/NewsPage";
 import { getArticles } from "../../lib/contentful";
-import { createPageMetadata, SEO_KEYWORDS } from "../../lib/seo";
-import { CONTENTFUL_CATEGORY } from "../../constants/category";
+import { CHURCH_NAME } from "../../constants";
+import { categoryMap, CONTENTFUL_CATEGORY } from "../../constants/category";
 
-export const metadata = createPageMetadata({
+export const metadata = {
   title: "교회소식",
   description: "의왕 새롬교회의 공지와 최근 소식을 확인할 수 있습니다.",
-  path: "/news",
-  keywords: SEO_KEYWORDS.news,
-});
+  alternates: {
+    canonical: categoryMap[CONTENTFUL_CATEGORY.news].url,
+  },
+  keywords: [CHURCH_NAME, "교회소식", "공지", "교회행사"],
+};
 
 export const revalidate = 300;
 

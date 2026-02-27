@@ -3,22 +3,23 @@ import KakaoMap from "../../../components/KaKaoMap/KakaoMap";
 import { Box } from "@chakra-ui/react";
 import TitleBar from "../../../components/TitleBar/TitleBar";
 import AppLayout from "../../../components/layouts/AppLayout";
-import { CHURCH_LOCATION } from "../../../constants";
-import { createPageMetadata, SEO_KEYWORDS } from "../../../lib/seo";
+import { CHURCH_LOCATION, CHURCH_NAME } from "../../../constants";
 
-export const metadata = createPageMetadata({
-  title: "오시는 길",
-  description: `${CHURCH_LOCATION} 주소와 지도를 안내합니다.`,
-  path: "/introduce/location",
-  keywords: SEO_KEYWORDS.location,
-});
+export const metadata = {
+  title: "오시는길",
+  description: `${CHURCH_NAME} 오시는길 안내입니다.`,
+  alternates: {
+    canonical: "/introduce/location",
+  },
+  keywords: [CHURCH_NAME, CHURCH_LOCATION, "오시는길", "교회 위치"],
+};
 
 export default async function IntroduceLocation() {
   const appKey = process.env.KAKAOMAP_ACCESS_KEY;
 
   return (
     <AppLayout>
-      <TitleBar title="오시는 길" />
+      <TitleBar title="오시는길" />
 
       <Box fontSize="18px" mb={5}>
         <span>{CHURCH_LOCATION}</span>

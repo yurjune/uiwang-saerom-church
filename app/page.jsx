@@ -4,16 +4,13 @@ import Footer from "../components/Footer/Footer";
 import Introduction from "../components/Introduction/Introduction";
 import WorshipTime from "../components/WorshipTime/WorshipTime";
 import { ChurchLocation } from "../components/ChurchLocation/ChurchLocation";
-import { CHURCH_NAME } from "../constants";
-import { createPageMetadata, SEO_KEYWORDS, SITE_DESCRIPTION } from "../lib/seo";
 import Header from "../components/Header/Header";
 
-export const metadata = createPageMetadata({
-  title: CHURCH_NAME,
-  description: SITE_DESCRIPTION,
-  path: "/",
-  keywords: SEO_KEYWORDS.home,
-});
+export const metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default async function HomePage() {
   const appKey = process.env.KAKAOMAP_ACCESS_KEY;

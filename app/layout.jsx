@@ -2,14 +2,7 @@ import localFont from "next/font/local";
 import "./global.css";
 import { CHURCH_LOCATION, CHURCH_NAME } from "../constants";
 import Providers from "./providers";
-import {
-  SEO_KEYWORDS,
-  SITE_DESCRIPTION,
-  SITE_ICON,
-  SITE_IMAGE,
-  SITE_SHORT_DESCRIPTION,
-  SITE_URL,
-} from "../lib/seo";
+import { SITE_DESCRIPTION, SITE_ICON, SITE_IMAGE, SITE_URL } from "../lib/seo";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -25,13 +18,21 @@ export const metadata = {
     template: `%s | ${CHURCH_NAME}`,
   },
   description: SITE_DESCRIPTION,
-  keywords: [...SEO_KEYWORDS.home, "교회", "예배", "설교영상", CHURCH_LOCATION],
+  keywords: [
+    CHURCH_NAME,
+    "교회",
+    "예배",
+    "예배안내",
+    "설교영상",
+    "교회소식",
+    CHURCH_LOCATION,
+  ],
   metadataBase: new URL(SITE_URL),
   openGraph: {
     type: "website",
     locale: "ko_KR",
     title: CHURCH_NAME,
-    description: SITE_SHORT_DESCRIPTION,
+    description: SITE_DESCRIPTION,
     siteName: CHURCH_NAME,
     url: SITE_URL,
     images: [
@@ -45,7 +46,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: CHURCH_NAME,
-    description: SITE_SHORT_DESCRIPTION,
+    description: SITE_DESCRIPTION,
     images: [SITE_IMAGE],
   },
   robots: {

@@ -1,4 +1,4 @@
-import { CONTENTFUL_CATEGORY } from "../constants/category";
+import { categoryMap, CONTENTFUL_CATEGORY } from "../constants/category";
 import { getArticles } from "../lib/contentful";
 import { SITE_URL } from "../lib/seo";
 
@@ -12,16 +12,28 @@ export default async function sitemap() {
       priority: 1,
     },
     {
-      url: `${SITE_URL}/news`,
+      url: `${SITE_URL}${categoryMap[CONTENTFUL_CATEGORY.news].url}`,
       lastModified: now,
       changeFrequency: "daily",
       priority: 0.8,
     },
     {
-      url: `${SITE_URL}/movies`,
+      url: `${SITE_URL}${categoryMap[CONTENTFUL_CATEGORY.movies].url}`,
       lastModified: now,
       changeFrequency: "daily",
       priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/introduce/about`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${SITE_URL}/introduce/time`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
     },
     {
       url: `${SITE_URL}/introduce/location`,
@@ -41,7 +53,7 @@ export default async function sitemap() {
       }
       if (category === CONTENTFUL_CATEGORY.news) {
         return {
-          url: `${SITE_URL}/contents/news/${id}`,
+          url: `${SITE_URL}${categoryMap[CONTENTFUL_CATEGORY.news].contentUrl}/${id}`,
           lastModified: article.sys.updatedAt || now,
           changeFrequency: "weekly",
           priority: 0.7,
@@ -49,7 +61,7 @@ export default async function sitemap() {
       }
       if (category === CONTENTFUL_CATEGORY.movies) {
         return {
-          url: `${SITE_URL}/contents/movies/${id}`,
+          url: `${SITE_URL}${categoryMap[CONTENTFUL_CATEGORY.movies].contentUrl}/${id}`,
           lastModified: article.sys.updatedAt || now,
           changeFrequency: "weekly",
           priority: 0.7,

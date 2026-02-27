@@ -3,15 +3,17 @@ import AppLayout from "../../components/layouts/AppLayout";
 import ContentListView from "../../components/ContentListView/ContentListView";
 import { filterByTag } from "../../utils/articles";
 import { getArticles, getPictures } from "../../lib/contentful";
-import { createPageMetadata, SEO_KEYWORDS } from "../../lib/seo";
-import { CONTENTFUL_CATEGORY } from "../../constants/category";
+import { CHURCH_NAME } from "../../constants";
+import { categoryMap, CONTENTFUL_CATEGORY } from "../../constants/category";
 
-export const metadata = createPageMetadata({
-  title: "예배와 말씀",
-  description: "주일예배 설교영상과 말씀 콘텐츠를 확인할 수 있습니다.",
-  path: "/movies",
-  keywords: SEO_KEYWORDS.sermons,
-});
+export const metadata = {
+  title: "설교영상",
+  description: "설교영상과 말씀 콘텐츠를 확인할 수 있습니다.",
+  alternates: {
+    canonical: categoryMap[CONTENTFUL_CATEGORY.movies].url,
+  },
+  keywords: [CHURCH_NAME, "설교영상", "주일예배"],
+};
 
 export const revalidate = 300;
 
