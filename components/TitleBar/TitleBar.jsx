@@ -9,7 +9,8 @@ const TitleBar = ({ title }) => {
       <Heading as="h2" size="lg">
         {title}
       </Heading>
-      <Divider mt="20px"></Divider>
+
+      <Divider mt="20px" mb="30px" />
     </Box>
   );
 };

@@ -4,7 +4,7 @@ import { Box } from "@chakra-ui/react";
 import ContentListViewHeader from "./ContentListViewHeader";
 import ContentList from "./ContentList";
 import Pagination from "../Pagination/Pagination";
-import NoPost from "../NoPost";
+import NoPost from "../NoPost/NoPost";
 import { Fragment } from "react";
 
 const ContentListView = ({ category, articles, pictures, currentPage = 1 }) => {

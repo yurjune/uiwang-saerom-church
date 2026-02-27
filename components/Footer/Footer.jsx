@@ -2,8 +2,8 @@
 
 import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
-import { layoutWidth } from "./layouts/AppLayout";
-import { CHURCH_LOCATION } from "../constants";
+import { layoutWidth } from "../layouts/AppLayout";
+import { CHURCH_LOCATION } from "../../constants";
 
 const Footer = () => {
   return (

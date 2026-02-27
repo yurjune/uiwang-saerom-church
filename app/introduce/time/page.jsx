@@ -2,7 +2,7 @@ import React from "react";
 import AppLayout from "../../../components/layouts/AppLayout";
 import { createPageMetadata, SEO_KEYWORDS } from "../../../lib/seo";
 import { Box, Flex } from "@chakra-ui/react";
-import TitleBar from "../../../components/TitleBar";
+import TitleBar from "../../../components/TitleBar/TitleBar";
 import { worshipSchedule } from "../../../components/WorshipTime/constant";
 import WorshipTimeItem from "../../../components/WorshipTime/WorshipTimeItem";
 
@@ -16,9 +16,7 @@ export const metadata = createPageMetadata({
 export default async function About() {
   return (
     <AppLayout>
-      <Box mb="30px">
-        <TitleBar title="예배 시간 안내" />
-      </Box>
+      <TitleBar title="예배 시간 안내" />
 
       {worshipSchedule.map((item) => (
         <Flex key={item.title} w="100%" justify="center">

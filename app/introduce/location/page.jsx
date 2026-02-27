@@ -1,7 +1,7 @@
 import React from "react";
 import KakaoMap from "../../../components/KaKaoMap/KakaoMap";
 import { Box } from "@chakra-ui/react";
-import TitleBar from "../../../components/TitleBar";
+import TitleBar from "../../../components/TitleBar/TitleBar";
 import AppLayout from "../../../components/layouts/AppLayout";
 import { CHURCH_LOCATION } from "../../../constants";
 import { createPageMetadata, SEO_KEYWORDS } from "../../../lib/seo";
@@ -18,9 +18,7 @@ export default async function IntroduceLocation() {
 
   return (
     <AppLayout>
-      <Box mb="30px">
-        <TitleBar title="오시는 길" />
-      </Box>
+      <TitleBar title="오시는 길" />
 
       <Box fontSize="18px" mb={5}>
         <span>{CHURCH_LOCATION}</span>

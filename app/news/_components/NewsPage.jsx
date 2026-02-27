@@ -5,7 +5,7 @@ import { Box, Flex, Divider } from "@chakra-ui/react";
 import ContentMeta from "../../../components/ContentView/ContentMeta";
 import ContentBody from "../../../components/ContentView/ContentBody";
 import ContentsTable from "../../../components/ContentsTable/ContentsTable";
-import NoPost from "../../../components/NoPost";
+import NoPost from "../../../components/NoPost/NoPost";
 import Pagination from "../../../components/Pagination/Pagination";
 
 const NewsPage = ({ articles, firstArticle, currentPage = 1 }) => {

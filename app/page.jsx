@@ -1,7 +1,7 @@
 import React from "react";
 import { Flex } from "@chakra-ui/react";
-import Footer from "../components/Footer";
-import Introduction from "../components/Introduction";
+import Footer from "../components/Footer/Footer";
+import Introduction from "../components/Introduction/Introduction";
 import WorshipTime from "../components/WorshipTime/WorshipTime";
 import { ChurchLocation } from "../components/ChurchLocation/ChurchLocation";
 import { CHURCH_NAME } from "../constants";
