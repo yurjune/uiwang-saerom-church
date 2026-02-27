@@ -33,36 +33,24 @@ const Pagination = ({ totalCount = 0, currentPage: initialPage = 1 }) => {
   };
 
   const onClickPrevArrow = () => {
-    if (currentPageGroup.length === 0) {
-      return;
-    }
-
+    if (currentPageGroup.length === 0) return;
     const startPage = currentPageGroup[0];
     movePage(startPage - 1);
   };
 
   const onClickNextArrow = () => {
-    if (currentPageGroup.length === 0) {
-      return;
-    }
-
+    if (currentPageGroup.length === 0) return;
     const endPage = currentPageGroup[currentPageGroup.length - 1];
     movePage(endPage + 1);
   };
 
   const onClickFirstArrow = () => {
-    if (!firstPage) {
-      return;
-    }
-
+    if (!firstPage) return;
     movePage(firstPage);
   };
 
   const onClickLastArrow = () => {
-    if (!lastPage) {
-      return;
-    }
-
+    if (!lastPage) return;
     movePage(lastPage);
   };
 
@@ -80,11 +68,11 @@ const Pagination = ({ totalCount = 0, currentPage: initialPage = 1 }) => {
       )}
 
       <Box mx={3}>
-        {currentPageGroup.map((value) => (
+        {currentPageGroup.map((curPage) => (
           <PageButton
-            key={value}
-            value={value}
-            selected={currentPage === value}
+            key={curPage}
+            value={curPage}
+            selected={currentPage === curPage}
             onClickButton={movePage}
           />
         ))}
