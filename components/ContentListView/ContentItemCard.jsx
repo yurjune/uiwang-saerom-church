@@ -2,32 +2,26 @@
 
 import React from "react";
 import { Box } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
-import { categoryToContentUrl } from "../../utils/categoryConverter";
 
-const ItemCard = ({ article, pictures }) => {
-  const router = useRouter();
-  const { title, category } = article.fields;
-  const { id, createdAt } = article.sys;
-  const thumbnail = article.fields.thumbnail?.fields.file.url;
-  const dummyThumbnail = pictures.find(
+const ContentItemCard = ({ article, pictures, onClickCard }) => {
+  const { title } = article.fields;
+  const { createdAt } = article.sys;
+
+  const thumbnailUrl = article.fields.thumbnail?.fields.file.url;
+  const dummyThumbnailUrl = pictures.find(
     (item) => item.fields.title === "더미썸네일",
   ).fields.picture.fields.file.url;
 
-  const onClickImage = () => {
-    router.push(`${categoryToContentUrl(category)}/${id}`);
-  };
-
   return (
-    <Box textAlign="center" onClick={onClickImage} cursor="pointer">
+    <Box textAlign="center" onClick={onClickCard} cursor="pointer">
       <Box
         h="0"
         pb="100%"
         backgroundPosition="center"
         bgImage={
-          thumbnail
-            ? `url("http:${thumbnail}")`
-            : `url("http:${dummyThumbnail}")`
+          thumbnailUrl
+            ? `url("http:${thumbnailUrl}")`
+            : `url("http:${dummyThumbnailUrl}")`
         }
         bgSize="cover"
         bgRepeat="no-repeat"
@@ -43,6 +37,7 @@ const ItemCard = ({ article, pictures }) => {
         >
           {title}
         </Box>
+
         <Box fontSize="14px" color="grayLetter">
           {createdAt.slice(0, 10)}
         </Box>
@@ -51,4 +46,4 @@ const ItemCard = ({ article, pictures }) => {
   );
 };
 
-export default ItemCard;
+export default ContentItemCard;

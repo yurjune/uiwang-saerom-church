@@ -1,6 +1,6 @@
 import React from "react";
 import AppLayout from "../../components/layouts/AppLayout";
-import ContentsListView from "../../components/ContentsListView/ContentsListView";
+import ContentListView from "../../components/ContentListView/ContentListView";
 import { filterByTag } from "../../utils/articles";
 import { getArticles, getPictures } from "../../lib/contentful";
 import { createPageMetadata, SEO_KEYWORDS } from "../../lib/seo";
@@ -27,7 +27,7 @@ export default async function Movies({ searchParams }) {
 
   return (
     <AppLayout>
-      <ContentsListView
+      <ContentListView
         category="설교영상"
         articles={posts}
         pictures={pictures}
