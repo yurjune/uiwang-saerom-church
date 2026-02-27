@@ -4,6 +4,7 @@ import ContentListView from "../../components/ContentListView/ContentListView";
 import { filterByTag } from "../../utils/articles";
 import { getArticles, getPictures } from "../../lib/contentful";
 import { createPageMetadata, SEO_KEYWORDS } from "../../lib/seo";
+import { CONTENTFUL_CATEGORY } from "../../constants/category";
 
 export const metadata = createPageMetadata({
   title: "예배와 말씀",
@@ -17,7 +18,7 @@ export const revalidate = 300;
 export default async function Movies({ searchParams }) {
   const [pictures, articles] = await Promise.all([
     getPictures(),
-    getArticles({ category: "설교영상" }),
+    getArticles({ category: CONTENTFUL_CATEGORY.movies }),
   ]);
 
   const sp = await searchParams;
@@ -28,7 +29,7 @@ export default async function Movies({ searchParams }) {
   return (
     <AppLayout>
       <ContentListView
-        category="설교영상"
+        category={CONTENTFUL_CATEGORY.movies}
         articles={posts}
         pictures={pictures}
         currentPage={currentPage}

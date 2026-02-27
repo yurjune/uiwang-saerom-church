@@ -1,3 +1,4 @@
+import { CONTENTFUL_CATEGORY } from "../constants/category";
 import { getArticles } from "../lib/contentful";
 import { SITE_URL } from "../lib/seo";
 
@@ -38,7 +39,7 @@ export default async function sitemap() {
       if (!id) {
         return null;
       }
-      if (category === "교회소식") {
+      if (category === CONTENTFUL_CATEGORY.news) {
         return {
           url: `${SITE_URL}/contents/news/${id}`,
           lastModified: article.sys.updatedAt || now,
@@ -46,7 +47,7 @@ export default async function sitemap() {
           priority: 0.7,
         };
       }
-      if (category === "설교영상") {
+      if (category === CONTENTFUL_CATEGORY.movies) {
         return {
           url: `${SITE_URL}/contents/movies/${id}`,
           lastModified: article.sys.updatedAt || now,

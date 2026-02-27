@@ -4,6 +4,7 @@ import AppLayout from "../../../../components/layouts/AppLayout";
 import ContentView from "../../../../components/ContentView/ContentView";
 import { getArticleById, getArticles } from "../../../../lib/contentful";
 import { getArticleDescription, SITE_URL } from "../../../../lib/seo";
+import { CONTENTFUL_CATEGORY } from "../../../../constants/category";
 
 export const revalidate = 300;
 
@@ -42,7 +43,7 @@ export async function generateMetadata({ params: _params }) {
 }
 
 export async function generateStaticParams() {
-  const articles = await getArticles({ category: "교회소식" });
+  const articles = await getArticles({ category: CONTENTFUL_CATEGORY.news });
   return articles.map((item) => ({ id: item.sys.id }));
 }
 
@@ -50,7 +51,7 @@ export default async function NewsContent({ params: _params }) {
   const params = await _params;
   const [article, articles] = await Promise.all([
     getArticleById(params.id),
-    getArticles({ category: "교회소식" }),
+    getArticles({ category: CONTENTFUL_CATEGORY.news }),
   ]);
 
   if (!article) {
