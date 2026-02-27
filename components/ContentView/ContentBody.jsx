@@ -51,14 +51,10 @@ const option = {
   },
 };
 
-const PostArticle = ({ children, article }) => {
+const ContentBody = ({ article }) => {
   const { paragraph } = article.fields;
-  return (
-    <Box>
-      <Box>{documentToReactComponents(paragraph, option)}</Box>
-      {children}
-    </Box>
-  );
+
+  return <Box>{documentToReactComponents(paragraph, option)}</Box>;
 };
 
-export default PostArticle;
+export default ContentBody;

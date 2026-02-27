@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Flex, HStack, Button, Icon, Divider } from "@chakra-ui/react";
+import { Flex, HStack, Button, Icon } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import {
@@ -10,11 +10,12 @@ import {
   categoryToUrl,
 } from "../../utils/categoryConverter";
 
-const PostCardButton = ({ article, articles }) => {
+const ContentsNavigator = ({ article, articles }) => {
   const router = useRouter();
   const { category } = article.fields;
   const { id } = article.sys;
   const currentIndex = articles.findIndex((el) => el.sys.id === id);
+
   const isLatest = currentIndex === 0;
   const isOldest = currentIndex === articles.length - 1;
 
@@ -39,33 +40,32 @@ const PostCardButton = ({ article, articles }) => {
   };
 
   return (
-    <>
-      <Divider my="20px" />
-      <Flex direction={{ base: "row", lg: "column" }} justify="space-between">
-        <HStack mb={{ base: "0", lg: "15px" }}>
-          <Button
-            colorScheme="blue"
-            size="sm"
-            disabled={isOldest}
-            onClick={movePrev}
-          >
-            <Icon as={IoIosArrowBack} boxSize={3} />
-          </Button>
-          <Button colorScheme="blue" size="sm" onClick={onClickListBtn}>
-            <Icon as={HamburgerIcon} boxSize={3} />
-          </Button>
-          <Button
-            colorScheme="blue"
-            size="sm"
-            disabled={isLatest}
-            onClick={moveNext}
-          >
-            <Icon as={IoIosArrowForward} boxSize={3} />
-          </Button>
-        </HStack>
-      </Flex>
-    </>
+    <Flex direction={{ base: "row", lg: "column" }} justify="space-between">
+      <HStack mb={{ base: "0", lg: "15px" }}>
+        <Button
+          colorScheme="blue"
+          size="sm"
+          disabled={isOldest}
+          onClick={movePrev}
+        >
+          <Icon as={IoIosArrowBack} boxSize={3} />
+        </Button>
+
+        <Button colorScheme="blue" size="sm" onClick={onClickListBtn}>
+          <Icon as={HamburgerIcon} boxSize={3} />
+        </Button>
+
+        <Button
+          colorScheme="blue"
+          size="sm"
+          disabled={isLatest}
+          onClick={moveNext}
+        >
+          <Icon as={IoIosArrowForward} boxSize={3} />
+        </Button>
+      </HStack>
+    </Flex>
   );
 };
 
-export default PostCardButton;
+export default ContentsNavigator;

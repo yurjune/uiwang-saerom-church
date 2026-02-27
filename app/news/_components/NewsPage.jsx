@@ -2,9 +2,9 @@
 
 import React from "react";
 import { Box, Flex, Divider } from "@chakra-ui/react";
-import PostCard from "../../../components/Post/PostCard";
-import PostArticle from "../../../components/Post/PostArticle";
-import ContentsTable from "../../../components/ContentsTableView/ContentsTable";
+import ContentMeta from "../../../components/ContentView/ContentMeta";
+import ContentBody from "../../../components/ContentView/ContentBody";
+import ContentsTable from "../../../components/ContentsTable/ContentsTable";
 import NoPost from "../../../components/NoPost";
 import Pagination from "../../../components/Pagination/Pagination";
 
@@ -19,7 +19,7 @@ const NewsPage = ({ articles, firstArticle, currentPage = 1 }) => {
               direction={{ base: "column", lg: "row" }}
             >
               <Box w={{ base: "100%", lg: "30%" }}>
-                <PostCard article={firstArticle} />
+                <ContentMeta article={firstArticle} />
               </Box>
 
               <Box my={5}>
@@ -27,7 +27,7 @@ const NewsPage = ({ articles, firstArticle, currentPage = 1 }) => {
               </Box>
 
               <Box w={{ base: "100%", lg: "67%" }}>
-                <PostArticle article={firstArticle} />
+                <ContentBody article={firstArticle} />
               </Box>
             </Flex>
           </Box>
