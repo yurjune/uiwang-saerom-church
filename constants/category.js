@@ -1,3 +1,5 @@
+import { ProjectUrl } from "./projectUrl";
+
 export const CONTENTFUL_CATEGORY = {
   movies: "설교영상",
   news: "교회소식",
@@ -6,12 +8,12 @@ export const CONTENTFUL_CATEGORY = {
 export const categoryMap = {
   [CONTENTFUL_CATEGORY.movies]: {
     label: "설교영상",
-    url: "/movies",
-    contentUrl: "/contents/movies",
+    url: ProjectUrl.movies.toString(),
+    contentUrl: ProjectUrl.contents.movies.toString(),
   },
   [CONTENTFUL_CATEGORY.news]: {
     label: "교회소식",
-    url: "/news",
-    contentUrl: "/contents/news",
+    url: ProjectUrl.news.toString(),
+    contentUrl: ProjectUrl.contents.news.toString(),
   },
 };

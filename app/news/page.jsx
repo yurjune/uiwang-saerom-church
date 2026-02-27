@@ -3,13 +3,14 @@ import AppLayout from "../../components/layouts/AppLayout";
 import NewsPage from "./_components/NewsPage";
 import { getArticles } from "../../lib/contentful";
 import { CHURCH_NAME } from "../../constants";
-import { categoryMap, CONTENTFUL_CATEGORY } from "../../constants/category";
+import { CONTENTFUL_CATEGORY } from "../../constants/category";
+import { ProjectUrl } from "../../constants/projectUrl";
 
 export const metadata = {
   title: "교회소식",
   description: "의왕 새롬교회의 공지와 최근 소식을 확인할 수 있습니다.",
   alternates: {
-    canonical: categoryMap[CONTENTFUL_CATEGORY.news].url,
+    canonical: ProjectUrl.news.toString(),
   },
   keywords: [CHURCH_NAME, "교회소식", "공지", "교회행사"],
 };

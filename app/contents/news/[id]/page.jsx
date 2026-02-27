@@ -4,8 +4,9 @@ import AppLayout from "../../../../components/layouts/AppLayout";
 import ContentView from "../../../../components/ContentView/ContentView";
 import { getArticleById, getArticles } from "../../../../lib/contentful";
 import { getArticleDescription } from "../../../../lib/seo";
-import { categoryMap, CONTENTFUL_CATEGORY } from "../../../../constants/category";
+import { CONTENTFUL_CATEGORY } from "../../../../constants/category";
 import { CHURCH_NAME } from "../../../../constants";
+import { ProjectUrl } from "../../../../constants/projectUrl";
 
 export const revalidate = 300;
 
@@ -22,7 +23,7 @@ export async function generateMetadata({ params: _params }) {
     article,
     `${CHURCH_NAME} 소식입니다.`,
   );
-  const canonical = `${categoryMap[CONTENTFUL_CATEGORY.news].contentUrl}/${params.id}`;
+  const canonical = `${ProjectUrl.contents.news.toString()}/${params.id}`;
 
   return {
     title,

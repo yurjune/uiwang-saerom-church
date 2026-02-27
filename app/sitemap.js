@@ -1,4 +1,5 @@
-import { categoryMap, CONTENTFUL_CATEGORY } from "../constants/category";
+import { CONTENTFUL_CATEGORY } from "../constants/category";
+import { ProjectUrl } from "../constants/projectUrl";
 import { getArticles } from "../lib/contentful";
 import { SITE_URL } from "../lib/seo";
 
@@ -12,31 +13,31 @@ export default async function sitemap() {
       priority: 1,
     },
     {
-      url: `${SITE_URL}${categoryMap[CONTENTFUL_CATEGORY.news].url}`,
+      url: `${SITE_URL}${ProjectUrl.news.toString()}`,
       lastModified: now,
       changeFrequency: "daily",
       priority: 0.8,
     },
     {
-      url: `${SITE_URL}${categoryMap[CONTENTFUL_CATEGORY.movies].url}`,
+      url: `${SITE_URL}${ProjectUrl.movies.toString()}`,
       lastModified: now,
       changeFrequency: "daily",
       priority: 0.8,
     },
     {
-      url: `${SITE_URL}/introduce/about`,
+      url: `${SITE_URL}/${ProjectUrl.introduce.abount.toString()}`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.5,
     },
     {
-      url: `${SITE_URL}/introduce/time`,
+      url: `${SITE_URL}/${ProjectUrl.introduce.time.toString()}`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
-      url: `${SITE_URL}/introduce/location`,
+      url: `${SITE_URL}/${ProjectUrl.introduce.location.toString()}`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.6,
@@ -48,12 +49,11 @@ export default async function sitemap() {
     .map((article) => {
       const id = article?.sys?.id;
       const category = article?.fields?.category;
-      if (!id) {
-        return null;
-      }
+      if (!id) return null;
+
       if (category === CONTENTFUL_CATEGORY.news) {
         return {
-          url: `${SITE_URL}${categoryMap[CONTENTFUL_CATEGORY.news].contentUrl}/${id}`,
+          url: `${SITE_URL}${ProjectUrl.contents.news.toString()}/${id}`,
           lastModified: article.sys.updatedAt || now,
           changeFrequency: "weekly",
           priority: 0.7,
@@ -61,12 +61,13 @@ export default async function sitemap() {
       }
       if (category === CONTENTFUL_CATEGORY.movies) {
         return {
-          url: `${SITE_URL}${categoryMap[CONTENTFUL_CATEGORY.movies].contentUrl}/${id}`,
+          url: `${SITE_URL}${ProjectUrl.contents.movies.toString()}/${id}`,
           lastModified: article.sys.updatedAt || now,
           changeFrequency: "weekly",
           priority: 0.7,
         };
       }
+
       return null;
     })
     .filter(Boolean);
