@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Accordion,
@@ -11,6 +10,7 @@ import {
   AccordionIcon,
   Box,
   VStack,
+  Link,
 } from "@chakra-ui/react";
 import { navItems } from "../Header/navItems";
 
@@ -37,10 +37,7 @@ const DrawerAccordian = ({ onMove }) => {
   );
 
   return (
-    <Accordion
-      allowToggle
-      defaultIndex={defaultOpenIndex >= 0 ? defaultOpenIndex : undefined}
-    >
+    <Accordion allowToggle defaultIndex={defaultOpenIndex}>
       {navItems.map((item) => {
         const hasChildren =
           Array.isArray(item.children) && item.children.length > 0;
@@ -55,25 +52,23 @@ const DrawerAccordian = ({ onMove }) => {
             border="none"
             rounded="md"
             overflow="hidden"
+            gap={1}
           >
             <AccordionButton
-              py={3}
-              px={3}
+              p={3}
+              bg={parentActive ? "blue.100" : "transparent"}
+              fontWeight={parentActive ? 700 : 500}
+              cursor={!hasChildren && parentActive ? "default" : "pointer"}
               _focus={{ boxShadow: "none" }}
               _focusVisible={{ boxShadow: "none" }}
               _active={{ bg: buttonBg }}
               _expanded={{ bg: buttonBg }}
-              _hover={parentActive ? {} : { bg: "blue.50" }}
-              bg={parentActive ? "blue.100" : "transparent"}
-              fontSize="16px"
-              fontWeight={parentActive ? 700 : 500}
               onClick={() => {
                 if (!hasChildren && item.href && !parentActive) {
                   router.push(item.href);
                   onMove();
                 }
               }}
-              cursor={!hasChildren && parentActive ? "default" : "pointer"}
             >
               <Box flex="1" textAlign="left">
                 {item.label}
@@ -82,7 +77,7 @@ const DrawerAccordian = ({ onMove }) => {
             </AccordionButton>
 
             {hasChildren && (
-              <AccordionPanel pt={1} pb={3} pl={4} pr={1}>
+              <AccordionPanel py={1} pl={4} pr={0}>
                 <VStack align="stretch" spacing={1}>
                   {item.children.map((child) => {
                     const childActive = isActive(child.href);
@@ -93,6 +88,7 @@ const DrawerAccordian = ({ onMove }) => {
                         as={Link}
                         href={child.href}
                         onClick={onMove}
+                        textDecoration="none"
                         px={3}
                         py={2}
                         rounded="md"
@@ -100,7 +96,11 @@ const DrawerAccordian = ({ onMove }) => {
                         fontWeight={childActive ? 700 : 500}
                         color={childActive ? "blue.700" : "gray.700"}
                         bg={childActive ? "blue.100" : "transparent"}
-                        _hover={{ bg: "blue.50", color: "blue.800" }}
+                        _hover={{
+                          bg: "blue.50",
+                          color: "blue.800",
+                          textDecoration: "none",
+                        }}
                       >
                         {child.label}
                       </Box>

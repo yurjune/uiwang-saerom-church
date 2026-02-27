@@ -18,7 +18,7 @@ const DrawerButton = () => {
   const btnRef = useRef(null);
 
   return (
-    <Box display={{ base: "block", md: "none" }}>
+    <Box>
       <IconButton
         aria-label="open"
         bg="none"
