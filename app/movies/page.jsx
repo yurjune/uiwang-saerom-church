@@ -6,9 +6,10 @@ import { getArticles, getPictures } from "../../lib/contentful";
 import { CHURCH_NAME } from "../../constants";
 import { CONTENTFUL_CATEGORY } from "../../constants/category";
 import { ProjectUrl } from "../../constants/projectUrl";
+import { ProjectMenu } from "../../constants/menu";
 
 export const metadata = {
-  title: "설교영상",
+  title: ProjectMenu.movies.label,
   description: "설교영상과 말씀 콘텐츠를 확인할 수 있습니다.",
   alternates: {
     canonical: ProjectUrl.movies.toString(),

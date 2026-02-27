@@ -4,6 +4,7 @@ import React from "react";
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import WorshipTimeItem from "./WorshipTimeItem";
 import { worshipSchedule } from "./constant";
+import { ProjectMenu } from "../../constants/menu";
 
 const WorshipTime = () => {
   return (
@@ -17,7 +18,7 @@ const WorshipTime = () => {
       >
         <Box textAlign="center" mb={{ base: "28px", md: "40px" }}>
           <Heading as="h3" size="lg" color="gray.800" letterSpacing="tight">
-            <div id="worship-time">예배시간 안내</div>
+            <div id="worship-time">{ProjectMenu.introduce.time.label}</div>
           </Heading>
         </Box>
 

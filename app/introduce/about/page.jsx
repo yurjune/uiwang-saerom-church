@@ -2,9 +2,10 @@ import React from "react";
 import AppLayout from "../../../components/layouts/AppLayout";
 import { CHURCH_NAME } from "../../../constants";
 import { ProjectUrl } from "../../../constants/projectUrl";
+import { ProjectMenu } from "../../../constants/menu";
 
 export const metadata = {
-  title: "교회소개",
+  title: ProjectMenu.introduce.about.label,
   description: `${CHURCH_NAME}을 소개합니다.`,
   alternates: {
     canonical: ProjectUrl.introduce.about.toString(),

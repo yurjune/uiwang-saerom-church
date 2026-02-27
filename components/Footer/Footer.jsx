@@ -19,7 +19,6 @@ const Footer = () => {
         fontSize="12px"
         justify="flex-start"
         align="center"
-        // align={{ base: "center", md: "flex-start" }}
         textAlign="center"
         fontFamily="Nanum Gothic"
       >

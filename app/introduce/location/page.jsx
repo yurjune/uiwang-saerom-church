@@ -5,9 +5,10 @@ import TitleBar from "../../../components/TitleBar/TitleBar";
 import AppLayout from "../../../components/layouts/AppLayout";
 import { CHURCH_LOCATION, CHURCH_NAME } from "../../../constants";
 import { ProjectUrl } from "../../../constants/projectUrl";
+import { ProjectMenu } from "../../../constants/menu";
 
 export const metadata = {
-  title: "오시는길",
+  title: ProjectMenu.introduce.location.label,
   description: `${CHURCH_NAME} 오시는길 안내입니다.`,
   alternates: {
     canonical: ProjectUrl.introduce.location.toString(),

@@ -1,6 +1,7 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 import KakaoMap from "../KaKaoMap/KakaoMap";
 import { CHURCH_LOCATION } from "../../constants";
+import { ProjectMenu } from "../../constants/menu";
 
 export const ChurchLocation = ({ appKey }) => {
   return (
@@ -8,8 +9,9 @@ export const ChurchLocation = ({ appKey }) => {
       <Box maxW="900px" mx="auto">
         <Box textAlign="center" mb={{ base: "28px", md: "40px" }}>
           <Heading as="h3" size="lg" color="gray.800" letterSpacing="tight">
-            오시는길
+            {ProjectMenu.introduce.location.label}
           </Heading>
+
           <Text mt="10px" fontSize={{ base: "sm", md: "md" }} color="gray.600">
             {CHURCH_LOCATION}
           </Text>

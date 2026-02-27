@@ -7,6 +7,7 @@ import { getArticleDescription } from "../../../../lib/seo";
 import { CONTENTFUL_CATEGORY } from "../../../../constants/category";
 import { CHURCH_NAME } from "../../../../constants";
 import { ProjectUrl } from "../../../../constants/projectUrl";
+import { ProjectMenu } from "../../../../constants/menu";
 
 export const revalidate = 300;
 
@@ -18,7 +19,7 @@ export async function generateMetadata({ params: _params }) {
     notFound();
   }
 
-  const title = article.fields?.title || "교회소식";
+  const title = article.fields?.title || ProjectMenu.news.label;
   const description = getArticleDescription(
     article,
     `${CHURCH_NAME} 소식입니다.`,
