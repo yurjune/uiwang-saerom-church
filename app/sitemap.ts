@@ -1,11 +1,12 @@
+import type { MetadataRoute } from "next";
 import { SITE_METADATA } from "@/constants";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { getArticles } from "@/lib/contentful";
 
-export default async function sitemap() {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const staticPages = [
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: SITE_METADATA.baseUrl,
       lastModified: now,
@@ -45,8 +46,9 @@ export default async function sitemap() {
   ];
 
   const articles = await getArticles();
+
   const dynamicPages = articles
-    .map((article) => {
+    .map((article): MetadataRoute.Sitemap[number] | null => {
       const id = article?.sys?.id;
       const category = article?.fields?.category;
       if (!id) return null;
@@ -70,7 +72,7 @@ export default async function sitemap() {
 
       return null;
     })
-    .filter(Boolean);
+    .filter((page): page is MetadataRoute.Sitemap[number] => page !== null);
 
   return [...staticPages, ...dynamicPages];
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import AppLayout from "@/components/layouts/AppLayout";
 import NewsPage from "./_components/NewsPage";
 import { getArticles } from "@/lib/contentful";
@@ -6,8 +5,9 @@ import { CHURCH_INFO } from "@/constants";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
+import { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   alternates: {
     canonical: ProjectUrl.news.toString(),
   },
@@ -18,10 +18,19 @@ export const metadata = {
 
 export const revalidate = 300;
 
-export default async function CommunityNews({ searchParams }) {
+type SearchParams = {
+  page?: string | string[];
+};
+
+type PageProps = {
+  searchParams: Promise<SearchParams>;
+};
+
+export default async function CommunityNews({ searchParams }: PageProps) {
   const articles = await getArticles({ category: CONTENTFUL_CATEGORY.news });
   const sp = await searchParams;
-  const currentPage = parseInt(sp?.page, 10) || 1;
+  const page = typeof sp?.page === "string" ? sp.page : "1";
+  const currentPage = parseInt(page, 10) || 1;
 
   return (
     <AppLayout>

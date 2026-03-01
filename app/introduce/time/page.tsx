@@ -1,4 +1,3 @@
-import React from "react";
 import AppLayout from "@/components/layouts/AppLayout";
 import { CHURCH_INFO } from "@/constants";
 import { Flex } from "@chakra-ui/react";
@@ -6,8 +5,9 @@ import TitleBar from "@/components/TitleBar/TitleBar";
 import { worshipSchedule } from "@/components/WorshipTime/constant";
 import WorshipTimeItem from "@/components/WorshipTime/WorshipTimeItem";
 import { ProjectMenu } from "@/constants/menu";
+import { Metadata } from "next/types";
 
-export const metadata = {
+export const metadata: Metadata = {
   alternates: {
     canonical: "/introduce/time",
   },

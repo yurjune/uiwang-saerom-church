@@ -1,21 +1,26 @@
 "use client";
 
-import React, { Fragment } from "react";
 import { Box, Flex, Divider } from "@chakra-ui/react";
 import ContentMeta from "@/components/ContentView/ContentMeta";
 import ContentBody from "@/components/ContentView/ContentBody";
 import ContentsTable from "@/components/ContentsTable/ContentsTable";
 import NoPost from "@/components/NoPost/NoPost";
 import Pagination from "@/components/Pagination/Pagination";
+import type { ArticleEntry } from "@/interface/article";
 
-const NewsPage = ({ articles, currentPage = 1 }) => {
+type NewsPageProps = {
+  articles: ArticleEntry[];
+  currentPage?: number;
+};
+
+const NewsPage = ({ articles, currentPage = 1 }: NewsPageProps) => {
   const firstArticle = articles[0];
   if (!firstArticle) {
     return <NoPost />;
   }
 
   return (
-    <Fragment>
+    <>
       <Box mb="140px">
         <Flex
           justify={{ base: "flex-start", lg: "space-between" }}
@@ -39,7 +44,7 @@ const NewsPage = ({ articles, currentPage = 1 }) => {
       </Box>
 
       <Pagination totalCount={articles.length} currentPage={currentPage} />
-    </Fragment>
+    </>
   );
 };
 

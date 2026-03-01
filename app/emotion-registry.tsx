@@ -3,15 +3,19 @@
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import { useServerInsertedHTML } from "next/navigation";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
-export default function EmotionRegistry({ children }) {
+type EmotionRegistryProps = {
+  children: ReactNode;
+};
+
+export default function EmotionRegistry({ children }: EmotionRegistryProps) {
   const [{ cache, flush }] = useState(() => {
     const cache = createCache({ key: "css" });
     cache.compat = true;
 
     const prevInsert = cache.insert;
-    let inserted = [];
+    let inserted: string[] = [];
 
     cache.insert = (...args) => {
       const serialized = args[1];

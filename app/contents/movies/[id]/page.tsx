@@ -1,4 +1,3 @@
-import React from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import AppLayout from "@/components/layouts/AppLayout";

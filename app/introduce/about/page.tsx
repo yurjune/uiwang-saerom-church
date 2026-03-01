@@ -1,10 +1,10 @@
-import React from "react";
 import AppLayout from "@/components/layouts/AppLayout";
 import { CHURCH_INFO } from "@/constants";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
+import { Metadata } from "next/types";
 
-export const metadata = {
+export const metadata: Metadata = {
   alternates: {
     canonical: ProjectUrl.introduce.about.toString(),
   },

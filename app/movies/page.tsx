@@ -1,4 +1,3 @@
-import React from "react";
 import AppLayout from "@/components/layouts/AppLayout";
 import ContentListView from "@/components/ContentListView/ContentListView";
 import { filterByTag } from "@/utils/articles";
@@ -19,12 +18,22 @@ export const metadata = {
 
 export const revalidate = 300;
 
-export default async function Movies({ searchParams }) {
+type SearchParams = {
+  v?: string | string[];
+  page?: string | string[];
+};
+
+type PageProps = {
+  searchParams: Promise<SearchParams>;
+};
+
+export default async function Movies({ searchParams }: PageProps) {
   const articles = await getArticles({ category: CONTENTFUL_CATEGORY.movies });
 
   const sp = await searchParams;
   const tag = typeof sp?.v === "string" ? sp.v : undefined;
-  const currentPage = parseInt(sp?.page, 10) || 1;
+  const page = typeof sp?.page === "string" ? sp.page : "1";
+  const currentPage = parseInt(page, 10) || 1;
   const posts = filterByTag(articles, tag);
 
   return (

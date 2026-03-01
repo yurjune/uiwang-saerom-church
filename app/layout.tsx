@@ -1,6 +1,8 @@
 import localFont from "next/font/local";
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import "./global.css";
-import { CHURCH_INFO, SITE_METADATA, TWITTER_CONFIG } from "@/constants";
+import { CHURCH_INFO, SITE_METADATA } from "@/constants";
 import Providers from "./providers";
 
 const pretendard = localFont({
@@ -11,7 +13,7 @@ const pretendard = localFont({
   style: "normal",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: CHURCH_INFO.name,
     template: `%s | ${CHURCH_INFO.name}`,
@@ -35,10 +37,10 @@ export const metadata = {
     ],
   },
   twitter: {
-    card: TWITTER_CONFIG.card,
+    card: "summary_large_image",
     title: SITE_METADATA.title,
     description: SITE_METADATA.description,
-    images: [SITE_METADATA.ogImage],
+    images: [SITE_METADATA.og_image],
   },
   robots: {
     index: true,
@@ -58,7 +60,11 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+type RootLayoutProps = {
+  children: ReactNode;
+};
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ko" className={pretendard.variable} suppressHydrationWarning>
       <body className="chakra-ui-light">
