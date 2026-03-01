@@ -3,6 +3,7 @@
 import { Box } from "@chakra-ui/react";
 import Image from "next/image";
 import type { ArticleEntry } from "@/interface/article";
+import { getArticleThumbnailUrl } from "@/utils/article-fields";
 
 type Props = {
   article: ArticleEntry;
@@ -12,16 +13,14 @@ type Props = {
 const ContentItemCard = ({ article, onClickCard }: Props) => {
   const { title } = article.fields;
   const { createdAt } = article.sys;
-  const thumbnail = article.fields.thumbnail;
-  const thumbnailUrl =
-    thumbnail && "fields" in thumbnail ? thumbnail.fields.file?.url : undefined;
+  const thumbnailUrl = getArticleThumbnailUrl(article);
 
   return (
     <Box textAlign="center" onClick={onClickCard} cursor="pointer">
       <Box h="0" pb="100%" position="relative" overflow="hidden" bg="gray.100">
         {thumbnailUrl ? (
           <Image
-            src={`https:${thumbnailUrl}`}
+            src={thumbnailUrl}
             alt="thumbnail"
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
