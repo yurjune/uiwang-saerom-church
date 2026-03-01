@@ -2,7 +2,7 @@ import localFont from "next/font/local";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./global.css";
-import { CHURCH_INFO, SITE_METADATA } from "@/constants";
+import { CHURCH_INFO, SITE_METADATA, TWITTER_CONFIG } from "@/constants";
 import Providers from "./providers";
 
 const pretendard = localFont({
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: TWITTER_CONFIG.card,
     title: SITE_METADATA.title,
     description: SITE_METADATA.description,
     images: [SITE_METADATA.og_image],

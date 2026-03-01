@@ -24,7 +24,7 @@ export const SITE_METADATA = {
 };
 
 export const TWITTER_CONFIG = {
-  card: "summary_large_image",
+  card: "summary_large_image" as const,
   creator: "@saerom_church", // 실제 트위터 핸들로 변경하세요
   site: "@saerom_church", // 사이트 트위터 핸들로 변경하세요
 };
