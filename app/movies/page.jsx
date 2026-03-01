@@ -3,7 +3,7 @@ import AppLayout from "@/components/layouts/AppLayout";
 import ContentListView from "@/components/ContentListView/ContentListView";
 import { filterByTag } from "@/utils/articles";
 import { getArticles } from "@/lib/contentful";
-import { CHURCH_NAME } from "@/constants";
+import { CHURCH_INFO } from "@/constants";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
@@ -14,7 +14,7 @@ export const metadata = {
   alternates: {
     canonical: ProjectUrl.movies.toString(),
   },
-  keywords: [CHURCH_NAME, "설교영상", "주일예배"],
+  keywords: [CHURCH_INFO.name, "설교영상", "주일예배"],
 };
 
 export const revalidate = 300;

@@ -3,7 +3,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
 import { layoutWidth } from "@/components/layouts/AppLayout";
-import { CHURCH_LOCATION } from "@/constants";
+import { CHURCH_INFO } from "@/constants";
 
 const Footer = () => {
   return (
@@ -23,7 +23,7 @@ const Footer = () => {
         fontFamily="Nanum Gothic"
       >
         <Box mb="20px">© 2026 Saerom Church of Uiwang. ALL RIGHT RESERVED</Box>
-        <Box>{CHURCH_LOCATION}</Box>
+        <Box>{CHURCH_INFO.location}</Box>
       </Flex>
     </Box>
   );

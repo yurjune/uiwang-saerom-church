@@ -1,13 +1,6 @@
 import localFont from "next/font/local";
 import "./global.css";
-import {
-  CHURCH_LOCATION,
-  CHURCH_NAME,
-  SITE_DESCRIPTION,
-  SITE_ICON,
-  SITE_IMAGE,
-  SITE_URL,
-} from "@/constants";
+import { CHURCH_INFO, SITE_METADATA, TWITTER_CONFIG } from "@/constants";
 import Providers from "./providers";
 
 const pretendard = localFont({
@@ -20,40 +13,32 @@ const pretendard = localFont({
 
 export const metadata = {
   title: {
-    default: CHURCH_NAME,
-    template: `%s | ${CHURCH_NAME}`,
+    default: CHURCH_INFO.name,
+    template: `%s | ${CHURCH_INFO.name}`,
   },
-  description: SITE_DESCRIPTION,
-  keywords: [
-    CHURCH_NAME,
-    "교회",
-    "예배",
-    "예배안내",
-    "설교영상",
-    "교회소식",
-    CHURCH_LOCATION,
-  ],
-  metadataBase: new URL(SITE_URL),
+  description: SITE_METADATA.description,
+  metadataBase: new URL(SITE_METADATA.baseUrl),
+  keywords: SITE_METADATA.keywords,
   openGraph: {
+    url: SITE_METADATA.baseUrl,
     type: "website",
     locale: "ko_KR",
-    title: CHURCH_NAME,
-    description: SITE_DESCRIPTION,
-    siteName: CHURCH_NAME,
-    url: SITE_URL,
+    title: CHURCH_INFO.name,
+    description: SITE_METADATA.description,
+    siteName: CHURCH_INFO.name,
     images: [
       {
-        url: SITE_IMAGE,
+        url: SITE_METADATA.image,
         width: 1200,
         height: 630,
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: CHURCH_NAME,
-    description: SITE_DESCRIPTION,
-    images: [SITE_IMAGE],
+    card: TWITTER_CONFIG.card,
+    title: SITE_METADATA.title,
+    description: SITE_METADATA.description,
+    images: [SITE_METADATA.ogImage],
   },
   robots: {
     index: true,
@@ -67,9 +52,9 @@ export const metadata = {
     },
   },
   icons: {
-    icon: SITE_ICON,
-    shortcut: SITE_ICON,
-    apple: SITE_ICON,
+    icon: SITE_METADATA.icon,
+    shortcut: SITE_METADATA.icon,
+    apple: SITE_METADATA.icon,
   },
 };
 

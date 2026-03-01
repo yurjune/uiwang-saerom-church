@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { CHURCH_NAME } from "@/constants";
+import { CHURCH_INFO } from "@/constants";
 
 const LOC = {
   url: "https://kko.to/Jty5zmr2Oe",
@@ -55,7 +55,7 @@ const useKakaoMap = (container, appKey) => {
         const content =
           '<div class="customoverlay">' +
           `  <a href="${LOC.url}" target="_blank" rel="noopener noreferrer">` +
-          `    <span class="title">${CHURCH_NAME}</span>` +
+          `    <span class="title">${CHURCH_INFO.name}</span>` +
           "  </a>" +
           "</div>";
         new kakao.maps.CustomOverlay({

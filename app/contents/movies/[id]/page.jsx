@@ -4,7 +4,7 @@ import AppLayout from "@/components/layouts/AppLayout";
 import ContentView from "@/components/ContentView/ContentView";
 import { getArticleById, getArticles } from "@/lib/contentful";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
-import { CHURCH_NAME } from "@/constants";
+import { CHURCH_INFO } from "@/constants";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
 import { getArticleDescription } from "@/utils/articles";
@@ -22,7 +22,7 @@ export async function generateMetadata({ params: _params }) {
   const title = article.fields?.title || ProjectMenu.movies.label;
   const description = getArticleDescription(
     article,
-    `${CHURCH_NAME} 설교영상입니다.`,
+    `${CHURCH_INFO.name} 설교영상입니다.`,
   );
   const canonical = `${ProjectUrl.contents.movies.toString()}/${params.id}`;
 

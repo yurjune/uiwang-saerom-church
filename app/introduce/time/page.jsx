@@ -1,6 +1,6 @@
 import React from "react";
 import AppLayout from "@/components/layouts/AppLayout";
-import { CHURCH_NAME } from "@/constants";
+import { CHURCH_INFO } from "@/constants";
 import { Flex } from "@chakra-ui/react";
 import TitleBar from "@/components/TitleBar/TitleBar";
 import { worshipSchedule } from "@/components/WorshipTime/constant";
@@ -9,12 +9,12 @@ import { ProjectMenu } from "@/constants/menu";
 
 export const metadata = {
   title: ProjectMenu.introduce.time.label,
-  description: `${CHURCH_NAME} 예배시간을 안내합니다.`,
+  description: `${CHURCH_INFO.name} 예배시간을 안내합니다.`,
   alternates: {
     canonical: "/introduce/time",
   },
   keywords: [
-    CHURCH_NAME,
+    CHURCH_INFO.name,
     "예배시간",
     "주일예배",
     "수요예배",

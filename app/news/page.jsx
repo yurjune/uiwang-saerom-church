@@ -2,7 +2,7 @@ import React from "react";
 import AppLayout from "@/components/layouts/AppLayout";
 import NewsPage from "./_components/NewsPage";
 import { getArticles } from "@/lib/contentful";
-import { CHURCH_NAME } from "@/constants";
+import { CHURCH_INFO } from "@/constants";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
@@ -13,7 +13,7 @@ export const metadata = {
   alternates: {
     canonical: ProjectUrl.news.toString(),
   },
-  keywords: [CHURCH_NAME, "교회소식", "공지", "교회행사"],
+  keywords: [CHURCH_INFO.name, "교회소식", "공지", "교회행사"],
 };
 
 export const revalidate = 300;
