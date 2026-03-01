@@ -22,6 +22,7 @@ const ContentList = ({ articles, currentPage = 1 }: Props) => {
       templateColumns="repeat(auto-fill, minmax(220px, 1fr))"
       columnGap={5}
       rowGap={6}
+      px={{ base: "12px", sm: 0 }}
     >
       {limitedArticles.map((article) => (
         <GridItem key={article.sys.id}>
