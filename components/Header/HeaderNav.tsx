@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -18,18 +18,20 @@ const HeaderNav = () => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const [openMenu, setOpenMenu] = useState(null);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
-  const isActive = (href) =>
-    pathname === href || pathname.startsWith(`${href}/`);
+  const isActive = (href?: string) =>
+    Boolean(href) && (pathname === href || pathname.startsWith(`${href}/`));
 
   return (
     <HStack spacing="1">
       {navItems.map((item) => {
         const hasChildren =
           Array.isArray(item.children) && item.children.length > 0;
+        const children = item.children ?? [];
+        const href = item.href;
         const active = hasChildren
-          ? item.children.some((child) => isActive(child.href))
+          ? children.some((child) => isActive(child.href))
           : isActive(item.href);
         const isOpen = hasChildren && openMenu === item.label;
 
@@ -78,9 +80,7 @@ const HeaderNav = () => {
                 _focus={{ outline: "none", boxShadow: "none" }}
                 _focusVisible={{ outline: "none", boxShadow: "none" }}
                 onClick={
-                  !hasChildren && item.href
-                    ? () => router.push(item.href)
-                    : undefined
+                  !hasChildren && href ? () => router.push(href) : undefined
                 }
               >
                 {item.label}
@@ -93,7 +93,7 @@ const HeaderNav = () => {
                   rounded="md"
                   borderColor="blackAlpha.200"
                 >
-                  {item.children.map((child) => {
+                  {children.map((child) => {
                     const childActive = isActive(child.href);
 
                     return (

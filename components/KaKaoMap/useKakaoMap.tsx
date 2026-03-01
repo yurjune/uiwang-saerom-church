@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, type RefObject } from "react";
 import { CHURCH_INFO } from "@/constants";
 
 const LOC = {
@@ -9,7 +9,14 @@ const LOC = {
   longitude: 126.9956158, // 경도
 };
 
-const useKakaoMap = (container, appKey) => {
+type KakaoWindow = Window & {
+  kakao?: any;
+};
+
+const useKakaoMap = (
+  container: RefObject<HTMLDivElement | null>,
+  appKey?: string,
+) => {
   useEffect(() => {
     if (typeof window === "undefined" || typeof document === "undefined")
       return;
@@ -19,7 +26,7 @@ const useKakaoMap = (container, appKey) => {
     let mapInitialized = false;
 
     const initMap = () => {
-      const kakao = /** @type {any} */ (window).kakao;
+      const kakao = (window as KakaoWindow).kakao;
       if (!isMounted || mapInitialized || !kakao?.maps || !container.current) {
         return false;
       }
@@ -82,9 +89,7 @@ const useKakaoMap = (container, appKey) => {
 
     const scriptId = "kakao-map-sdk";
     const sdkUrl = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false`;
-    let script = /** @type {HTMLScriptElement | null} */ (
-      document.getElementById(scriptId)
-    );
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
 
     if (!script) {
       script = document.createElement("script");

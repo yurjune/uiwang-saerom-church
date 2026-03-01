@@ -1,13 +1,16 @@
 "use client";
 
-import React from "react";
 import NextLink from "next/link";
 import { Flex, Heading, Box, HStack, Divider, Button } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import BibleTagCollapse from "@/components/BibleTagCollapse/BibleTagCollapse";
 import { categoryToUrl } from "@/utils/category";
 
-const ContentListViewHeader = ({ category }) => {
+type Props = {
+  category?: string;
+};
+
+const ContentListViewHeader = ({ category }: Props) => {
   const { isOpen, onClose, onToggle } = useDisclosure();
 
   return (

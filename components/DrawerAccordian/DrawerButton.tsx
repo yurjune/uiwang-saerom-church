@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Box, useDisclosure, IconButton } from "@chakra-ui/react";
 import { FiMenu } from "react-icons/fi";
 import {

@@ -1,9 +1,12 @@
 "use client";
 
-import React from "react";
 import { Box, Heading, Divider } from "@chakra-ui/react";
 
-const TitleBar = ({ title }) => {
+type Props = {
+  title: string;
+};
+
+const TitleBar = ({ title }: Props) => {
   return (
     <Box>
       <Heading as="h2" size="lg">

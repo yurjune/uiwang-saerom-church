@@ -4,7 +4,7 @@ import { postNumberPerOnePage } from "@/constants/pagination";
 
 const PAGE_GROUP_SIZE = 5;
 
-const toPage = (page) => {
+const toPage = (page: number | string | undefined): number => {
   const number = Number(page);
   const showFallback = !Number.isInteger(number) || number < 1;
   return showFallback ? 1 : number;

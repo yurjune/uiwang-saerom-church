@@ -3,7 +3,11 @@ import KakaoMap from "@/components/KaKaoMap/KakaoMap";
 import { CHURCH_INFO } from "@/constants";
 import { ProjectMenu } from "@/constants/menu";
 
-export const ChurchLocation = ({ appKey }) => {
+type Props = {
+  appKey?: string;
+};
+
+export const ChurchLocation = ({ appKey }: Props) => {
   return (
     <Box bg="#fffbea" px="20px" py={{ base: "40px", md: "56px" }}>
       <Box maxW="900px" mx="auto">

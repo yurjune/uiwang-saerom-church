@@ -1,9 +1,14 @@
 "use client";
 
-import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
 
-const WorshipTimeItem = ({ title, day, time }) => {
+type Props = {
+  title: string;
+  day: string;
+  time: string;
+};
+
+const WorshipTimeItem = ({ title, day, time }: Props) => {
   return (
     <Flex
       maxW="500px"

@@ -1,14 +1,19 @@
 "use client";
 
-import React from "react";
 import { Box, Divider, Flex } from "@chakra-ui/react";
 import ContentMeta from "@/components/ContentView/ContentMeta";
 import ContentsNavigator from "@/components/ContentView/ContentsNavigator";
 import ContentBody from "@/components/ContentView/ContentBody";
 import ContentTagSection from "@/components/ContentView/ContentTagSection";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
+import type { ArticleEntry } from "@/interface/article";
 
-const ContentView = ({ article, articles }) => {
+type Props = {
+  article: ArticleEntry;
+  articles: ArticleEntry[];
+};
+
+const ContentView = ({ article, articles }: Props) => {
   const showTag = article.fields.category === CONTENTFUL_CATEGORY.movies;
 
   return (

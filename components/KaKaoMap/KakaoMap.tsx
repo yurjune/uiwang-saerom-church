@@ -1,11 +1,15 @@
 "use client";
 
-import React, { Fragment, useRef } from "react";
+import { Fragment, useRef } from "react";
 import { Box, AspectRatio } from "@chakra-ui/react";
 import useKakaoMap from "@/components/KaKaoMap/useKakaoMap";
 
-const KakaoMap = ({ appKey }) => {
-  const container = useRef(null);
+type Props = {
+  appKey?: string;
+};
+
+const KakaoMap = ({ appKey }: Props) => {
+  const container = useRef<HTMLDivElement | null>(null);
   useKakaoMap(container, appKey);
 
   return (

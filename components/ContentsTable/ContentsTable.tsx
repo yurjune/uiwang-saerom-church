@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
 import { useMediaQuery, useTheme } from "@chakra-ui/react";
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import { categoryToContentUrl } from "@/utils/category";
 import { getLimitedArticles } from "@/utils/articles";
+import type { ArticleEntry } from "@/interface/article";
 
 const noWrap = {
   overflow: "hidden",
@@ -13,7 +13,12 @@ const noWrap = {
   textOverflow: "ellipsis",
 };
 
-const ContentsTable = ({ articles: _articles, currentPage = 1 }) => {
+type Props = {
+  articles: ArticleEntry[];
+  currentPage?: number;
+};
+
+const ContentsTable = ({ articles: _articles, currentPage = 1 }: Props) => {
   const articles = getLimitedArticles(_articles, currentPage);
   const theme = useTheme();
   const [isDesktop] = useMediaQuery(`(min-width: ${theme.breakpoints.md})`);

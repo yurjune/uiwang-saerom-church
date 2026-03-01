@@ -1,11 +1,16 @@
 "use client";
 
-import React from "react";
 import NextLink from "next/link";
 import { Link, Grid } from "@chakra-ui/react";
 import { categoryToUrl } from "@/utils/category";
 
-const BibleTag = ({ bible, category, onClose }) => {
+type Props = {
+  bible: string[];
+  category?: string;
+  onClose: () => void;
+};
+
+const BibleTag = ({ bible, category, onClose }: Props) => {
   return (
     <Grid
       templateColumns={{

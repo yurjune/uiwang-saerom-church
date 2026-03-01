@@ -1,12 +1,17 @@
 "use client";
 
 import { Grid, GridItem } from "@chakra-ui/react";
+import type { ReactNode } from "react";
 import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
 
 export const layoutWidth = "1000px";
 
-const AppLayout = ({ children }) => {
+type Props = {
+  children: ReactNode;
+};
+
+const AppLayout = ({ children }: Props) => {
   return (
     <Grid
       templateColumns={`1fr minmax(auto, ${layoutWidth}) 1fr`}

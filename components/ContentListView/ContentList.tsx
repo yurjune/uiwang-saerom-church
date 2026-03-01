@@ -1,13 +1,18 @@
 "use client";
 
-import React from "react";
 import { Grid, GridItem } from "@chakra-ui/react";
 import ContentItemCard from "@/components/ContentListView/ContentItemCard";
 import { getLimitedArticles } from "@/utils/articles";
 import { useRouter } from "next/navigation";
 import { categoryToContentUrl } from "@/utils/category";
+import type { ArticleEntry } from "@/interface/article";
 
-const ContentList = ({ articles, currentPage = 1 }) => {
+type Props = {
+  articles: ArticleEntry[];
+  currentPage?: number;
+};
+
+const ContentList = ({ articles, currentPage = 1 }: Props) => {
   const router = useRouter();
 
   const limitedArticles = getLimitedArticles(articles, currentPage);

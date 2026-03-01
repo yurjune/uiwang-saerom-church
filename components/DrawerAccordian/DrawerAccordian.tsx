@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Accordion,
@@ -14,16 +13,21 @@ import {
 } from "@chakra-ui/react";
 import { navItems } from "@/components/Header/navItems";
 
-const normalizePath = (path) => {
+const normalizePath = (path?: string | null): string => {
   if (!path) return "/";
   return path !== "/" && path.endsWith("/") ? path.slice(0, -1) : path;
 };
 
-const DrawerAccordian = ({ onMove }) => {
+type Props = {
+  onMove: () => void;
+};
+
+const DrawerAccordian = ({ onMove }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const isActive = (href) => {
+  const isActive = (href?: string) => {
+    if (!href) return false;
     const current = normalizePath(pathname);
     const target = normalizePath(href);
     return current === target || current.startsWith(`${target}/`);
@@ -41,8 +45,9 @@ const DrawerAccordian = ({ onMove }) => {
       {navItems.map((item) => {
         const hasChildren =
           Array.isArray(item.children) && item.children.length > 0;
+        const children = item.children ?? [];
         const parentActive = hasChildren
-          ? item.children.some((child) => isActive(child.href))
+          ? children.some((child) => isActive(child.href))
           : isActive(item.href);
         const buttonBg = parentActive ? "blue.100" : "blue.50";
 
@@ -79,7 +84,7 @@ const DrawerAccordian = ({ onMove }) => {
             {hasChildren && (
               <AccordionPanel py={1} pl={4} pr={0}>
                 <VStack align="stretch" spacing={1}>
-                  {item.children.map((child) => {
+                  {children.map((child) => {
                     const childActive = isActive(child.href);
 
                     return (

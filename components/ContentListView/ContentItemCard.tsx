@@ -1,14 +1,20 @@
 "use client";
 
-import React from "react";
 import { Box } from "@chakra-ui/react";
 import Image from "next/image";
+import type { ArticleEntry } from "@/interface/article";
 
-const ContentItemCard = ({ article, onClickCard }) => {
+type Props = {
+  article: ArticleEntry;
+  onClickCard: () => void;
+};
+
+const ContentItemCard = ({ article, onClickCard }: Props) => {
   const { title } = article.fields;
   const { createdAt } = article.sys;
-
-  const thumbnailUrl = article.fields.thumbnail?.fields.file.url;
+  const thumbnail = article.fields.thumbnail;
+  const thumbnailUrl =
+    thumbnail && "fields" in thumbnail ? thumbnail.fields.file?.url : undefined;
 
   return (
     <Box textAlign="center" onClick={onClickCard} cursor="pointer">

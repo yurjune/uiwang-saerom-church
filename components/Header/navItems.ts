@@ -1,7 +1,18 @@
 import { ProjectMenu } from "@/constants/menu";
 import { ProjectUrl } from "@/constants/projectUrl";
 
-export const navItems = [
+type NavChild = {
+  href: string;
+  label: string;
+};
+
+export type NavItem = {
+  label: string;
+  href?: string;
+  children?: NavChild[];
+};
+
+export const navItems: NavItem[] = [
   {
     label: ProjectMenu.introduce.label,
     children: [

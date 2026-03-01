@@ -1,11 +1,16 @@
 "use client";
 
-import React from "react";
 import { Box, Divider, Collapse } from "@chakra-ui/react";
 import BibleTag from "@/components/BibleTagCollapse/BibleTag";
 import { oldBible, newBible } from "@/constants/bible";
 
-const BibleTagCollapse = ({ category, isOpen, onClose }) => {
+type Props = {
+  category?: string;
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+const BibleTagCollapse = ({ category, isOpen, onClose }: Props) => {
   return (
     <Collapse in={isOpen}>
       <Box

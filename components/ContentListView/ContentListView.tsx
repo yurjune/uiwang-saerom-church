@@ -6,8 +6,15 @@ import ContentList from "@/components/ContentListView/ContentList";
 import Pagination from "@/components/Pagination/Pagination";
 import NoPost from "@/components/NoPost/NoPost";
 import { Fragment } from "react";
+import type { ArticleEntry } from "@/interface/article";
 
-const ContentListView = ({ category, articles, currentPage = 1 }) => {
+type Props = {
+  category?: string;
+  articles: ArticleEntry[];
+  currentPage?: number;
+};
+
+const ContentListView = ({ category, articles, currentPage = 1 }: Props) => {
   const hasArticles = articles.length > 0;
   if (!hasArticles) {
     return <NoPost />;

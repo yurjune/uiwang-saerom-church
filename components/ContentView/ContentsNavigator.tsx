@@ -1,13 +1,18 @@
 "use client";
 
-import React from "react";
 import { useRouter } from "next/navigation";
 import { Flex, HStack, Button, Icon } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { categoryToContentUrl, categoryToUrl } from "@/utils/category";
+import type { ArticleEntry } from "@/interface/article";
 
-const ContentsNavigator = ({ article, articles }) => {
+type Props = {
+  article: ArticleEntry;
+  articles: ArticleEntry[];
+};
+
+const ContentsNavigator = ({ article, articles }: Props) => {
   const router = useRouter();
   const { category } = article.fields;
   const { id } = article.sys;

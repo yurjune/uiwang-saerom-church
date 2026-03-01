@@ -1,9 +1,13 @@
 "use client";
 
-import React from "react";
 import { Box, Text } from "@chakra-ui/react";
+import type { ArticleEntry } from "@/interface/article";
 
-const ContentMeta = ({ article }) => {
+type Props = {
+  article: ArticleEntry;
+};
+
+const ContentMeta = ({ article }: Props) => {
   const { category, title } = article.fields;
   const { createdAt } = article.sys;
 

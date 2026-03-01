@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Box, Flex, Icon } from "@chakra-ui/react";
 import {
@@ -12,7 +11,15 @@ import {
 import { PageButton, ArrowButton } from "@/components/Pagination/PageButton";
 import usePagination from "@/components/Pagination/usePagination";
 
-const Pagination = ({ totalCount = 0, currentPage: initialPage = 1 }) => {
+type Props = {
+  totalCount: number;
+  currentPage: number;
+};
+
+const Pagination = ({
+  totalCount = 0,
+  currentPage: initialPage = 1,
+}: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -26,9 +33,9 @@ const Pagination = ({ totalCount = 0, currentPage: initialPage = 1 }) => {
     isLastGroup,
   } = usePagination(totalCount, initialPage);
 
-  const movePage = (page) => {
+  const movePage = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("page", page);
+    params.set("page", String(page));
     router.push(`${pathname}?${params.toString()}`);
   };
 
@@ -58,10 +65,10 @@ const Pagination = ({ totalCount = 0, currentPage: initialPage = 1 }) => {
     <Flex w="full" align="center" justify="center">
       {isFirstGroup ? null : (
         <>
-          <ArrowButton onClickButton={onClickFirstArrow}>
+          <ArrowButton onClickButtonAction={onClickFirstArrow}>
             <Icon as={FaAngleDoubleLeft} boxSize={3} />
           </ArrowButton>
-          <ArrowButton onClickButton={onClickPrevArrow}>
+          <ArrowButton onClickButtonAction={onClickPrevArrow}>
             <Icon as={FaAngleLeft} boxSize={3} />
           </ArrowButton>
         </>
@@ -73,17 +80,17 @@ const Pagination = ({ totalCount = 0, currentPage: initialPage = 1 }) => {
             key={curPage}
             value={curPage}
             selected={currentPage === curPage}
-            onClickButton={movePage}
+            onClickButtonAction={movePage}
           />
         ))}
       </Box>
 
       {isLastGroup ? null : (
         <>
-          <ArrowButton onClickButton={onClickNextArrow}>
+          <ArrowButton onClickButtonAction={onClickNextArrow}>
             <Icon as={FaAngleRight} boxSize={3} />
           </ArrowButton>
-          <ArrowButton onClickButton={onClickLastArrow}>
+          <ArrowButton onClickButtonAction={onClickLastArrow}>
             <Icon as={FaAngleDoubleRight} boxSize={3} />
           </ArrowButton>
         </>

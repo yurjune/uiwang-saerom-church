@@ -1,10 +1,14 @@
 "use client";
 
-import React from "react";
 import { Box, Link } from "@chakra-ui/react";
 import { categoryToUrl } from "@/utils/category";
+import type { ArticleEntry } from "@/interface/article";
 
-const ContentTagSection = ({ article }) => {
+type Props = {
+  article: ArticleEntry;
+};
+
+const ContentTagSection = ({ article }: Props) => {
   const { category, tag } = article.fields;
 
   return (
