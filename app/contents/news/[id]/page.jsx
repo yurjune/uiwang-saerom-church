@@ -11,7 +11,7 @@ import {
   getArticleThumbnailUrl,
   getArticleDescription,
   getArticleTags,
-} from "@/utils/articles";
+} from "@/utils/article-fields";
 
 export const revalidate = 300;
 
