@@ -6,8 +6,9 @@ import { CHURCH_INFO } from "@/constants";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
+import { Metadata } from "next/types";
 
-export const metadata = {
+export const metadata: Metadata = {
   alternates: {
     canonical: ProjectUrl.movies.toString(),
   },

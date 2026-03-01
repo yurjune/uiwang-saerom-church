@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next/types";
 import { notFound } from "next/navigation";
 import AppLayout from "@/components/layouts/AppLayout";
 import ContentView from "@/components/ContentView/ContentView";
