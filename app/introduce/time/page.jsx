@@ -8,11 +8,11 @@ import WorshipTimeItem from "@/components/WorshipTime/WorshipTimeItem";
 import { ProjectMenu } from "@/constants/menu";
 
 export const metadata = {
-  title: ProjectMenu.introduce.time.label,
-  description: `${CHURCH_INFO.name} 예배시간을 안내합니다.`,
   alternates: {
     canonical: "/introduce/time",
   },
+  title: ProjectMenu.introduce.time.label,
+  description: `${CHURCH_INFO.name} 예배시간을 안내합니다.`,
   keywords: [
     CHURCH_INFO.name,
     "예배시간",

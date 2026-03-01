@@ -9,11 +9,11 @@ import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
 
 export const metadata = {
-  title: ProjectMenu.movies.label,
-  description: "설교영상과 말씀 콘텐츠를 확인할 수 있습니다.",
   alternates: {
     canonical: ProjectUrl.movies.toString(),
   },
+  title: ProjectMenu.movies.label,
+  description: "설교영상과 말씀 콘텐츠를 확인할 수 있습니다.",
   keywords: [CHURCH_INFO.name, "설교영상", "주일예배"],
 };
 

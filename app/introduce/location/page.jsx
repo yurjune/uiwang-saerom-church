@@ -8,11 +8,11 @@ import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
 
 export const metadata = {
-  title: ProjectMenu.introduce.location.label,
-  description: `${CHURCH_INFO.name} 오시는길 안내입니다.`,
   alternates: {
     canonical: ProjectUrl.introduce.location.toString(),
   },
+  title: ProjectMenu.introduce.location.label,
+  description: `${CHURCH_INFO.name} 오시는길 안내입니다.`,
   keywords: [CHURCH_INFO.name, CHURCH_INFO.location, "오시는길", "교회 위치"],
 };
 
