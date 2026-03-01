@@ -29,8 +29,21 @@ const extractText = (node) => {
   return "";
 };
 
+export function getArticleThumbnailUrl(article) {
+  const url = article.fields.thumbnail?.fields.file.url;
+  return url ? `https:${url}` : null;
+}
+
+export function getArticleTags(article) {
+  return Array.isArray(article.fields?.tag) ? article.fields.tag : [];
+}
+
 export const getArticleDescription = (article, fallback = "") => {
   const paragraph = article?.fields?.paragraph;
   const rawText = extractText(paragraph).replace(/\s+/g, " ").trim();
-  return rawText ? rawText.slice(0, 140) : fallback;
+  const description = rawText ? rawText.slice(0, 140) : fallback;
+  return description
+    .replace(/https?:\/\/\S+/g, "") // remove links
+    .replace(/\s+/g, " ")
+    .trim();
 };

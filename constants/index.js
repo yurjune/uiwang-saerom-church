@@ -5,6 +5,8 @@ export const CHURCH_INFO = {
 
 export const SITE_METADATA = {
   baseUrl: "https://www.uwsch.org",
+  locale: "ko_KR",
+  siteName: CHURCH_INFO.name,
   title: CHURCH_INFO.name,
   description: `${CHURCH_INFO.name} 홈페이지입니다. 예배 안내, 교회소식, 설교영상을 확인할 수 있습니다.`,
   image: "/logo.jpg",
