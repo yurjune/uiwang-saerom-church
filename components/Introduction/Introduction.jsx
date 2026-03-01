@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { chakra, Box, Flex, Text } from "@chakra-ui/react";
 
 function Introduction() {
@@ -10,12 +11,23 @@ function Introduction() {
       py={{ base: "40px", md: "70px" }}
       px="16px"
       mx="auto"
-      bgImage={"/introduction.png"}
-      backgroundPosition="center"
-      bgSize="cover"
-      bgRepeat="no-repeat"
+      position="relative"
+      overflow="hidden"
     >
-      <Box mx="auto" textAlign="center">
+      <Image
+        src="/introduction.png"
+        alt="introduction.png"
+        fill
+        priority
+        sizes="100vw"
+        style={{
+          objectFit: "cover",
+          objectPosition: "center",
+          zIndex: 0,
+        }}
+      />
+
+      <Box mx="auto" textAlign="center" position="relative" zIndex={1}>
         <chakra.h1
           mb={{ base: "40px", md: "60px" }}
           fontSize={{ base: "26px", md: "3xl" }}
