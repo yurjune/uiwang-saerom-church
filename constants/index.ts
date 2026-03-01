@@ -9,9 +9,6 @@ export const SITE_METADATA = {
   siteName: CHURCH_INFO.name,
   title: CHURCH_INFO.name,
   description: `${CHURCH_INFO.name} 홈페이지입니다. 예배 안내, 교회소식, 설교영상을 확인할 수 있습니다.`,
-  image: "/logo.jpg",
-  og_image: "/logo.jpg",
-  icon: "/favicon.ico",
   keywords: [
     CHURCH_INFO.name,
     "교회",
@@ -21,6 +18,12 @@ export const SITE_METADATA = {
     "교회소식",
     CHURCH_INFO.location,
   ],
+  favicon: "/favicon.ico",
+  image: "/logo.jpg",
+  og_image: "/logo.jpg",
+  manifestIcon192: "/android-chrome-192x192.png",
+  manifestIcon512: "/android-chrome-512x512.png",
+  appleIcon: "/apple-touch-icon.png",
 };
 
 export const TWITTER_CONFIG = {

@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   },
   description: SITE_METADATA.description,
   metadataBase: new URL(SITE_METADATA.baseUrl),
+  manifest: "/manifest.webmanifest",
   keywords: SITE_METADATA.keywords,
   openGraph: {
     url: SITE_METADATA.baseUrl,
@@ -54,9 +55,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: SITE_METADATA.icon,
-    shortcut: SITE_METADATA.icon,
-    apple: SITE_METADATA.icon,
+    icon: SITE_METADATA.favicon,
+    shortcut: SITE_METADATA.favicon,
+    apple: SITE_METADATA.appleIcon, // 180x180
   },
 };
 
