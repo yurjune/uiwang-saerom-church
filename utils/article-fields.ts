@@ -1,4 +1,11 @@
-const extractText = (node) => {
+import type { ArticleEntry } from "@/interface/article";
+
+type RichTextNodeLike = {
+  value?: unknown;
+  content?: RichTextNodeLike[];
+};
+
+const extractText = (node?: RichTextNodeLike): string => {
   if (!node) {
     return "";
   }
@@ -11,16 +18,21 @@ const extractText = (node) => {
   return "";
 };
 
-export function getArticleThumbnailUrl(article) {
-  const url = article.fields.thumbnail?.fields.file.url;
+export function getArticleThumbnailUrl(article: ArticleEntry): string | null {
+  const thumbnail = article.fields.thumbnail;
+  const url =
+    thumbnail && "fields" in thumbnail ? thumbnail.fields.file?.url : undefined;
   return url ? `https:${url}` : null;
 }
 
-export function getArticleTags(article) {
+export function getArticleTags(article: ArticleEntry): string[] {
   return Array.isArray(article.fields?.tag) ? article.fields.tag : [];
 }
 
-export const getArticleDescription = (article, fallback = "") => {
+export const getArticleDescription = (
+  article: ArticleEntry,
+  fallback = "",
+): string => {
   const paragraph = article?.fields?.paragraph;
   const rawText = extractText(paragraph).replace(/\s+/g, " ").trim();
   const description = rawText ? rawText.slice(0, 140) : fallback;
