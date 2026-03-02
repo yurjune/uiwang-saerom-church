@@ -4,7 +4,6 @@ import {
   getArticleThumbnailUrl,
 } from "@/utils/article-fields";
 import { mockArticle } from "@/utils/__test__/article-fixture";
-import { describe, expect, it } from "vitest";
 
 describe("article-fields utils", () => {
   it("getArticleThumbnailUrl", () => {

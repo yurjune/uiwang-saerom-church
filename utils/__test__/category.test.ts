@@ -1,5 +1,3 @@
-import { describe, expect, it } from "vitest";
-
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { categoryToContentUrl, categoryToUrl } from "@/utils/category";
 import { ProjectUrl } from "@/constants/projectUrl";

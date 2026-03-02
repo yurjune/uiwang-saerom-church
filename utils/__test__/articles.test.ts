@@ -1,6 +1,5 @@
 import { mockArticle } from "@/utils/__test__/article-fixture";
 import { filterByTag, getLimitedArticles } from "@/utils/articles";
-import { describe, expect, it } from "vitest";
 
 describe("articles utils", () => {
   describe("filterByTag", () => {
