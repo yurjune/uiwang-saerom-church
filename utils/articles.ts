@@ -1,4 +1,3 @@
-import { postNumberPerOnePage } from "@/constants/pagination";
 import type { ArticleEntry } from "@/interface/article";
 
 export const filterByTag = (
@@ -18,8 +17,9 @@ export const filterByTag = (
 export const getLimitedArticles = (
   articles: ArticleEntry[],
   currentPage: number,
+  limit: number,
 ): ArticleEntry[] => {
-  const num = postNumberPerOnePage * currentPage;
-  const limitedArticles = articles.slice(num - postNumberPerOnePage, num);
+  const num = limit * currentPage;
+  const limitedArticles = articles.slice(num - limit, num);
   return limitedArticles;
 };

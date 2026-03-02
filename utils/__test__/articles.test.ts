@@ -1,4 +1,3 @@
-import { postNumberPerOnePage } from "@/constants/pagination";
 import { mockArticle } from "@/utils/__test__/article-fixture";
 import { filterByTag, getLimitedArticles } from "@/utils/articles";
 import { describe, expect, it } from "vitest";
@@ -26,25 +25,24 @@ describe("articles utils", () => {
 
   describe("getLimitedArticles", () => {
     it("returns first page with postNumberPerOnePage size", () => {
-      const articles = Array.from(
-        { length: postNumberPerOnePage + 4 },
-        () => mockArticle,
-      );
+      const limit = 8;
+      const articles = Array.from({ length: limit + 4 }, () => mockArticle);
 
-      const result = getLimitedArticles(articles, 1);
+      const result = getLimitedArticles(articles, 1, limit);
 
-      expect(result).toHaveLength(postNumberPerOnePage);
-      expect(result).toEqual(articles.slice(0, postNumberPerOnePage));
+      expect(result).toHaveLength(limit);
+      expect(result).toEqual(articles.slice(0, limit));
     });
 
     it("returns remaining articles on the last page", () => {
-      const total = postNumberPerOnePage + 2;
+      const limit = 8;
+      const total = limit + 2;
       const articles = Array.from({ length: total }, () => mockArticle);
 
-      const result = getLimitedArticles(articles, 2);
+      const result = getLimitedArticles(articles, 2, limit);
 
       expect(result).toHaveLength(2);
-      expect(result).toEqual(articles.slice(postNumberPerOnePage, total));
+      expect(result).toEqual(articles.slice(limit, total));
     });
   });
 });

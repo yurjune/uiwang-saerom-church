@@ -6,6 +6,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import { categoryToContentUrl } from "@/utils/category";
 import { getLimitedArticles } from "@/utils/articles";
 import type { ArticleEntry } from "@/interface/article";
+import { postNumberPerOnePage } from "@/constants/pagination";
 
 const noWrap = {
   overflow: "hidden",
@@ -19,7 +20,11 @@ type Props = {
 };
 
 const ContentsTable = ({ articles: _articles, currentPage = 1 }: Props) => {
-  const articles = getLimitedArticles(_articles, currentPage);
+  const articles = getLimitedArticles(
+    _articles,
+    currentPage,
+    postNumberPerOnePage,
+  );
   const theme = useTheme();
   const [isDesktop] = useMediaQuery(`(min-width: ${theme.breakpoints.md})`);
 

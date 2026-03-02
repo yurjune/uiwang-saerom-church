@@ -6,6 +6,7 @@ import { getLimitedArticles } from "@/utils/articles";
 import { useRouter } from "next/navigation";
 import { categoryToContentUrl } from "@/utils/category";
 import type { ArticleEntry } from "@/interface/article";
+import { postNumberPerOnePage } from "@/constants/pagination";
 
 type Props = {
   articles: ArticleEntry[];
@@ -15,7 +16,11 @@ type Props = {
 const ContentList = ({ articles, currentPage = 1 }: Props) => {
   const router = useRouter();
 
-  const limitedArticles = getLimitedArticles(articles, currentPage);
+  const limitedArticles = getLimitedArticles(
+    articles,
+    currentPage,
+    postNumberPerOnePage,
+  );
 
   return (
     <Grid
