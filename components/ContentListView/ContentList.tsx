@@ -3,7 +3,6 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import ContentItemCard from "@/components/ContentListView/ContentItemCard";
 import { getLimitedArticles } from "@/utils/articles";
-import { useRouter } from "next/navigation";
 import { categoryToContentUrl } from "@/utils/category";
 import type { ArticleEntry } from "@/interface/article";
 import { postNumberPerOnePage } from "@/constants/pagination";
@@ -14,8 +13,6 @@ type Props = {
 };
 
 const ContentList = ({ articles, currentPage = 1 }: Props) => {
-  const router = useRouter();
-
   const limitedArticles = getLimitedArticles(
     articles,
     currentPage,
@@ -29,18 +26,16 @@ const ContentList = ({ articles, currentPage = 1 }: Props) => {
       rowGap={6}
       px={{ base: "12px", sm: 0 }}
     >
-      {limitedArticles.map((article) => (
-        <GridItem key={article.sys.id}>
-          <ContentItemCard
-            article={article}
-            onClickCard={() => {
-              const category = article.fields.category;
-              const id = article.sys.id;
-              router.push(`${categoryToContentUrl(category)}/${id}`);
-            }}
-          />
-        </GridItem>
-      ))}
+      {limitedArticles.map((article) => {
+        const category = article.fields.category;
+        const id = article.sys.id;
+        const href = `${categoryToContentUrl(category)}/${id}`;
+        return (
+          <GridItem key={article.sys.id}>
+            <ContentItemCard article={article} href={href} />
+          </GridItem>
+        );
+      })}
     </Grid>
   );
 };
