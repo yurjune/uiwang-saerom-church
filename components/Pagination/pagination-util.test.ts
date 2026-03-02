@@ -13,7 +13,6 @@ describe("getPagination", () => {
     const res = getPagination(defaultOptions);
     expect(res).toStrictEqual({
       currentPageGroup: [1, 2, 3, 4, 5],
-      firstPage: 1,
       lastPage: 6,
       isFirstGroup: true,
       isLastGroup: false,
@@ -35,8 +34,7 @@ describe("getPagination", () => {
   it("if totalCount is 0", () => {
     expect(getPagination({ ...defaultOptions, totalCount: 0 })).toStrictEqual({
       currentPageGroup: [],
-      firstPage: null,
-      lastPage: null,
+      lastPage: 0,
       isFirstGroup: true,
       isLastGroup: true,
     });

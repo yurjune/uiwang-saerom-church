@@ -13,12 +13,20 @@ import getPagination from "@/components/Pagination/pagination-util";
 type Props = {
   totalCount: number;
   currentPage: number;
+  limit?: number;
+  pageGroupSize?: number;
   movePage: (page: number) => void;
 };
 
-const Pagination = ({ totalCount = 0, currentPage, movePage }: Props) => {
+const Pagination = ({
+  totalCount = 0,
+  currentPage,
+  limit,
+  pageGroupSize,
+  movePage,
+}: Props) => {
   const { currentPageGroup, lastPage, isFirstGroup, isLastGroup } =
-    getPagination({ totalCount, currentPage });
+    getPagination({ totalCount, currentPage, limit, pageGroupSize });
 
   const onClickPrevArrow = () => {
     if (currentPageGroup.length === 0) return;
@@ -44,10 +52,16 @@ const Pagination = ({ totalCount = 0, currentPage, movePage }: Props) => {
     <Flex w="full" align="center" justify="center">
       {isFirstGroup ? null : (
         <>
-          <ArrowButton onClickButtonAction={onClickFirstArrow}>
+          <ArrowButton
+            ariaLabel="to first page"
+            onClickButtonAction={onClickFirstArrow}
+          >
             <Icon as={FaAngleDoubleLeft} boxSize={3} />
           </ArrowButton>
-          <ArrowButton onClickButtonAction={onClickPrevArrow}>
+          <ArrowButton
+            ariaLabel="to previous page group"
+            onClickButtonAction={onClickPrevArrow}
+          >
             <Icon as={FaAngleLeft} boxSize={3} />
           </ArrowButton>
         </>
@@ -66,10 +80,16 @@ const Pagination = ({ totalCount = 0, currentPage, movePage }: Props) => {
 
       {isLastGroup ? null : (
         <>
-          <ArrowButton onClickButtonAction={onClickNextArrow}>
+          <ArrowButton
+            ariaLabel="to next page group"
+            onClickButtonAction={onClickNextArrow}
+          >
             <Icon as={FaAngleRight} boxSize={3} />
           </ArrowButton>
-          <ArrowButton onClickButtonAction={onClickLastArrow}>
+          <ArrowButton
+            ariaLabel="to last page"
+            onClickButtonAction={onClickLastArrow}
+          >
             <Icon as={FaAngleDoubleRight} boxSize={3} />
           </ArrowButton>
         </>
