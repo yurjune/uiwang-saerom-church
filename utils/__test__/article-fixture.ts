@@ -1,6 +1,19 @@
 import { ArticleEntry } from "@/interface/article";
 import { BLOCKS, INLINES } from "@contentful/rich-text-types";
 
+let seq = 0;
+
+export function createMockArticle() {
+  seq += 1;
+  return {
+    ...mockArticle,
+    sys: {
+      ...mockArticle.sys,
+      id: "mock-article-" + seq,
+    },
+  };
+}
+
 export const mockArticle: ArticleEntry = {
   metadata: {
     tags: [],

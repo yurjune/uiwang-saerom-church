@@ -8,6 +8,7 @@ import NoPost from "@/components/NoPost/NoPost";
 import { Fragment } from "react";
 import type { ArticleEntry } from "@/interface/article";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { postNumberPerOnePage } from "@/constants/pagination";
 
 type Props = {
   category?: string;
@@ -38,12 +39,17 @@ const ContentListView = ({ category, articles, currentPage = 1 }: Props) => {
       </Box>
 
       <Box mb="50px">
-        <ContentList articles={articles} currentPage={currentPage} />
+        <ContentList
+          articles={articles}
+          currentPage={currentPage}
+          limit={postNumberPerOnePage}
+        />
       </Box>
 
       <Pagination
         totalCount={articles.length}
         currentPage={currentPage}
+        limit={postNumberPerOnePage}
         movePage={movePage}
       />
     </Fragment>

@@ -10,14 +10,15 @@ import { postNumberPerOnePage } from "@/constants/pagination";
 type Props = {
   articles: ArticleEntry[];
   currentPage?: number;
+  limit?: number;
 };
 
-const ContentList = ({ articles, currentPage = 1 }: Props) => {
-  const limitedArticles = getLimitedArticles(
-    articles,
-    currentPage,
-    postNumberPerOnePage,
-  );
+const ContentList = ({
+  articles,
+  currentPage = 1,
+  limit = postNumberPerOnePage,
+}: Props) => {
+  const limitedArticles = getLimitedArticles(articles, currentPage, limit);
 
   return (
     <Grid
