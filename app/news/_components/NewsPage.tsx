@@ -7,6 +7,7 @@ import ContentsTable from "@/components/ContentsTable/ContentsTable";
 import NoPost from "@/components/NoPost/NoPost";
 import Pagination from "@/components/Pagination/Pagination";
 import type { ArticleEntry } from "@/interface/article";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 type NewsPageProps = {
   articles: ArticleEntry[];
@@ -14,10 +15,20 @@ type NewsPageProps = {
 };
 
 const NewsPage = ({ articles, currentPage = 1 }: NewsPageProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const firstArticle = articles[0];
   if (!firstArticle) {
     return <NoPost />;
   }
+
+  const movePage = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", String(page));
+    router.push(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <>
@@ -43,7 +54,11 @@ const NewsPage = ({ articles, currentPage = 1 }: NewsPageProps) => {
         <ContentsTable articles={articles} currentPage={currentPage} />
       </Box>
 
-      <Pagination totalCount={articles.length} currentPage={currentPage} />
+      <Pagination
+        totalCount={articles.length}
+        currentPage={currentPage}
+        movePage={movePage}
+      />
     </>
   );
 };

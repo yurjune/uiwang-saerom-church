@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Box, Flex, Icon } from "@chakra-ui/react";
 import {
   FaAngleLeft,
@@ -9,35 +8,17 @@ import {
   FaAngleDoubleRight,
 } from "react-icons/fa";
 import { PageButton, ArrowButton } from "@/components/Pagination/PageButton";
-import usePagination from "@/components/Pagination/usePagination";
+import getPagination from "@/components/Pagination/pagination-util";
 
 type Props = {
   totalCount: number;
   currentPage: number;
+  movePage: (page: number) => void;
 };
 
-const Pagination = ({
-  totalCount = 0,
-  currentPage: initialPage = 1,
-}: Props) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const {
-    currentPage,
-    currentPageGroup,
-    firstPage,
-    lastPage,
-    isFirstGroup,
-    isLastGroup,
-  } = usePagination(totalCount, initialPage);
-
-  const movePage = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", String(page));
-    router.push(`${pathname}?${params.toString()}`);
-  };
+const Pagination = ({ totalCount = 0, currentPage, movePage }: Props) => {
+  const { currentPageGroup, lastPage, isFirstGroup, isLastGroup } =
+    getPagination({ totalCount, currentPage });
 
   const onClickPrevArrow = () => {
     if (currentPageGroup.length === 0) return;
@@ -52,12 +33,10 @@ const Pagination = ({
   };
 
   const onClickFirstArrow = () => {
-    if (!firstPage) return;
-    movePage(firstPage);
+    movePage(1);
   };
 
   const onClickLastArrow = () => {
-    if (!lastPage) return;
     movePage(lastPage);
   };
 
