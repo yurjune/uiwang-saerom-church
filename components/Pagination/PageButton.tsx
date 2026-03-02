@@ -24,6 +24,7 @@ export const PageButton = ({
       variant={selected ? "solid" : "outline"}
       sx={{ fontVariantNumeric: "tabular-nums" }}
       onClick={() => onClickButtonAction(value)}
+      aria-current={selected ? "page" : undefined}
     >
       {value}
     </Button>
@@ -33,11 +34,13 @@ export const PageButton = ({
 type ArrowProps = {
   children: ReactNode;
   onClickButtonAction: () => void;
+  ariaLabel?: string;
 };
 
 export const ArrowButton = ({
   children,
   onClickButtonAction,
+  ariaLabel,
 }: ArrowProps) => {
   return (
     <Button
@@ -47,6 +50,7 @@ export const ArrowButton = ({
       px="0"
       colorScheme="blue"
       variant="outline"
+      aria-label={ariaLabel}
       onClick={onClickButtonAction}
     >
       {children}
