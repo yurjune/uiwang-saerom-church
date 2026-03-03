@@ -8,6 +8,7 @@ import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
 
 export const revalidate = 86400; // 1 day
+export const dynamic = "force-static";
 
 type PageProps = {
   searchParams: Promise<{
