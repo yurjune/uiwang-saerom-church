@@ -7,7 +7,6 @@ import Pagination from "@/components/Pagination/Pagination";
 import NoPost from "@/components/NoPost/NoPost";
 import { Fragment } from "react";
 import type { ArticleEntry } from "@/interface/article";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { postNumberPerOnePage } from "@/constants/pagination";
 
 type Props = {
@@ -15,6 +14,7 @@ type Props = {
   category: string;
   articles: ArticleEntry[];
   currentPage?: number;
+  movePage: (page: number) => void;
 };
 
 const ContentListView = ({
@@ -22,18 +22,9 @@ const ContentListView = ({
   category,
   articles,
   currentPage = 1,
+  movePage,
 }: Props) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   const hasArticles = articles.length > 0;
-
-  const movePage = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", String(page));
-    router.push(`${pathname}?${params.toString()}`);
-  };
 
   return (
     <Fragment>
