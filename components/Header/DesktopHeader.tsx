@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Flex, Box } from "@chakra-ui/react";
 
 import HeaderNav from "@/components/Header/HeaderNav";
-import { layoutWidth } from "@/components/layouts/AppLayout";
+import { layoutWidth } from "@/constants/layout";
 
 const DesktopHeader = () => {
   return (

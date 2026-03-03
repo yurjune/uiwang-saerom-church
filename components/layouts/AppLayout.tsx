@@ -2,8 +2,7 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
-
-export const layoutWidth = "1000px";
+import { layoutWidth } from "@/constants/layout";
 
 type Props = {
   children: ReactNode;
