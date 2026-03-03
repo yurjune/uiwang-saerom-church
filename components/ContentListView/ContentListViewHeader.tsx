@@ -7,17 +7,18 @@ import BibleTagCollapse from "@/components/BibleTagCollapse/BibleTagCollapse";
 import { categoryToUrl } from "@/utils/category";
 
 type Props = {
-  category?: string;
+  title: string;
+  category: string;
 };
 
-const ContentListViewHeader = ({ category }: Props) => {
+const ContentListViewHeader = ({ title, category }: Props) => {
   const { isOpen, onClose, onToggle } = useDisclosure();
 
   return (
     <Box>
       <Flex direction={{ base: "column", sm: "row" }} justify="space-between">
         <Heading as="h2" size="lg">
-          {category}
+          {title}
         </Heading>
 
         <HStack mt={{ base: "20px", sm: "0" }}>

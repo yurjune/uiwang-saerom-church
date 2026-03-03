@@ -12,14 +12,18 @@ type MoviesPageProps = {
 
 const MoviesPage = ({ articles }: MoviesPageProps) => {
   const searchParams = useSearchParams();
-  const tag = searchParams.get("v") ?? undefined;
+  const bible = searchParams.get("v") ?? undefined;
   const page = searchParams.get("page") ?? "1";
   const currentPage = parseInt(page, 10) || 1;
-  const posts = filterByTag(articles, tag);
+  const posts = filterByTag(articles, bible);
+
+  const category = CONTENTFUL_CATEGORY.movies;
+  const title = category + (bible ? ` - ${bible}` : "");
 
   return (
     <ContentListView
-      category={CONTENTFUL_CATEGORY.movies}
+      title={title}
+      category={category}
       articles={posts}
       currentPage={currentPage}
     />

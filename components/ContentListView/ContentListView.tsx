@@ -11,12 +11,18 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { postNumberPerOnePage } from "@/constants/pagination";
 
 type Props = {
-  category?: string;
+  title: string;
+  category: string;
   articles: ArticleEntry[];
   currentPage?: number;
 };
 
-const ContentListView = ({ category, articles, currentPage = 1 }: Props) => {
+const ContentListView = ({
+  title,
+  category,
+  articles,
+  currentPage = 1,
+}: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -35,7 +41,7 @@ const ContentListView = ({ category, articles, currentPage = 1 }: Props) => {
   return (
     <Fragment>
       <Box mb="30px">
-        <ContentListViewHeader category={category} />
+        <ContentListViewHeader category={category} title={title} />
       </Box>
 
       <Box mb="50px">
