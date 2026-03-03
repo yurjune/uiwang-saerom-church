@@ -28,9 +28,6 @@ const ContentListView = ({
   const searchParams = useSearchParams();
 
   const hasArticles = articles.length > 0;
-  if (!hasArticles) {
-    return <NoPost />;
-  }
 
   const movePage = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -44,20 +41,25 @@ const ContentListView = ({
         <ContentListViewHeader category={category} title={title} />
       </Box>
 
-      <Box mb="50px">
-        <ContentList
-          articles={articles}
-          currentPage={currentPage}
-          limit={postNumberPerOnePage}
-        />
-      </Box>
-
-      <Pagination
-        totalCount={articles.length}
-        currentPage={currentPage}
-        limit={postNumberPerOnePage}
-        movePage={movePage}
-      />
+      {!hasArticles ? (
+        <NoPost />
+      ) : (
+        <Fragment>
+          <Box mb="50px">
+            <ContentList
+              articles={articles}
+              currentPage={currentPage}
+              limit={postNumberPerOnePage}
+            />
+          </Box>
+          <Pagination
+            totalCount={articles.length}
+            currentPage={currentPage}
+            limit={postNumberPerOnePage}
+            movePage={movePage}
+          />
+        </Fragment>
+      )}
     </Fragment>
   );
 };
