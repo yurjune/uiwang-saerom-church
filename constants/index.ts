@@ -8,7 +8,7 @@ export const SITE_METADATA = {
   locale: "ko_KR",
   siteName: CHURCH_INFO.name,
   title: CHURCH_INFO.name,
-  description: `${CHURCH_INFO.name} 홈페이지입니다. 예배 안내, 교회소식, 설교영상을 확인할 수 있습니다.`,
+  description: `경기 의왕시 안양판교로 219 로얄프라자 202에 위치한 의왕 새롬교회 홈페이지입니다. 예배 안내, 오시는길, 설교영상, 교회소식을 확인할 수 있습니다.`,
   keywords: [
     CHURCH_INFO.name,
     "교회",
