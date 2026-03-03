@@ -7,6 +7,8 @@ import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
 
+export const revalidate = 86400; // 1 day
+
 export const metadata: Metadata = {
   alternates: {
     canonical: ProjectUrl.news.toString(),
@@ -15,8 +17,6 @@ export const metadata: Metadata = {
   description: "의왕 새롬교회의 공지와 최근 소식을 확인할 수 있습니다.",
   keywords: [CHURCH_INFO.name, "교회소식", "공지", "교회행사"],
 };
-
-export const revalidate = 300;
 
 type SearchParams = {
   page?: string | string[];

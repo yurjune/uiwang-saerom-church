@@ -13,7 +13,7 @@ import {
   getArticleTags,
 } from "@/utils/article-fields";
 
-export const revalidate = 300;
+export const revalidate = 86400; // 1 day
 
 type RouteParams = { id: string };
 type PageProps = { params: Promise<RouteParams> };

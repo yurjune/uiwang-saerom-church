@@ -8,6 +8,8 @@ import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
 
+export const revalidate = 86400; // 1 day
+
 export const metadata: Metadata = {
   alternates: {
     canonical: ProjectUrl.movies.toString(),
@@ -16,8 +18,6 @@ export const metadata: Metadata = {
   description: "설교영상과 말씀 콘텐츠를 확인할 수 있습니다.",
   keywords: [CHURCH_INFO.name, "설교영상", "주일예배"],
 };
-
-export const revalidate = 300;
 
 type SearchParams = {
   v?: string | string[];
