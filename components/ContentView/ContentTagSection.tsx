@@ -1,5 +1,3 @@
-"use client";
-
 import { Box, Link } from "@chakra-ui/react";
 import { categoryToUrl } from "@/utils/category";
 import type { ArticleEntry } from "@/interface/article";

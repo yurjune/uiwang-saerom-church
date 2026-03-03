@@ -1,5 +1,3 @@
-"use client";
-
 import { Box, Divider, Collapse } from "@chakra-ui/react";
 import BibleTag from "@/components/BibleTagCollapse/BibleTag";
 import { oldBible, newBible } from "@/constants/bible";

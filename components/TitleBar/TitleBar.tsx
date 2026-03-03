@@ -1,5 +1,3 @@
-"use client";
-
 import { Box, Heading, Divider } from "@chakra-ui/react";
 
 type Props = {

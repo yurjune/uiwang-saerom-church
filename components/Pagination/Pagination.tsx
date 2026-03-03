@@ -1,5 +1,3 @@
-"use client";
-
 import { Box, Flex, Icon } from "@chakra-ui/react";
 import {
   FaAngleLeft,

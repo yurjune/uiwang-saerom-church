@@ -1,5 +1,3 @@
-"use client";
-
 import { postNumberPerOnePage } from "@/constants/pagination";
 
 const PAGE_GROUP_SIZE = 5;

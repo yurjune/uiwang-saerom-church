@@ -1,5 +1,3 @@
-"use client";
-
 import NextLink from "next/link";
 import { Link, Grid } from "@chakra-ui/react";
 import { categoryToUrl } from "@/utils/category";

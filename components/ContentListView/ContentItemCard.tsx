@@ -1,5 +1,3 @@
-"use client";
-
 import { Box } from "@chakra-ui/react";
 import Image from "next/image";
 import type { ArticleEntry } from "@/interface/article";

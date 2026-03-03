@@ -1,5 +1,3 @@
-"use client";
-
 import { Grid, GridItem } from "@chakra-ui/react";
 import ContentItemCard from "@/components/ContentListView/ContentItemCard";
 import { getLimitedArticles } from "@/utils/articles";

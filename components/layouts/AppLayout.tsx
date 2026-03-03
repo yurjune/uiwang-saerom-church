@@ -1,5 +1,3 @@
-"use client";
-
 import { Grid, GridItem } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 import Footer from "@/components/Footer/Footer";

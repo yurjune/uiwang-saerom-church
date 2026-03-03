@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 

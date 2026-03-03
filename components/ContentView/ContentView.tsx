@@ -1,5 +1,3 @@
-"use client";
-
 import { Box, Divider, Flex } from "@chakra-ui/react";
 import ContentMeta from "@/components/ContentView/ContentMeta";
 import ContentsNavigator from "@/components/ContentView/ContentsNavigator";
