@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { Flex, Box } from "@chakra-ui/react";
@@ -19,9 +17,11 @@ const MobileHeader = () => {
       borderColor="gray.200"
       px={4}
     >
-      <Box as={Link} href="/" rounded="xl" transition="all 0.2s ease">
-        <Image alt="logo" src="/logo.jpg" width={120} height={40} priority />
-      </Box>
+      <Link href="/">
+        <Box rounded="xl" transition="all 0.2s ease">
+          <Image alt="logo" src="/logo.jpg" width={120} height={40} priority />
+        </Box>
+      </Link>
 
       <DrawerButton />
     </Flex>

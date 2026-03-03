@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { Flex, Box } from "@chakra-ui/react";
@@ -27,15 +25,17 @@ const DesktopHeader = () => {
         justify="space-between"
         align="center"
       >
-        <Box as={Link} href="/" rounded="xl" transition="all 0.2s ease">
-          <Image
-            src="/logo.jpg"
-            alt="Church logo"
-            width={150}
-            height={32}
-            priority
-          />
-        </Box>
+        <Link href="/">
+          <Box rounded="xl" transition="all 0.2s ease">
+            <Image
+              src="/logo.jpg"
+              alt="Church logo"
+              width={150}
+              height={32}
+              priority
+            />
+          </Box>
+        </Link>
 
         <HeaderNav />
       </Flex>
