@@ -23,6 +23,7 @@ const ContentItemCard = ({ article, href }: Props) => {
           <Image
             src={thumbnailUrl}
             alt="thumbnail"
+            fetchPriority="high"
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
             style={{ objectFit: "cover" }}
