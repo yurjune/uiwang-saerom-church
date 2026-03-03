@@ -1,6 +1,7 @@
 "use client";
 
-import { Fragment, useRef } from "react";
+import { Fragment, useRef, useState } from "react";
+import Script from "next/script";
 import { Box, AspectRatio } from "@chakra-ui/react";
 import useKakaoMap from "@/components/KaKaoMap/useKakaoMap";
 
@@ -10,10 +11,23 @@ type Props = {
 
 const KakaoMap = ({ appKey }: Props) => {
   const container = useRef<HTMLDivElement | null>(null);
-  useKakaoMap(container, appKey);
+  const [isSdkReady, setIsSdkReady] = useState(false);
+  useKakaoMap(container, isSdkReady);
 
   return (
     <Fragment>
+      {appKey ? (
+        <Script
+          id="kakao-map-sdk"
+          // script will load only once
+          src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false`}
+          strategy="afterInteractive"
+          onReady={() => {
+            setIsSdkReady(true);
+          }}
+        />
+      ) : null}
+
       <style>{`
         .customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
         .customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}

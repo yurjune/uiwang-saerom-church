@@ -15,12 +15,12 @@ type KakaoWindow = Window & {
 
 const useKakaoMap = (
   container: RefObject<HTMLDivElement | null>,
-  appKey?: string,
+  isSdkReady: boolean,
 ) => {
   useEffect(() => {
     if (typeof window === "undefined" || typeof document === "undefined")
       return;
-    if (!appKey) return;
+    if (!isSdkReady) return;
 
     let isMounted = true;
     let mapInitialized = false;
@@ -80,36 +80,12 @@ const useKakaoMap = (
       return true;
     };
 
-    // if sdk is ready
-    if (initMap()) {
-      return () => {
-        isMounted = false;
-      };
-    }
-
-    const scriptId = "kakao-map-sdk";
-    const sdkUrl = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false`;
-    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
-
-    if (!script) {
-      script = document.createElement("script");
-      script.id = scriptId;
-      script.src = sdkUrl;
-      script.async = true;
-      document.head.appendChild(script);
-    }
-
-    const handleLoad = () => {
-      initMap();
-    };
-
-    script.addEventListener("load", handleLoad);
+    initMap();
 
     return () => {
       isMounted = false;
-      script?.removeEventListener("load", handleLoad);
     };
-  }, [appKey, container]);
+  }, [container, isSdkReady]);
 };
 
 export default useKakaoMap;
