@@ -8,6 +8,7 @@ import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
 
 export const revalidate = 86400; // 1 day
+export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   alternates: {
@@ -18,23 +19,12 @@ export const metadata: Metadata = {
   keywords: [CHURCH_INFO.name, "교회소식", "공지", "교회행사"],
 };
 
-type SearchParams = {
-  page?: string | string[];
-};
-
-type PageProps = {
-  searchParams: Promise<SearchParams>;
-};
-
-export default async function CommunityNews({ searchParams }: PageProps) {
+export default async function CommunityNews() {
   const articles = await getArticles({ category: CONTENTFUL_CATEGORY.news });
-  const sp = await searchParams;
-  const page = typeof sp?.page === "string" ? sp.page : "1";
-  const currentPage = parseInt(page, 10) || 1;
 
   return (
     <AppLayout>
-      <NewsPage articles={articles} currentPage={currentPage} />
+      <NewsPage articles={articles} />
     </AppLayout>
   );
 }

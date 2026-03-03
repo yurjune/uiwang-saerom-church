@@ -11,13 +11,14 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 type NewsPageProps = {
   articles: ArticleEntry[];
-  currentPage?: number;
 };
 
-const NewsPage = ({ articles, currentPage = 1 }: NewsPageProps) => {
+const NewsPage = ({ articles }: NewsPageProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const page = searchParams.get("page") ?? "1";
+  const currentPage = parseInt(page, 10) || 1;
 
   const firstArticle = articles[0];
   if (!firstArticle) {

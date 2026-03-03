@@ -1,0 +1,29 @@
+"use client";
+
+import ContentListView from "@/components/ContentListView/ContentListView";
+import type { ArticleEntry } from "@/interface/article";
+import { CONTENTFUL_CATEGORY } from "@/constants/category";
+import { filterByTag } from "@/utils/articles";
+import { useSearchParams } from "next/navigation";
+
+type MoviesPageProps = {
+  articles: ArticleEntry[];
+};
+
+const MoviesPage = ({ articles }: MoviesPageProps) => {
+  const searchParams = useSearchParams();
+  const tag = searchParams.get("v") ?? undefined;
+  const page = searchParams.get("page") ?? "1";
+  const currentPage = parseInt(page, 10) || 1;
+  const posts = filterByTag(articles, tag);
+
+  return (
+    <ContentListView
+      category={CONTENTFUL_CATEGORY.movies}
+      articles={posts}
+      currentPage={currentPage}
+    />
+  );
+};
+
+export default MoviesPage;
