@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Stack, Text } from "@chakra-ui/react";
 
 function Introduction() {
   return (
@@ -38,29 +38,36 @@ function Introduction() {
           <Text fontSize={{ base: "xl", md: "2xl" }}>(요 13:15)</Text>
         </Box>
 
-        <Box as="p" fontSize={{ md: "lg" }} lineHeight="160%">
-          <strong>
-            하나님 말씀이 가치관과 삶의 중심이 되는 교회
-            <br />
-          </strong>
-          Church where God's Word becomes the center of values and life
-          <br />
-          <br />
-          <strong>
-            나의 이웃과 성도 간에 사랑이 넘치는 교회
-            <br />
-          </strong>
-          Church full of love between my neighbor and the saints
-          <br />
-          <br />
-          <strong>
-            모든 성도가 하나님을 섬기고 경배드리는 교회
-            <br />
-          </strong>
-          Church where all saints serve and worship God
-          <br />
-          <br />
-        </Box>
+        <Stack
+          spacing={{ base: 6, md: 8 }}
+          fontSize={{ md: "lg" }}
+          lineHeight="160%"
+        >
+          <Box>
+            <Text as="p" fontWeight="bold">
+              하나님 말씀이 가치관과 삶의 중심이 되는 교회
+            </Text>
+            <Text as="p">
+              Church where God&apos;s Word becomes the center of values and life
+            </Text>
+          </Box>
+
+          <Box>
+            <Text as="p" fontWeight="bold">
+              나의 이웃과 성도 간에 사랑이 넘치는 교회
+            </Text>
+            <Text as="p">
+              Church full of love between my neighbor and the saints
+            </Text>
+          </Box>
+
+          <Box>
+            <Text as="p" fontWeight="bold">
+              모든 성도가 하나님을 섬기고 경배드리는 교회
+            </Text>
+            <Text as="p">Church where all saints serve and worship God</Text>
+          </Box>
+        </Stack>
       </Box>
     </Flex>
   );
