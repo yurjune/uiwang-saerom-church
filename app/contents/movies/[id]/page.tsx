@@ -1,8 +1,12 @@
+import { cache } from "react";
 import type { Metadata } from "next/types";
 import { notFound } from "next/navigation";
 import AppLayout from "@/components/layouts/AppLayout";
 import ContentView from "@/components/ContentView/ContentView";
-import { getArticleById, getArticles } from "@/lib/contentful";
+import {
+  getArticleById as _getArticleById,
+  getArticles,
+} from "@/lib/contentful";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { CHURCH_INFO, SITE_METADATA } from "@/constants";
 import { ProjectUrl } from "@/constants/projectUrl";
@@ -17,6 +21,8 @@ export const revalidate = 86400; // 1 day
 
 type RouteParams = { id: string };
 type PageProps = { params: Promise<RouteParams> };
+
+const getArticleById = cache(_getArticleById);
 
 export async function generateMetadata({
   params: _params,
