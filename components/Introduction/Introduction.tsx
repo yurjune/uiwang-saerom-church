@@ -1,7 +1,5 @@
-"use client";
-
 import Image from "next/image";
-import { chakra, Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
 function Introduction() {
   return (
@@ -27,7 +25,8 @@ function Introduction() {
       />
 
       <Box mx="auto" textAlign="center" position="relative" zIndex={1}>
-        <chakra.h1
+        <Box
+          as="h1"
           mb={{ base: "40px", md: "60px" }}
           fontSize={{ base: "26px", md: "3xl" }}
           fontWeight="bold"
@@ -37,8 +36,9 @@ function Introduction() {
         >
           "너희가 서로 사랑하면 이로써 모든 사람이 너희가 내 제자인 줄 알리라"
           <Text fontSize={{ base: "xl", md: "2xl" }}>(요 13:15)</Text>
-        </chakra.h1>
-        <chakra.p fontSize={{ md: "lg" }} lineHeight="160%">
+        </Box>
+
+        <Box as="p" fontSize={{ md: "lg" }} lineHeight="160%">
           <strong>
             하나님 말씀이 가치관과 삶의 중심이 되는 교회
             <br />
@@ -60,7 +60,7 @@ function Introduction() {
           Church where all saints serve and worship God
           <br />
           <br />
-        </chakra.p>
+        </Box>
       </Box>
     </Flex>
   );
