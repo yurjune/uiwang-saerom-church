@@ -13,7 +13,7 @@ type Props = {
   currentPage: number;
   limit?: number;
   pageGroupSize?: number;
-  movePage: (page: number) => void;
+  getPageHref: (page: number) => string;
 };
 
 const Pagination = ({
@@ -21,44 +21,29 @@ const Pagination = ({
   currentPage,
   limit,
   pageGroupSize,
-  movePage,
+  getPageHref,
 }: Props) => {
   const { currentPageGroup, lastPage, isFirstGroup, isLastGroup } =
     getPagination({ totalCount, currentPage, limit, pageGroupSize });
 
-  const onClickPrevArrow = () => {
-    if (currentPageGroup.length === 0) return;
-    const startPage = currentPageGroup[0];
-    movePage(startPage - 1);
-  };
+  const prevPage =
+    currentPageGroup.length > 0 ? currentPageGroup[0] - 1 : currentPage;
 
-  const onClickNextArrow = () => {
-    if (currentPageGroup.length === 0) return;
-    const endPage = currentPageGroup[currentPageGroup.length - 1];
-    movePage(endPage + 1);
-  };
-
-  const onClickFirstArrow = () => {
-    movePage(1);
-  };
-
-  const onClickLastArrow = () => {
-    movePage(lastPage);
-  };
+  const nextPage =
+    currentPageGroup.length > 0
+      ? currentPageGroup[currentPageGroup.length - 1] + 1
+      : currentPage;
 
   return (
     <Flex w="full" align="center" justify="center">
       {isFirstGroup ? null : (
         <>
-          <ArrowButton
-            ariaLabel="to first page"
-            onClickButtonAction={onClickFirstArrow}
-          >
+          <ArrowButton ariaLabel="to first page" href={getPageHref(1)}>
             <Icon as={FaAngleDoubleLeft} boxSize={3} />
           </ArrowButton>
           <ArrowButton
             ariaLabel="to previous page group"
-            onClickButtonAction={onClickPrevArrow}
+            href={getPageHref(prevPage)}
           >
             <Icon as={FaAngleLeft} boxSize={3} />
           </ArrowButton>
@@ -71,7 +56,7 @@ const Pagination = ({
             key={curPage}
             value={curPage}
             selected={currentPage === curPage}
-            onClickButtonAction={movePage}
+            href={getPageHref(curPage)}
           />
         ))}
       </Box>
@@ -80,14 +65,11 @@ const Pagination = ({
         <>
           <ArrowButton
             ariaLabel="to next page group"
-            onClickButtonAction={onClickNextArrow}
+            href={getPageHref(nextPage)}
           >
             <Icon as={FaAngleRight} boxSize={3} />
           </ArrowButton>
-          <ArrowButton
-            ariaLabel="to last page"
-            onClickButtonAction={onClickLastArrow}
-          >
+          <ArrowButton ariaLabel="to last page" href={getPageHref(lastPage)}>
             <Icon as={FaAngleDoubleRight} boxSize={3} />
           </ArrowButton>
         </>

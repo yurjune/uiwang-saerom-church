@@ -14,7 +14,7 @@ type Props = {
   category: string;
   articles: ArticleEntry[];
   currentPage?: number;
-  movePage: (page: number) => void;
+  getPageHref: (page: number) => string;
 };
 
 const ContentListView = ({
@@ -22,7 +22,7 @@ const ContentListView = ({
   category,
   articles,
   currentPage = 1,
-  movePage,
+  getPageHref,
 }: Props) => {
   const hasArticles = articles.length > 0;
 
@@ -47,7 +47,7 @@ const ContentListView = ({
             totalCount={articles.length}
             currentPage={currentPage}
             limit={postNumberPerOnePage}
-            movePage={movePage}
+            getPageHref={getPageHref}
           />
         </Fragment>
       )}

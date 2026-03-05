@@ -6,7 +6,7 @@ import ContentBody from "@/components/ContentView/ContentBody";
 import ContentsTable from "@/components/ContentsTable/ContentsTable";
 import Pagination from "@/components/Pagination/Pagination";
 import type { ArticleEntry } from "@/interface/article";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import NoPost from "@/components/NoPost/NoPost";
 
 type NewsPageProps = {
@@ -14,16 +14,15 @@ type NewsPageProps = {
 };
 
 const NewsPage = ({ articles }: NewsPageProps) => {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const page = searchParams.get("page") ?? "1";
   const currentPage = parseInt(page, 10) || 1;
 
-  const movePage = (page: number) => {
+  const getPageHref = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", String(page));
-    router.push(`${pathname}?${params.toString()}`);
+    return `${pathname}?${params.toString()}`;
   };
 
   const firstArticle = articles[0];
@@ -58,7 +57,7 @@ const NewsPage = ({ articles }: NewsPageProps) => {
       <Pagination
         totalCount={articles.length}
         currentPage={currentPage}
-        movePage={movePage}
+        getPageHref={getPageHref}
       />
     </>
   );

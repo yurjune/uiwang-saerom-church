@@ -1,19 +1,18 @@
 import { Button } from "@chakra-ui/react";
+import NextLink from "next/link";
 import type { ReactNode } from "react";
 
 type Props = {
   value: number;
-  onClickButtonAction: (value: number) => void;
   selected?: boolean;
+  href: string;
 };
 
-export const PageButton = ({
-  value,
-  onClickButtonAction,
-  selected = false,
-}: Props) => {
+export const PageButton = ({ value, selected = false, href }: Props) => {
   return (
     <Button
+      as={NextLink}
+      href={href}
       mx="2px"
       size="sm"
       w="36px"
@@ -21,7 +20,6 @@ export const PageButton = ({
       colorScheme="blue"
       variant={selected ? "solid" : "outline"}
       sx={{ fontVariantNumeric: "tabular-nums" }}
-      onClick={() => onClickButtonAction(value)}
       aria-current={selected ? "page" : undefined}
     >
       {value}
@@ -31,17 +29,15 @@ export const PageButton = ({
 
 type ArrowProps = {
   children: ReactNode;
-  onClickButtonAction: () => void;
   ariaLabel?: string;
+  href: string;
 };
 
-export const ArrowButton = ({
-  children,
-  onClickButtonAction,
-  ariaLabel,
-}: ArrowProps) => {
+export const ArrowButton = ({ children, ariaLabel, href }: ArrowProps) => {
   return (
     <Button
+      as={NextLink}
+      href={href}
       mx="2px"
       size="sm"
       w="36px"
@@ -49,7 +45,6 @@ export const ArrowButton = ({
       colorScheme="blue"
       variant="outline"
       aria-label={ariaLabel}
-      onClick={onClickButtonAction}
     >
       {children}
     </Button>
