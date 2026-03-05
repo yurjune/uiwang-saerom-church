@@ -1,9 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Flex, HStack, Button, Icon } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { IoMenu } from "react-icons/io5";
 import { categoryToContentUrl, categoryToUrl } from "@/utils/category";
 import type { ArticleEntry } from "@/interface/article";
 
@@ -13,58 +13,56 @@ type Props = {
 };
 
 const ContentsNavigator = ({ article, articles }: Props) => {
-  const router = useRouter();
   const { category } = article.fields;
   const { id } = article.sys;
   const currentIndex = articles.findIndex((el) => el.sys.id === id);
 
   const isLatest = currentIndex === 0;
   const isOldest = currentIndex === articles.length - 1;
-
-  const moveNext = () => {
-    const nextArticle = articles[currentIndex - 1];
-    if (nextArticle) {
-      const nextId = nextArticle.sys.id;
-      return router.push(`${categoryToContentUrl(category)}/${nextId}`);
-    }
-  };
-
-  const movePrev = () => {
-    const prevArticle = articles[currentIndex + 1];
-    if (prevArticle) {
-      const prevId = prevArticle.sys.id;
-      return router.push(`${categoryToContentUrl(category)}/${prevId}`);
-    }
-  };
-
-  const onClickListBtn = () => {
-    router.push(categoryToUrl(category));
-  };
+  const nextArticle = isLatest ? null : articles[currentIndex - 1];
+  const prevArticle = isOldest ? null : articles[currentIndex + 1];
 
   return (
     <Flex direction={{ base: "row", lg: "column" }} justify="space-between">
       <HStack mb={{ base: "0", lg: "15px" }}>
+        {!prevArticle ? (
+          <Button colorScheme="blue" size="sm" disabled>
+            <Icon as={IoIosArrowBack} boxSize={3} />
+          </Button>
+        ) : (
+          <Button
+            as={Link}
+            href={`${categoryToContentUrl(category)}/${prevArticle.sys.id}`}
+            colorScheme="blue"
+            size="sm"
+          >
+            <Icon as={IoIosArrowBack} boxSize={3} />
+          </Button>
+        )}
+
         <Button
+          as={Link}
+          href={categoryToUrl(category)}
           colorScheme="blue"
           size="sm"
-          disabled={isOldest}
-          onClick={movePrev}
         >
-          <Icon as={IoIosArrowBack} boxSize={3} />
+          <Icon as={IoMenu} boxSize={3} />
         </Button>
 
-        <Button colorScheme="blue" size="sm" onClick={onClickListBtn}>
-          <Icon as={HamburgerIcon} boxSize={3} />
-        </Button>
-
-        <Button
-          colorScheme="blue"
-          size="sm"
-          disabled={isLatest}
-          onClick={moveNext}
-        >
-          <Icon as={IoIosArrowForward} boxSize={3} />
-        </Button>
+        {!nextArticle ? (
+          <Button colorScheme="blue" size="sm" disabled>
+            <Icon as={IoIosArrowForward} boxSize={3} />
+          </Button>
+        ) : (
+          <Button
+            as={Link}
+            href={`${categoryToContentUrl(category)}/${nextArticle.sys.id}`}
+            colorScheme="blue"
+            size="sm"
+          >
+            <Icon as={IoIosArrowForward} boxSize={3} />
+          </Button>
+        )}
       </HStack>
     </Flex>
   );
