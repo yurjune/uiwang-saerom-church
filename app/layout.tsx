@@ -1,16 +1,7 @@
-import localFont from "next/font/local";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { CHURCH_INFO, SITE_METADATA, TWITTER_CONFIG } from "@/constants";
 import Providers from "./providers";
-
-const pretendard = localFont({
-  src: "./fonts/PretendardVariable.woff2",
-  variable: "--font-pretendard",
-  display: "swap",
-  weight: "45 920",
-  style: "normal",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -66,7 +57,7 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="ko" className={pretendard.variable} suppressHydrationWarning>
+    <html lang="ko" suppressHydrationWarning>
       <body className="chakra-ui-light">
         <Providers>{children}</Providers>
       </body>
