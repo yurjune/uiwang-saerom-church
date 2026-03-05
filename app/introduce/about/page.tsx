@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   title: ProjectMenu.introduce.about.label,
   description: `${CHURCH_INFO.name}을 소개합니다.`,
   keywords: [CHURCH_INFO.name, "교회소개"],
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default async function About() {
