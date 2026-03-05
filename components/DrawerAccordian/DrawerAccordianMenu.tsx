@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   AccordionButton,
   AccordionButtonProps,
@@ -18,25 +19,33 @@ const createButtonProps = (active: boolean): AccordionButtonProps => {
 };
 
 interface Props {
+  href: string | undefined;
   label: string;
   active: boolean;
-  hasChildren: boolean;
-  onClick: () => void;
+  onClose: () => void;
 }
 
-const DrawerAccordianMenu = ({
-  label,
-  active,
-  hasChildren,
-  onClick,
-}: Props) => {
+const DrawerAccordianMenu = ({ label, active, href, onClose }: Props) => {
+  if (href) {
+    return (
+      <AccordionButton
+        as={Link}
+        href={href}
+        {...createButtonProps(active)}
+        onClick={onClose}
+      >
+        {label}
+      </AccordionButton>
+    );
+  }
+
   return (
-    <AccordionButton p={3} {...createButtonProps(active)} onClick={onClick}>
+    <AccordionButton p={3} {...createButtonProps(active)}>
       <Box flex="1" textAlign="left">
         {label}
       </Box>
 
-      {hasChildren && <AccordionIcon />}
+      <AccordionIcon />
     </AccordionButton>
   );
 };

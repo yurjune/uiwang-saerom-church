@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   Accordion,
   AccordionItem,
@@ -22,7 +22,6 @@ type Props = {
 
 const DrawerAccordian = ({ onMove }: Props) => {
   const pathname = usePathname();
-  const router = useRouter();
 
   const isActive = (href?: string) => {
     if (!href) return false;
@@ -44,7 +43,7 @@ const DrawerAccordian = ({ onMove }: Props) => {
         const hasChildren =
           Array.isArray(item.children) && item.children.length > 0;
         const children = item.children ?? [];
-        const parentActive = hasChildren
+        const active = hasChildren
           ? children.some((child) => isActive(child.href))
           : isActive(item.href);
 
@@ -57,15 +56,10 @@ const DrawerAccordian = ({ onMove }: Props) => {
             gap={1}
           >
             <DrawerAccordianMenu
+              href={item.href}
               label={item.label}
-              active={parentActive}
-              hasChildren={hasChildren}
-              onClick={() => {
-                if (!hasChildren && item.href && !parentActive) {
-                  router.push(item.href);
-                  onMove();
-                }
-              }}
+              active={active}
+              onClose={onMove}
             />
 
             {hasChildren && (
