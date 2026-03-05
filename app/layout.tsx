@@ -49,6 +49,12 @@ export const metadata: Metadata = {
     shortcut: SITE_METADATA.favicon,
     apple: SITE_METADATA.appleIcon, // 180x180
   },
+  verification: {
+    google: "ylqsL2X1XZB0kWOfbK3QepJHN9Bb6J29MQ32B7nyT84",
+    other: {
+      "naver-site-verification": "8690d31f0f43509093ed009b6db3073a6f9b559e",
+    },
+  },
 };
 
 type RootLayoutProps = {
