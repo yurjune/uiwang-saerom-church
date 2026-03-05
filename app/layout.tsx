@@ -1,7 +1,6 @@
 import localFont from "next/font/local";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "./global.css";
 import { CHURCH_INFO, SITE_METADATA, TWITTER_CONFIG } from "@/constants";
 import Providers from "./providers";
 
