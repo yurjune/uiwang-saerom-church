@@ -4,8 +4,8 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { HStack, Box, Menu, MenuList } from "@chakra-ui/react";
 import { navItems } from "@/components/Header/navItems";
-import { NavMenuLink } from "./HeaderNav/NavMenu";
-import { NavSubMenu } from "./HeaderNav/NavSubMenu";
+import { HeaderNavMenuLink } from "./HeaderNavMenu";
+import { HeaderNavSubMenu } from "./HeaderNavSubMenu";
 
 const HeaderNav = () => {
   const pathname = usePathname();
@@ -37,14 +37,14 @@ const HeaderNav = () => {
             onMouseLeave={hasChildren ? () => setOpenMenu(null) : undefined}
           >
             <Menu isOpen={isOpen} gutter={0}>
-              <NavMenuLink
+              <HeaderNavMenuLink
                 active={active}
                 onClick={
                   !hasChildren && href ? () => router.push(href) : undefined
                 }
               >
                 {item.label}
-              </NavMenuLink>
+              </HeaderNavMenuLink>
 
               {hasChildren && (
                 <MenuList
@@ -55,13 +55,13 @@ const HeaderNav = () => {
                 >
                   {children.map((child) => {
                     return (
-                      <NavSubMenu
+                      <HeaderNavSubMenu
                         key={child.href}
                         href={child.href}
                         active={isActive(child.href)}
                       >
                         {child.label}
-                      </NavSubMenu>
+                      </HeaderNavSubMenu>
                     );
                   })}
                 </MenuList>

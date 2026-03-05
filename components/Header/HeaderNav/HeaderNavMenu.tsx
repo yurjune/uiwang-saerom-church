@@ -7,7 +7,7 @@ interface Props {
   onClick: (() => void) | undefined;
 }
 
-export const NavMenuLink = ({ children, active, onClick }: Props) => {
+export const HeaderNavMenuLink = ({ children, active, onClick }: Props) => {
   return (
     <MenuButton
       as={Button}

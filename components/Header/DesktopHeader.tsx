@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Flex, Box } from "@chakra-ui/react";
 
-import HeaderNav from "@/components/Header/HeaderNav";
+import HeaderNav from "@/components/Header/HeaderNav/HeaderNav";
 import { layoutWidth } from "@/constants/layout";
 
 const DesktopHeader = () => {
