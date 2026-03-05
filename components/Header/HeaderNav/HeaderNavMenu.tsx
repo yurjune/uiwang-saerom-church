@@ -1,11 +1,6 @@
 import { MenuButton, Button, MenuButtonProps } from "@chakra-ui/react";
+import Link from "next/link";
 import { ReactNode } from "react";
-
-interface Props {
-  children: ReactNode;
-  active: boolean;
-  onClick: (() => void) | undefined;
-}
 
 const createMenuButtonProps = (active: boolean): MenuButtonProps => {
   return {
@@ -50,15 +45,30 @@ const createMenuButtonProps = (active: boolean): MenuButtonProps => {
   };
 };
 
-export const HeaderNavMenuLink = ({ children, active, onClick }: Props) => {
+interface Props {
+  children: ReactNode;
+  active: boolean;
+  href?: string;
+}
+
+const HeaderNavMenu = ({ children, active, href }: Props) => {
+  const menuButtonProps = createMenuButtonProps(active);
+
+  if (href) {
+    return (
+      <Link href={href}>
+        <MenuButton as={Button} variant="menu" {...menuButtonProps}>
+          {children}
+        </MenuButton>
+      </Link>
+    );
+  }
+
   return (
-    <MenuButton
-      as={Button}
-      variant="menu"
-      {...createMenuButtonProps(active)}
-      onClick={onClick}
-    >
+    <MenuButton as={Button} variant="menu" {...menuButtonProps}>
       {children}
     </MenuButton>
   );
 };
+
+export default HeaderNavMenu;

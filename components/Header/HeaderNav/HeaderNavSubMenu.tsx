@@ -2,7 +2,7 @@ import Link from "next/link";
 import { MenuItem } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
-export const HeaderNavSubMenu = ({
+const HeaderNavSubMenu = ({
   children,
   href,
   active,
@@ -26,3 +26,5 @@ export const HeaderNavSubMenu = ({
     </MenuItem>
   );
 };
+
+export default HeaderNavSubMenu;

@@ -1,15 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { HStack, Box, Menu, MenuList } from "@chakra-ui/react";
 import { navItems } from "@/components/Header/navItems";
-import { HeaderNavMenuLink } from "./HeaderNavMenu";
-import { HeaderNavSubMenu } from "./HeaderNavSubMenu";
+import HeaderNavMenu from "./HeaderNavMenu";
+import HeaderNavSubMenu from "./HeaderNavSubMenu";
 
 const HeaderNav = () => {
   const pathname = usePathname();
-  const router = useRouter();
 
   const [openMenu, setOpenMenu] = useState<string | null>(null);
 
@@ -22,7 +21,6 @@ const HeaderNav = () => {
         const hasChildren =
           Array.isArray(item.children) && item.children.length > 0;
         const children = item.children ?? [];
-        const href = item.href;
         const active = hasChildren
           ? children.some((child) => isActive(child.href))
           : isActive(item.href);
@@ -37,14 +35,9 @@ const HeaderNav = () => {
             onMouseLeave={hasChildren ? () => setOpenMenu(null) : undefined}
           >
             <Menu isOpen={isOpen} gutter={0}>
-              <HeaderNavMenuLink
-                active={active}
-                onClick={
-                  !hasChildren && href ? () => router.push(href) : undefined
-                }
-              >
+              <HeaderNavMenu active={active} href={item.href}>
                 {item.label}
-              </HeaderNavMenuLink>
+              </HeaderNavMenu>
 
               {hasChildren && (
                 <MenuList
