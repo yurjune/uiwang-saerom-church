@@ -14,8 +14,14 @@ const WorshipTime = () => {
         align="center"
       >
         <Box textAlign="center" mb={{ base: "28px", md: "40px" }}>
-          <Heading as="h3" size="lg" color="gray.800" letterSpacing="tight">
-            <div id="worship-time">{ProjectMenu.introduce.time.label}</div>
+          <Heading
+            as="h2"
+            id="worship-time"
+            size="lg"
+            color="gray.800"
+            letterSpacing="tight"
+          >
+            {ProjectMenu.introduce.time.label}
           </Heading>
         </Box>
 
