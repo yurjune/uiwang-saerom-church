@@ -4,14 +4,12 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   Accordion,
   AccordionItem,
-  AccordionButton,
   AccordionPanel,
-  AccordionIcon,
-  Box,
   VStack,
-  Link,
 } from "@chakra-ui/react";
 import { navItems } from "@/components/Header/navItems";
+import DrawerAccordianMenu from "./DrawerAccordianMenu";
+import DrawerAccordianSubMenu from "./DrawerAccordianSubMenu";
 
 const normalizePath = (path?: string | null): string => {
   if (!path) return "/";
@@ -49,7 +47,6 @@ const DrawerAccordian = ({ onMove }: Props) => {
         const parentActive = hasChildren
           ? children.some((child) => isActive(child.href))
           : isActive(item.href);
-        const buttonBg = parentActive ? "blue.100" : "blue.50";
 
         return (
           <AccordionItem
@@ -59,27 +56,17 @@ const DrawerAccordian = ({ onMove }: Props) => {
             overflow="hidden"
             gap={1}
           >
-            <AccordionButton
-              p={3}
-              bg={parentActive ? "blue.100" : "transparent"}
-              fontWeight={parentActive ? 700 : 500}
-              cursor={!hasChildren && parentActive ? "default" : "pointer"}
-              _focus={{ boxShadow: "none" }}
-              _focusVisible={{ boxShadow: "none" }}
-              _active={{ bg: buttonBg }}
-              _expanded={{ bg: buttonBg }}
+            <DrawerAccordianMenu
+              label={item.label}
+              active={parentActive}
+              hasChildren={hasChildren}
               onClick={() => {
                 if (!hasChildren && item.href && !parentActive) {
                   router.push(item.href);
                   onMove();
                 }
               }}
-            >
-              <Box flex="1" textAlign="left">
-                {item.label}
-              </Box>
-              {hasChildren && <AccordionIcon />}
-            </AccordionButton>
+            />
 
             {hasChildren && (
               <AccordionPanel py={1} pl={4} pr={0}>
@@ -88,27 +75,14 @@ const DrawerAccordian = ({ onMove }: Props) => {
                     const childActive = isActive(child.href);
 
                     return (
-                      <Box
+                      <DrawerAccordianSubMenu
                         key={child.href}
-                        as={Link}
                         href={child.href}
-                        onClick={onMove}
-                        textDecoration="none"
-                        px={3}
-                        py={2}
-                        rounded="md"
-                        fontSize="15px"
-                        fontWeight={childActive ? 700 : 500}
-                        color={childActive ? "blue.700" : "gray.700"}
-                        bg={childActive ? "blue.100" : "transparent"}
-                        _hover={{
-                          bg: "blue.50",
-                          color: "blue.800",
-                          textDecoration: "none",
-                        }}
+                        active={childActive}
+                        onMove={onMove}
                       >
                         {child.label}
-                      </Box>
+                      </DrawerAccordianSubMenu>
                     );
                   })}
                 </VStack>
