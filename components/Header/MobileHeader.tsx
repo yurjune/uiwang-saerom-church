@@ -7,6 +7,7 @@ import DrawerButton from "@/components/DrawerAccordian/DrawerButton";
 const MobileHeader = () => {
   return (
     <Flex
+      as="header"
       display={{ base: "flex", md: "none" }}
       width="100%"
       height="56px"

@@ -4,7 +4,7 @@ import { layoutWidth } from "@/constants/layout";
 
 const Footer = () => {
   return (
-    <Box w="100%" h="150px" bgColor="charcole">
+    <Box as="footer" w="100%" h="150px" bgColor="charcole">
       <Flex
         maxW={layoutWidth}
         h="100%"

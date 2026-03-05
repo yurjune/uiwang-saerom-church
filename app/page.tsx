@@ -18,9 +18,11 @@ export default async function HomePage() {
   return (
     <Flex minH="100vh" direction="column">
       <Header />
-      <Introduction />
-      <WorshipTime />
-      <ChurchLocation appKey={appKey} />
+      <main>
+        <Introduction />
+        <WorshipTime />
+        <ChurchLocation appKey={appKey} />
+      </main>
       <Footer />
     </Flex>
   );

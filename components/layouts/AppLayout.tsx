@@ -19,6 +19,7 @@ const AppLayout = ({ children }: Props) => {
         <Header />
       </GridItem>
       <GridItem
+        as="main"
         colStart={2}
         colEnd={3}
         rowStart={2}

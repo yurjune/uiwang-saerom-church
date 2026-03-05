@@ -8,6 +8,7 @@ import { layoutWidth } from "@/constants/layout";
 const DesktopHeader = () => {
   return (
     <Box
+      as="header"
       display={{ base: "none", md: "block" }}
       width="100%"
       height="72px"
