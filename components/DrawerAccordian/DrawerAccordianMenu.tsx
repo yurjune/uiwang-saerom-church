@@ -1,4 +1,21 @@
-import { AccordionButton, AccordionIcon, Box } from "@chakra-ui/react";
+import {
+  AccordionButton,
+  AccordionButtonProps,
+  AccordionIcon,
+  Box,
+} from "@chakra-ui/react";
+
+const createButtonProps = (active: boolean): AccordionButtonProps => {
+  return {
+    p: 3,
+    bg: active ? "blue.100" : "transparent",
+    fontWeight: active ? 700 : 500,
+    _focus: { boxShadow: "none" },
+    _focusVisible: { boxShadow: "none" },
+    _active: { bg: active ? "blue.100" : "blue.50" },
+    _expanded: { bg: active ? "blue.100" : "blue.50" },
+  };
+};
 
 interface Props {
   label: string;
@@ -13,23 +30,12 @@ const DrawerAccordianMenu = ({
   hasChildren,
   onClick,
 }: Props) => {
-  const buttonBg = active ? "blue.100" : "blue.50";
-
   return (
-    <AccordionButton
-      p={3}
-      bg={active ? "blue.100" : "transparent"}
-      fontWeight={active ? 700 : 500}
-      cursor={!hasChildren && active ? "default" : "pointer"}
-      _focus={{ boxShadow: "none" }}
-      _focusVisible={{ boxShadow: "none" }}
-      _active={{ bg: buttonBg }}
-      _expanded={{ bg: buttonBg }}
-      onClick={onClick}
-    >
+    <AccordionButton p={3} {...createButtonProps(active)} onClick={onClick}>
       <Box flex="1" textAlign="left">
         {label}
       </Box>
+
       {hasChildren && <AccordionIcon />}
     </AccordionButton>
   );
