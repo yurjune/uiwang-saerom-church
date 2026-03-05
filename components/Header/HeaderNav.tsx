@@ -1,18 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  HStack,
-  Box,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-} from "@chakra-ui/react";
+import { HStack, Box, Menu, MenuList } from "@chakra-ui/react";
 import { navItems } from "@/components/Header/navItems";
+import { NavMenuLink } from "./HeaderNav/NavMenu";
+import { NavSubMenu } from "./HeaderNav/NavSubMenu";
 
 const HeaderNav = () => {
   const pathname = usePathname();
@@ -44,47 +37,14 @@ const HeaderNav = () => {
             onMouseLeave={hasChildren ? () => setOpenMenu(null) : undefined}
           >
             <Menu isOpen={isOpen} gutter={0}>
-              <MenuButton
-                as={Button}
-                variant="menu"
-                h="48px"
-                px="16px"
-                bg="transparent"
-                rounded="md"
-                position="relative"
-                fontSize="18px"
-                color={active ? "blue.700" : "blue.600"}
-                fontWeight={active ? 700 : 600}
-                _after={{
-                  content: '""',
-                  position: "absolute",
-                  left: "16px",
-                  right: "16px",
-                  bottom: "4px",
-                  height: "3px",
-                  borderRadius: "full",
-                  transition: "all 0.2s ease",
-                  transformOrigin: "center",
-                  bg: active ? "blue.700" : "blue.300",
-                  opacity: active ? 1 : 0,
-                  transform: active ? "scaleX(1)" : "scaleX(0.45)",
-                }}
-                _hover={{
-                  bg: "transparent",
-                  color: "blue.700",
-                  _after: {
-                    opacity: 1,
-                    transform: "scaleX(1)",
-                  },
-                }}
-                _focus={{ outline: "none", boxShadow: "none" }}
-                _focusVisible={{ outline: "none", boxShadow: "none" }}
+              <NavMenuLink
+                active={active}
                 onClick={
                   !hasChildren && href ? () => router.push(href) : undefined
                 }
               >
                 {item.label}
-              </MenuButton>
+              </NavMenuLink>
 
               {hasChildren && (
                 <MenuList
@@ -94,22 +54,14 @@ const HeaderNav = () => {
                   borderColor="blackAlpha.200"
                 >
                   {children.map((child) => {
-                    const childActive = isActive(child.href);
-
                     return (
-                      <MenuItem
+                      <NavSubMenu
                         key={child.href}
-                        as={Link}
                         href={child.href}
-                        rounded="sm"
-                        py="10px"
-                        fontWeight={childActive ? 700 : 500}
-                        bg={childActive ? "blue.50" : "transparent"}
-                        _hover={{ bg: "blue.100" }}
-                        _focus={{ bg: "blue.100" }}
+                        active={isActive(child.href)}
                       >
                         {child.label}
-                      </MenuItem>
+                      </NavSubMenu>
                     );
                   })}
                 </MenuList>
