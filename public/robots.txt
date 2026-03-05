@@ -3,3 +3,5 @@ Allow: /
 
 Host: https://www.uwsch.org
 Sitemap: https://www.uwsch.org/sitemap.xml
+
+RSS: https://www.uwsch.org/rss.xml
