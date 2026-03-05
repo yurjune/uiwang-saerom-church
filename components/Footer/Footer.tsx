@@ -12,7 +12,7 @@ const Footer = () => {
         px={5}
         py={10}
         direction="column"
-        color="grayLetter"
+        color="#A8A8A8"
         fontSize="12px"
         justify="flex-start"
         align="center"
