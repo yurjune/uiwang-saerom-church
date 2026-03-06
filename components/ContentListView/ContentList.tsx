@@ -1,23 +1,13 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import ContentItemCard from "@/components/ContentListView/ContentItemCard";
-import { getLimitedArticles } from "@/utils/articles";
 import { categoryToContentUrl } from "@/utils/category";
 import type { ArticleEntry } from "@/interface/article";
-import { postNumberPerOnePage } from "@/constants/pagination";
 
 type Props = {
   articles: ArticleEntry[];
-  currentPage?: number;
-  limit?: number;
 };
 
-const ContentList = ({
-  articles,
-  currentPage = 1,
-  limit = postNumberPerOnePage,
-}: Props) => {
-  const limitedArticles = getLimitedArticles(articles, currentPage, limit);
-
+const ContentList = ({ articles }: Props) => {
   return (
     <Grid
       templateColumns="repeat(auto-fill, minmax(220px, 1fr))"
@@ -25,7 +15,7 @@ const ContentList = ({
       rowGap={6}
       px={{ base: "12px", sm: 0 }}
     >
-      {limitedArticles.map((article) => {
+      {articles.map((article) => {
         const category = article.fields.category;
         const id = article.sys.id;
         const href = `${categoryToContentUrl(category)}/${id}`;

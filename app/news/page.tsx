@@ -24,7 +24,9 @@ export const metadata: Metadata = {
 };
 
 export default async function CommunityNews() {
-  const articles = await getArticles({ category: CONTENTFUL_CATEGORY.news });
+  const { articles } = await getArticles({
+    category: CONTENTFUL_CATEGORY.news,
+  });
   const firstArticle = articles[0];
 
   if (!firstArticle) {

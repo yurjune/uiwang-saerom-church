@@ -45,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const articles = await getArticles();
+  const { articles } = await getArticles();
 
   const dynamicPages = articles
     .map((article): MetadataRoute.Sitemap[number] | null => {

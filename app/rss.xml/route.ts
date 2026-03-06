@@ -19,7 +19,9 @@ function getMovieContentPath(id: string): string {
 }
 
 export async function GET() {
-  const articles = await getArticles({ category: CONTENTFUL_CATEGORY.movies });
+  const { articles } = await getArticles({
+    category: CONTENTFUL_CATEGORY.movies,
+  });
 
   const items = articles
     .map((article) => {

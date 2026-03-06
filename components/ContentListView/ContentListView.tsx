@@ -13,7 +13,8 @@ type Props = {
   title: string;
   category: string;
   articles: ArticleEntry[];
-  currentPage?: number;
+  currentPage: number;
+  totalCount: number;
   getPageHref: (page: number) => string;
 };
 
@@ -22,6 +23,7 @@ const ContentListView = ({
   category,
   articles,
   currentPage = 1,
+  totalCount,
   getPageHref,
 }: Props) => {
   const hasArticles = articles.length > 0;
@@ -37,14 +39,10 @@ const ContentListView = ({
       ) : (
         <Fragment>
           <Box mb="50px">
-            <ContentList
-              articles={articles}
-              currentPage={currentPage}
-              limit={postNumberPerOnePage}
-            />
+            <ContentList articles={articles} />
           </Box>
           <Pagination
-            totalCount={articles.length}
+            totalCount={totalCount}
             currentPage={currentPage}
             limit={postNumberPerOnePage}
             getPageHref={getPageHref}

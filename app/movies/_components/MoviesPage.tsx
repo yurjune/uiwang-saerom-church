@@ -3,26 +3,31 @@
 import ContentListView from "@/components/ContentListView/ContentListView";
 import type { ArticleEntry } from "@/interface/article";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
-import { filterByTag } from "@/utils/articles";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 type MoviesPageProps = {
   articles: ArticleEntry[];
+  currentPage: number;
+  totalCount: number;
+  bible?: string;
 };
 
-const MoviesPage = ({ articles }: MoviesPageProps) => {
+const MoviesPage = ({
+  articles,
+  currentPage,
+  totalCount,
+  bible,
+}: MoviesPageProps) => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const bible = searchParams.get("v") ?? undefined;
-  const page = searchParams.get("page") ?? "1";
-  const currentPage = parseInt(page, 10) || 1;
-  const posts = filterByTag(articles, bible);
 
   const category = CONTENTFUL_CATEGORY.movies;
   const title = category + (bible ? ` - ${bible}` : "");
 
   const getPageHref = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams();
+    if (bible) {
+      params.set("v", bible);
+    }
     params.set("page", String(page));
     return `${pathname}?${params.toString()}`;
   };
@@ -31,8 +36,9 @@ const MoviesPage = ({ articles }: MoviesPageProps) => {
     <ContentListView
       title={title}
       category={category}
-      articles={posts}
+      articles={articles}
       currentPage={currentPage}
+      totalCount={totalCount}
       getPageHref={getPageHref}
     />
   );

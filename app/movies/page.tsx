@@ -6,9 +6,9 @@ import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
+import { postNumberPerOnePage } from "@/constants/pagination";
 
 export const revalidate = 86400; // 1 day
-export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   alternates: {
@@ -19,12 +19,44 @@ export const metadata: Metadata = {
   keywords: [CHURCH_INFO.name, "설교영상", "주일예배"],
 };
 
-export default async function Movies() {
-  const articles = await getArticles({ category: CONTENTFUL_CATEGORY.movies });
+type SearchParams = {
+  page?: string;
+  v?: string;
+};
+
+type PageProps = {
+  searchParams: Promise<SearchParams>;
+};
+
+function getCurrentPage(value?: string) {
+  const parsed = Number.parseInt(value ?? "", 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+}
+
+export default async function Movies({
+  searchParams: _searchParams,
+}: PageProps) {
+  const searchParams = await _searchParams;
+  const bible = searchParams.v;
+  const currentPage = getCurrentPage(searchParams.page);
+  const limit = postNumberPerOnePage;
+  const skip = (currentPage - 1) * limit;
+
+  const { articles, totalCount } = await getArticles({
+    category: CONTENTFUL_CATEGORY.movies,
+    tag: bible,
+    limit,
+    skip,
+  });
 
   return (
     <AppLayout>
-      <MoviesPage articles={articles} />
+      <MoviesPage
+        articles={articles}
+        currentPage={currentPage}
+        totalCount={totalCount}
+        bible={bible}
+      />
     </AppLayout>
   );
 }

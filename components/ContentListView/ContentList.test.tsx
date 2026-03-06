@@ -4,9 +4,7 @@ import { createMockArticle } from "@/utils/__test__/article-fixture";
 
 function setUp(length: number = 10) {
   const articles = Array.from({ length }).map(createMockArticle);
-  return render(
-    <ContentList articles={articles} currentPage={1} limit={length} />,
-  );
+  return render(<ContentList articles={articles} />);
 }
 
 describe("ContentList", () => {

@@ -71,13 +71,15 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams(): Promise<RouteParams[]> {
-  const articles = await getArticles({ category: CONTENTFUL_CATEGORY.movies });
+  const { articles } = await getArticles({
+    category: CONTENTFUL_CATEGORY.movies,
+  });
   return articles.map((item) => ({ id: item.sys.id }));
 }
 
 export default async function MovieContent({ params: _params }: PageProps) {
   const params = await _params;
-  const [article, articles] = await Promise.all([
+  const [article, articleData] = await Promise.all([
     getArticleById(params.id),
     getArticles({ category: CONTENTFUL_CATEGORY.movies }),
   ]);
@@ -88,7 +90,7 @@ export default async function MovieContent({ params: _params }: PageProps) {
 
   return (
     <AppLayout>
-      <ContentView article={article} articles={articles} />
+      <ContentView article={article} articles={articleData.articles} />
     </AppLayout>
   );
 }
