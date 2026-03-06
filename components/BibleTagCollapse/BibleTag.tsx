@@ -23,7 +23,7 @@ const BibleTag = ({ bible, category, onClose }: Props) => {
         <Link
           key={item}
           as={NextLink}
-          href={`${categoryToUrl(category)}?v=${item}`}
+          href={`${categoryToUrl(category)}?bible=${item}`}
           onClick={onClose}
         >
           {item}

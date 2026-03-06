@@ -18,7 +18,7 @@ const ContentTagSection = ({ article }: Props) => {
           {tag.map((item, index) => (
             <Link
               key={item + index}
-              href={`${categoryToUrl(category)}?v=${item}`}
+              href={`${categoryToUrl(category)}?bible=${item}`}
               mr="10px"
               fontSize="15px"
               color="grayLetter"

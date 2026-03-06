@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 type SearchParams = {
   page?: string;
-  v?: string;
+  bible?: string;
 };
 
 type PageProps = {
@@ -37,7 +37,7 @@ export default async function Movies({
   searchParams: _searchParams,
 }: PageProps) {
   const searchParams = await _searchParams;
-  const bible = searchParams.v;
+  const bible = searchParams.bible;
   const currentPage = getCurrentPage(searchParams.page);
   const limit = postNumberPerOnePage;
   const skip = (currentPage - 1) * limit;
