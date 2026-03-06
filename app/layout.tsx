@@ -63,8 +63,8 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="ko" suppressHydrationWarning>
-      <body className="chakra-ui-light">
+    <html lang="ko">
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>
