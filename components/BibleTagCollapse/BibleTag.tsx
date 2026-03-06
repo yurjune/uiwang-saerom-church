@@ -1,6 +1,6 @@
 import NextLink from "next/link";
 import { Link, Grid } from "@chakra-ui/react";
-import { categoryToUrl } from "@/utils/category";
+import { buildMoviesUrl } from "@/utils/category";
 
 type Props = {
   bible: string[];
@@ -8,7 +8,7 @@ type Props = {
   onClose: () => void;
 };
 
-const BibleTag = ({ bible, category, onClose }: Props) => {
+const BibleTag = ({ bible, onClose }: Props) => {
   return (
     <Grid
       templateColumns={{
@@ -23,7 +23,7 @@ const BibleTag = ({ bible, category, onClose }: Props) => {
         <Link
           key={item}
           as={NextLink}
-          href={`${categoryToUrl(category)}?bible=${item}`}
+          href={buildMoviesUrl({ bible: item })}
           onClick={onClose}
         >
           {item}

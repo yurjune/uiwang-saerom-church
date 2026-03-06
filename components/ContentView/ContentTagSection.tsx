@@ -1,5 +1,5 @@
 import { Box, Link } from "@chakra-ui/react";
-import { categoryToUrl } from "@/utils/category";
+import { buildMoviesUrl } from "@/utils/category";
 import type { ArticleEntry } from "@/interface/article";
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 };
 
 const ContentTagSection = ({ article }: Props) => {
-  const { category, tag } = article.fields;
+  const { tag } = article.fields;
 
   return (
     <Box>
@@ -18,7 +18,7 @@ const ContentTagSection = ({ article }: Props) => {
           {tag.map((item, index) => (
             <Link
               key={item + index}
-              href={`${categoryToUrl(category)}?bible=${item}`}
+              href={buildMoviesUrl({ bible: item })}
               mr="10px"
               fontSize="15px"
               color="grayLetter"

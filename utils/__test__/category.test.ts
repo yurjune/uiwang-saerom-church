@@ -1,5 +1,9 @@
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
-import { categoryToContentUrl, categoryToUrl } from "@/utils/category";
+import {
+  categoryToContentUrl,
+  buildMoviesUrl,
+  categoryToUrl,
+} from "@/utils/category";
 import { ProjectUrl } from "@/constants/projectUrl";
 
 describe("category utils", () => {
@@ -19,5 +23,16 @@ describe("category utils", () => {
     expect(categoryToContentUrl(CONTENTFUL_CATEGORY.news)).toBe(
       ProjectUrl.contents.news.toString(),
     );
+  });
+
+  it("builds movies url with search params", () => {
+    const moviesUrl = ProjectUrl.movies.toString();
+
+    expect(buildMoviesUrl()).toBe(moviesUrl);
+    expect(buildMoviesUrl({ bible: "john" })).toBe(`${moviesUrl}?bible=john`);
+    expect(buildMoviesUrl({ bible: "john", page: 2 })).toBe(
+      `${moviesUrl}?bible=john&page=2`,
+    );
+    expect(buildMoviesUrl({ page: 0 })).toBe(moviesUrl);
   });
 });
