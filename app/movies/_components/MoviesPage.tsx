@@ -3,7 +3,7 @@
 import ContentListView from "@/components/ContentListView/ContentListView";
 import type { ArticleEntry } from "@/interface/article";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 type MoviesPageProps = {
   articles: ArticleEntry[];
@@ -19,15 +19,13 @@ const MoviesPage = ({
   bible,
 }: MoviesPageProps) => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const category = CONTENTFUL_CATEGORY.movies;
   const title = category + (bible ? ` - ${bible}` : "");
 
   const getPageHref = (page: number) => {
-    const params = new URLSearchParams();
-    if (bible) {
-      params.set("v", bible);
-    }
+    const params = new URLSearchParams(searchParams.toString());
     params.set("page", String(page));
     return `${pathname}?${params.toString()}`;
   };
