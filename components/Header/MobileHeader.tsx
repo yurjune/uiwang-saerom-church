@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Flex, Box } from "@chakra-ui/react";
 
+import LogoImage from "@/public/logo.jpg";
 import DrawerButton from "@/components/DrawerAccordian/DrawerButton";
 
 const MobileHeader = () => {
@@ -20,7 +21,7 @@ const MobileHeader = () => {
     >
       <Link href="/">
         <Box rounded="xl" transition="all 0.2s ease">
-          <Image alt="logo" src="/logo.jpg" width={120} height={40} priority />
+          <Image src={LogoImage} alt="logo" width={120} height={40} priority />
         </Box>
       </Link>
 

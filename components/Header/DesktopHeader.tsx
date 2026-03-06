@@ -4,6 +4,7 @@ import { Flex, Box } from "@chakra-ui/react";
 
 import HeaderNav from "@/components/Header/HeaderNav/HeaderNav";
 import { layoutWidth } from "@/constants/layout";
+import LogoImage from "@/public/logo.jpg";
 
 const DesktopHeader = () => {
   return (
@@ -29,7 +30,7 @@ const DesktopHeader = () => {
         <Link href="/">
           <Box rounded="xl" transition="all 0.2s ease">
             <Image
-              src="/logo.jpg"
+              src={LogoImage}
               alt="Church logo"
               width={150}
               height={32}
