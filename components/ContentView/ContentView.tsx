@@ -8,10 +8,11 @@ import type { ArticleEntry } from "@/interface/article";
 
 type Props = {
   article: ArticleEntry;
-  articles: ArticleEntry[];
+  prevId: string | undefined;
+  nextId: string | undefined;
 };
 
-const ContentView = ({ article, articles }: Props) => {
+const ContentView = ({ article, prevId, nextId }: Props) => {
   const showTag = article.fields.category === CONTENTFUL_CATEGORY.movies;
 
   return (
@@ -23,7 +24,7 @@ const ContentView = ({ article, articles }: Props) => {
       <Box flex={1} flexShrink={0}>
         <ContentMeta article={article} />
         <Divider my="20px" />
-        <ContentsNavigator article={article} articles={articles} />
+        <ContentsNavigator article={article} prevId={prevId} nextId={nextId} />
       </Box>
 
       <Box flex={2}>

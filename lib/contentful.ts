@@ -21,13 +21,6 @@ type GetArticlesResult = {
   totalCount: number;
 };
 
-export async function getPictures() {
-  const pictures = await client.getEntries({
-    content_type: "picture",
-  });
-  return pictures.items;
-}
-
 export async function getArticles(
   options: GetArticlesOptions = {},
 ): Promise<GetArticlesResult> {
@@ -72,4 +65,43 @@ export async function getArticleById(
     "sys.id": id,
   });
   return article.items[0];
+}
+
+type GetAdjacentArticlesOptions = {
+  category?: string;
+  createdAt: ArticleEntry["sys"]["createdAt"];
+};
+
+type GetAdjacentArticlesResult = {
+  prevArticle?: ArticleEntry;
+  nextArticle?: ArticleEntry;
+};
+
+export async function getAdjacentArticles(
+  options: GetAdjacentArticlesOptions,
+): Promise<GetAdjacentArticlesResult> {
+  const { category, createdAt } = options;
+  const categoryFilter = category ? { "fields.category": category } : {};
+
+  const [prevResponse, nextResponse] = await Promise.all([
+    client.getEntries<ArticleSkeleton>({
+      content_type: "article",
+      ...categoryFilter,
+      order: ["-sys.createdAt", "-sys.id"],
+      limit: 1,
+      "sys.createdAt[lt]": createdAt,
+    }),
+    client.getEntries<ArticleSkeleton>({
+      content_type: "article",
+      ...categoryFilter,
+      order: ["sys.createdAt", "sys.id"],
+      limit: 1,
+      "sys.createdAt[gt]": createdAt,
+    }),
+  ]);
+
+  return {
+    prevArticle: prevResponse.items[0],
+    nextArticle: nextResponse.items[0],
+  };
 }

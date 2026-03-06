@@ -5,6 +5,7 @@ import AppLayout from "@/components/layouts/AppLayout";
 import ContentView from "@/components/ContentView/ContentView";
 import {
   getArticleById as _getArticleById,
+  getAdjacentArticles,
   getArticles,
 } from "@/lib/contentful";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
@@ -79,18 +80,23 @@ export async function generateStaticParams(): Promise<RouteParams[]> {
 
 export default async function NewsContent({ params: _params }: PageProps) {
   const params = await _params;
-  const [article, articleData] = await Promise.all([
-    getArticleById(params.id),
-    getArticles({ category: CONTENTFUL_CATEGORY.news }),
-  ]);
-
+  const article = await getArticleById(params.id);
   if (!article) {
     notFound();
   }
 
+  const { prevArticle, nextArticle } = await getAdjacentArticles({
+    category: CONTENTFUL_CATEGORY.news,
+    createdAt: article.sys.createdAt,
+  });
+
   return (
     <AppLayout>
-      <ContentView article={article} articles={articleData.articles} />
+      <ContentView
+        article={article}
+        prevId={prevArticle?.sys.id}
+        nextId={nextArticle?.sys.id}
+      />
     </AppLayout>
   );
 }

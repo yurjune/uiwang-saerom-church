@@ -9,30 +9,24 @@ import type { ArticleEntry } from "@/interface/article";
 
 type Props = {
   article: ArticleEntry;
-  articles: ArticleEntry[];
+  prevId: string | undefined;
+  nextId: string | undefined;
 };
 
-const ContentsNavigator = ({ article, articles }: Props) => {
+const ContentsNavigator = ({ article, prevId, nextId }: Props) => {
   const { category } = article.fields;
-  const { id } = article.sys;
-  const currentIndex = articles.findIndex((el) => el.sys.id === id);
-
-  const isLatest = currentIndex === 0;
-  const isOldest = currentIndex === articles.length - 1;
-  const nextArticle = isLatest ? null : articles[currentIndex - 1];
-  const prevArticle = isOldest ? null : articles[currentIndex + 1];
 
   return (
     <Flex direction={{ base: "row", lg: "column" }} justify="space-between">
       <HStack mb={{ base: "0", lg: "15px" }}>
-        {!prevArticle ? (
+        {!prevId ? (
           <Button colorScheme="blue" size="sm" disabled>
             <Icon as={IoIosArrowBack} boxSize={3} />
           </Button>
         ) : (
           <Button
             as={Link}
-            href={`${categoryToContentUrl(category)}/${prevArticle.sys.id}`}
+            href={`${categoryToContentUrl(category)}/${prevId}`}
             colorScheme="blue"
             size="sm"
           >
@@ -49,14 +43,14 @@ const ContentsNavigator = ({ article, articles }: Props) => {
           <Icon as={IoMenu} boxSize={3} />
         </Button>
 
-        {!nextArticle ? (
+        {!nextId ? (
           <Button colorScheme="blue" size="sm" disabled>
             <Icon as={IoIosArrowForward} boxSize={3} />
           </Button>
         ) : (
           <Button
             as={Link}
-            href={`${categoryToContentUrl(category)}/${nextArticle.sys.id}`}
+            href={`${categoryToContentUrl(category)}/${nextId}`}
             colorScheme="blue"
             size="sm"
           >
