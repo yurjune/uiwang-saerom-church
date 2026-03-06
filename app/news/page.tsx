@@ -1,11 +1,15 @@
 import AppLayout from "@/components/layouts/AppLayout";
-import NewsPage from "./_components/NewsPage";
 import { getArticles } from "@/lib/contentful";
 import { CHURCH_INFO } from "@/constants";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
+import ContentsTable from "@/components/ContentsTable/ContentsTable";
+import ContentBody from "@/components/ContentView/ContentBody";
+import ContentMeta from "@/components/ContentView/ContentMeta";
+import { Box, Flex, Divider } from "@chakra-ui/react";
+import NoPost from "@/components/NoPost/NoPost";
 
 export const revalidate = 86400; // 1 day
 export const dynamic = "force-static";
@@ -21,10 +25,39 @@ export const metadata: Metadata = {
 
 export default async function CommunityNews() {
   const articles = await getArticles({ category: CONTENTFUL_CATEGORY.news });
+  const firstArticle = articles[0];
+
+  if (!firstArticle) {
+    return (
+      <AppLayout>
+        <NoPost />
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
-      <NewsPage articles={articles} />
+      <Box mb="140px">
+        <Flex
+          justify={{ base: "flex-start", lg: "space-between" }}
+          direction={{ base: "column", lg: "row" }}
+          gap="20px"
+        >
+          <Box flex={1} flexShrink={0}>
+            <ContentMeta article={firstArticle} />
+          </Box>
+
+          <Box flex={2}>
+            <ContentBody article={firstArticle} />
+          </Box>
+        </Flex>
+      </Box>
+
+      <Divider />
+
+      <Box mb="40px">
+        <ContentsTable articles={articles} />
+      </Box>
     </AppLayout>
   );
 }
