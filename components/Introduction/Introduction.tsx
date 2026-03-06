@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Box, Flex, Stack, Text } from "@chakra-ui/react";
 
 function Introduction() {
@@ -10,20 +9,11 @@ function Introduction() {
       mx="auto"
       position="relative"
       overflow="hidden"
+      bgImage="url('/introduction.png')"
+      bgSize="cover"
+      bgPosition="center"
+      bgRepeat="no-repeat"
     >
-      <Image
-        src="/introduction.png"
-        alt="introduction.png"
-        fill
-        priority
-        sizes="100vw"
-        style={{
-          objectFit: "cover",
-          objectPosition: "center",
-          zIndex: 0,
-        }}
-      />
-
       <Box mx="auto" textAlign="center" position="relative" zIndex={1}>
         <Box
           as="h1"
