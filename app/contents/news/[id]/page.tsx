@@ -60,7 +60,7 @@ export async function generateMetadata({
       title,
       description,
       images: [image],
-      publishedTime: article.sys.createdAt,
+      publishedTime: article.fields.date,
     },
     twitter: {
       card: "summary_large_image",
@@ -87,7 +87,7 @@ export default async function NewsContent({ params: _params }: PageProps) {
 
   const { prevArticle, nextArticle } = await getAdjacentArticles({
     category: CONTENTFUL_CATEGORY.news,
-    createdAt: article.sys.createdAt,
+    date: article.fields.date,
   });
 
   return (

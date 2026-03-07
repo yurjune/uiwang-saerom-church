@@ -6,6 +6,7 @@ export type ArticleFields = {
   paragraph?: EntryFieldTypes.RichText;
   tag?: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
   thumbnail?: EntryFieldTypes.AssetLink;
+  date: EntryFieldTypes.Date;
 };
 
 export type ArticleSkeleton = EntrySkeletonType<ArticleFields, "article">;

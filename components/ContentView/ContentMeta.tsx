@@ -7,7 +7,7 @@ type Props = {
 
 const ContentMeta = ({ article }: Props) => {
   const { category, title } = article.fields;
-  const { createdAt } = article.sys;
+  const { date } = article.fields;
 
   return (
     <Box>
@@ -18,7 +18,7 @@ const ContentMeta = ({ article }: Props) => {
         제목: {title}
       </Text>
       <Text marginBottom="10px" fontSize="16px">
-        일시: {createdAt.slice(0, 10)}
+        일시: {date.slice(0, 10)}
       </Text>
     </Box>
   );

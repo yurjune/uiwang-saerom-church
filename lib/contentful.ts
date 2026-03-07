@@ -6,7 +6,7 @@ const client = createClient({
   accessToken: process.env.CONTENTFUL_ACCESS_KEY ?? "",
 });
 
-const DEFAULT_ARTICLE_ORDER = ["-sys.createdAt"];
+const DEFAULT_ARTICLE_ORDER = ["-fields.date"];
 
 type GetArticlesOptions = {
   category?: string;
@@ -69,7 +69,7 @@ export async function getArticleById(
 
 type GetAdjacentArticlesOptions = {
   category?: string;
-  createdAt: ArticleEntry["sys"]["createdAt"];
+  date: ArticleEntry["fields"]["date"];
 };
 
 type GetAdjacentArticlesResult = {
@@ -80,23 +80,23 @@ type GetAdjacentArticlesResult = {
 export async function getAdjacentArticles(
   options: GetAdjacentArticlesOptions,
 ): Promise<GetAdjacentArticlesResult> {
-  const { category, createdAt } = options;
+  const { category, date } = options;
   const categoryFilter = category ? { "fields.category": category } : {};
 
   const [prevResponse, nextResponse] = await Promise.all([
     client.getEntries<ArticleSkeleton>({
       content_type: "article",
       ...categoryFilter,
-      order: ["-sys.createdAt", "-sys.id"],
+      order: ["-fields.date", "-sys.id"],
       limit: 1,
-      "sys.createdAt[lt]": createdAt,
+      "fields.date[lt]": date,
     }),
     client.getEntries<ArticleSkeleton>({
       content_type: "article",
       ...categoryFilter,
-      order: ["sys.createdAt", "sys.id"],
+      order: ["fields.date", "sys.id"],
       limit: 1,
-      "sys.createdAt[gt]": createdAt,
+      "fields.date[gt]": date,
     }),
   ]);
 

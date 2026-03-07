@@ -33,9 +33,7 @@ export async function GET() {
 
       const path = getMovieContentPath(id);
       const link = `${SITE_METADATA.baseUrl}${path}`;
-      const pubDate = new Date(
-        article.sys.updatedAt || article.sys.createdAt,
-      ).toUTCString();
+      const pubDate = new Date(article.fields.date).toUTCString();
 
       // TODO: apply excerpt to description
       return `

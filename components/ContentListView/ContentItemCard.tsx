@@ -11,7 +11,7 @@ type Props = {
 
 const ContentItemCard = ({ article, href }: Props) => {
   const { title } = article.fields;
-  const { createdAt } = article.sys;
+  const { date } = article.fields;
   const thumbnailUrl = getArticleThumbnailUrl(article);
 
   return (
@@ -41,7 +41,7 @@ const ContentItemCard = ({ article, href }: Props) => {
         </Box>
 
         <Box fontSize="14px" color="grayLetter">
-          {createdAt.slice(0, 10)}
+          {date.slice(0, 10)}
         </Box>
       </Box>
     </Box>

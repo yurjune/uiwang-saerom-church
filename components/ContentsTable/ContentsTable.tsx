@@ -52,7 +52,7 @@ const ContentsTable = ({ articles }: Props) => {
                   isNumeric
                   display={{ base: "none", md: "table-cell" }}
                 >
-                  {article.sys.createdAt.slice(0, 10)}
+                  {article.fields.date.slice(0, 10)}
                 </Td>
               </Tr>
             );

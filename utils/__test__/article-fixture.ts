@@ -105,6 +105,7 @@ export const mockArticle: ArticleEntry = {
         },
       ],
     },
+    date: "2021-10-26T16:13:56.985Z",
     title: "항상 기뻐하라",
     thumbnail: {
       metadata: {
