@@ -56,7 +56,7 @@ const HeaderNavMenu = ({ children, active, href }: Props) => {
 
   if (href) {
     return (
-      <Link href={href}>
+      <Link href={href} prefetch>
         <MenuButton as={Button} variant="menu" {...menuButtonProps}>
           {children}
         </MenuButton>
