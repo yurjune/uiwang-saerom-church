@@ -1,4 +1,4 @@
-import { revalidateTag } from "next/cache";
+import { refresh, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 type RevalidateBody = {
@@ -34,6 +34,8 @@ async function handleRevalidate(
     revalidateTag(`article:${entryId}`, "max");
     revalidated.push(`article:${entryId}`);
   }
+
+  refresh();
 
   return NextResponse.json({
     ok: true,
