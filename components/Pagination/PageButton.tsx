@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@chakra-ui/react";
 import NextLink from "next/link";
 import type { ReactNode } from "react";
