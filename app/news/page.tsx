@@ -11,9 +11,6 @@ import ContentMeta from "@/components/ContentView/ContentMeta";
 import { Box, Flex, Divider } from "@chakra-ui/react";
 import NoPost from "@/components/NoPost/NoPost";
 
-export const revalidate = 86400; // 1 day
-export const dynamic = "force-static";
-
 export const metadata: Metadata = {
   alternates: {
     canonical: ProjectUrl.news.toString(),

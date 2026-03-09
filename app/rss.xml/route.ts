@@ -3,8 +3,6 @@ import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { getArticles } from "@/lib/contentful";
 
-export const revalidate = 3600;
-
 function escapeXml(value: string): string {
   return value
     .replace(/&/g, "&amp;")

@@ -8,8 +8,6 @@ import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
 import { postNumberPerOnePage } from "@/constants/pagination";
 
-export const revalidate = 86400; // 1 day
-
 export const metadata: Metadata = {
   alternates: {
     canonical: ProjectUrl.movies.toString(),
