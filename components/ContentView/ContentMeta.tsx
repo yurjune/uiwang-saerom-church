@@ -1,5 +1,5 @@
 import { Box, Text } from "@chakra-ui/react";
-import type { ArticleDetail } from "@/interface/article";
+import type { ArticleDetail } from "@/lib/contentful/article";
 
 type Props = {
   article: ArticleDetail;

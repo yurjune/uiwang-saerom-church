@@ -1,5 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
-import type { ArticleDetail, ArticleSkeleton } from "@/interface/article";
+import type { ArticleDetail, ArticleSkeleton } from "@/lib/contentful/article";
 import { SIX_MONTHS_IN_SECONDS } from "@/lib/contentful/constants";
 import { client } from "@/lib/contentful/client";
 import { getArticleTag } from "@/lib/contentful/tags";

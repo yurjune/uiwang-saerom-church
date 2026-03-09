@@ -5,7 +5,7 @@ import { Flex, HStack, Button, Icon } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
 import { categoryToContentUrl, categoryToUrl } from "@/utils/category";
-import type { ArticleDetail } from "@/interface/article";
+import type { ArticleDetail } from "@/lib/contentful/article";
 
 type Props = {
   article: ArticleDetail;

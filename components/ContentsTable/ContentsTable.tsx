@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import { categoryToContentUrl } from "@/utils/category";
-import type { ArticleSummary } from "@/interface/article";
+import type { ArticleSummary } from "@/lib/contentful/article";
 
 const noWrap = {
   overflow: "hidden",

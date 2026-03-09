@@ -3,7 +3,7 @@ import type {
   ArticleDetail,
   ArticleSkeleton,
   ArticleSummary,
-} from "@/interface/article";
+} from "@/lib/contentful/article";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import {
   DEFAULT_ARTICLE_ORDER,

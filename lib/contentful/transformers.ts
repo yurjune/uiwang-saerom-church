@@ -3,7 +3,7 @@ import type {
   ArticleDetail,
   ArticleEntry,
   ArticleSummary,
-} from "@/interface/article";
+} from "@/lib/contentful/article";
 
 function getThumbnailUrl(article: ArticleEntry): string | null {
   const thumbnailUrl =

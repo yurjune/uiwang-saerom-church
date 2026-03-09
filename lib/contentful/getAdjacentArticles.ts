@@ -2,7 +2,7 @@ import { cacheLife, cacheTag } from "next/cache";
 import type {
   AdjacentArticleSummary,
   ArticleSkeleton,
-} from "@/interface/article";
+} from "@/lib/contentful/article";
 import { THIRTY_DAYS_IN_SECONDS } from "@/lib/contentful/constants";
 import { client } from "@/lib/contentful/client";
 import { getArticleCategoryTag } from "@/lib/contentful/tags";

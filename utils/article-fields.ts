@@ -1,4 +1,4 @@
-import type { ArticleDetail, ArticleEntry } from "@/interface/article";
+import type { ArticleDetail, ArticleEntry } from "@/lib/contentful/article";
 
 type RichTextNodeLike = {
   value?: unknown;

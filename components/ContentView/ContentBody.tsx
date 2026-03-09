@@ -12,7 +12,7 @@ import {
   type Options,
 } from "@contentful/rich-text-react-renderer";
 import type { ReactNode } from "react";
-import type { ArticleDetail } from "@/interface/article";
+import type { ArticleDetail } from "@/lib/contentful/article";
 
 const option: Options = {
   renderNode: {

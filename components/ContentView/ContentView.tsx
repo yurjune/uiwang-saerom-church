@@ -4,7 +4,7 @@ import ContentsNavigator from "@/components/ContentView/ContentsNavigator";
 import ContentBody from "@/components/ContentView/ContentBody";
 import ContentTagSection from "@/components/ContentView/ContentTagSection";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
-import type { ArticleDetail } from "@/interface/article";
+import type { ArticleDetail } from "@/lib/contentful/article";
 
 type Props = {
   article: ArticleDetail;

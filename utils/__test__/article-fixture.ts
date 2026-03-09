@@ -1,4 +1,4 @@
-import { ArticleEntry } from "@/interface/article";
+import { ArticleEntry } from "@/lib/contentful/article";
 import { BLOCKS, INLINES } from "@contentful/rich-text-types";
 
 let seq = 0;

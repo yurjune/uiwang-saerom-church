@@ -1,7 +1,7 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import ContentItemCard from "@/components/ContentListView/ContentItemCard";
 import { categoryToContentUrl } from "@/utils/category";
-import type { ArticleSummary } from "@/interface/article";
+import type { ArticleSummary } from "@/lib/contentful/article";
 
 type Props = {
   articles: ArticleSummary[];

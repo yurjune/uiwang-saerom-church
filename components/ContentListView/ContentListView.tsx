@@ -3,7 +3,7 @@ import ContentList from "@/components/ContentListView/ContentList";
 import Pagination from "@/components/Pagination/Pagination";
 import NoPost from "@/components/NoPost/NoPost";
 import { Fragment } from "react";
-import type { ArticleSummary } from "@/interface/article";
+import type { ArticleSummary } from "@/lib/contentful/article";
 import { postNumberPerOnePage } from "@/constants/pagination";
 
 type Props = {

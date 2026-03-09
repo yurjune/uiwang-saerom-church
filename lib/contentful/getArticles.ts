@@ -1,5 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
-import type { ArticleSkeleton, ArticleSummary } from "@/interface/article";
+import type { ArticleSkeleton, ArticleSummary } from "@/lib/contentful/article";
 import {
   DEFAULT_ARTICLE_ORDER,
   THIRTY_DAYS_IN_SECONDS,

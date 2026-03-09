@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import Image from "next/image";
-import type { ArticleSummary } from "@/interface/article";
+import type { ArticleSummary } from "@/lib/contentful/article";
 import Link from "next/link";
 
 type Props = {
