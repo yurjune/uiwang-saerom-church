@@ -10,7 +10,6 @@ import {
   THIRTY_DAYS_IN_SECONDS,
 } from "@/lib/contentful/constants";
 import { client } from "@/lib/contentful/client";
-import { getArticleCategoryTag } from "@/lib/contentful/tags";
 import {
   toArticleDetail,
   toArticleSummary,
@@ -25,7 +24,6 @@ export async function getNewsArticles(): Promise<GetNewsArticlesResult> {
   "use cache";
   cacheLife({ revalidate: THIRTY_DAYS_IN_SECONDS });
   cacheTag("articles");
-  cacheTag(getArticleCategoryTag(CONTENTFUL_CATEGORY.news));
 
   const query: {
     content_type: "article";

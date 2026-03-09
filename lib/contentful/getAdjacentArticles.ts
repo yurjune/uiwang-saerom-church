@@ -5,7 +5,6 @@ import type {
 } from "@/lib/contentful/article";
 import { THIRTY_DAYS_IN_SECONDS } from "@/lib/contentful/constants";
 import { client } from "@/lib/contentful/client";
-import { getArticleCategoryTag } from "@/lib/contentful/tags";
 import { toAdjacentArticleSummary } from "@/lib/contentful/transformers";
 
 export type GetAdjacentArticlesOptions = {
@@ -26,7 +25,6 @@ export async function getAdjacentArticles(
   cacheTag("articles");
 
   const { category, date } = options;
-  cacheTag(getArticleCategoryTag(category));
 
   const prevQuery: {
     content_type: "article";

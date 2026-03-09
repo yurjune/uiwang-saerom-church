@@ -5,7 +5,6 @@ import {
   THIRTY_DAYS_IN_SECONDS,
 } from "@/lib/contentful/constants";
 import { client } from "@/lib/contentful/client";
-import { getArticleCategoryTag } from "@/lib/contentful/tags";
 import { toArticleSummary } from "@/lib/contentful/transformers";
 
 export type GetArticlesOptions = {
@@ -29,7 +28,6 @@ export async function getArticles(
   cacheTag("articles");
 
   const { category, tag, limit, skip, order = DEFAULT_ARTICLE_ORDER } = options;
-  cacheTag(getArticleCategoryTag(category));
 
   const query: {
     content_type: "article";
