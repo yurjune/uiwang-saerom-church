@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import AppLayout from "@/components/layouts/AppLayout";
-import MoviesPage from "./_components/MoviesPage";
+import ContentListView from "@/components/ContentListView/ContentListView";
 import MoviesHeader from "./_components/MoviesHeader";
 import { getArticles } from "@/lib/contentful";
 import { CHURCH_INFO } from "@/constants";
@@ -29,11 +29,6 @@ type PageProps = {
   searchParams: Promise<SearchParams>;
 };
 
-function getCurrentPage(value?: string) {
-  const parsed = Number.parseInt(value ?? "", 10);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
-}
-
 const category = CONTENTFUL_CATEGORY.movies;
 
 export default async function Movies({ searchParams }: PageProps) {
@@ -60,6 +55,11 @@ async function MoviesHeaderTitle({ searchParams }: PageProps) {
   return <span>{category + (bible ? ` - ${bible}` : "")}</span>;
 }
 
+function getCurrentPage(value?: string) {
+  const parsed = Number.parseInt(value ?? "", 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+}
+
 async function MoviesContent({ searchParams }: PageProps) {
   const resolvedSearchParams = await searchParams;
   const bible = resolvedSearchParams.bible;
@@ -74,11 +74,21 @@ async function MoviesContent({ searchParams }: PageProps) {
     skip,
   });
 
+  const createMoviesPageHref = (page: number) => {
+    const params = new URLSearchParams();
+    params.set("page", String(page));
+    if (bible) {
+      params.set("bible", bible);
+    }
+    return `/movies?${params.toString()}`;
+  };
+
   return (
-    <MoviesPage
+    <ContentListView
       articles={articles}
       currentPage={currentPage}
       totalCount={totalCount}
+      createPageHref={createMoviesPageHref}
     />
   );
 }

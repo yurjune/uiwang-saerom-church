@@ -10,14 +10,14 @@ type Props = {
   articles: ArticleEntry[];
   currentPage: number;
   totalCount: number;
-  getPageHref: (page: number) => string;
+  createPageHref: (page: number) => string;
 };
 
 const ContentListView = ({
   articles,
   currentPage = 1,
   totalCount,
-  getPageHref,
+  createPageHref,
 }: Props) => {
   const hasArticles = articles.length > 0;
 
@@ -34,7 +34,7 @@ const ContentListView = ({
             totalCount={totalCount}
             currentPage={currentPage}
             limit={postNumberPerOnePage}
-            getPageHref={getPageHref}
+            createPageHref={createPageHref}
           />
         </Fragment>
       )}
