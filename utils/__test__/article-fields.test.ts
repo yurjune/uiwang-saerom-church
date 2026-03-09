@@ -1,9 +1,9 @@
-import { getArticleDescription } from "@/utils/article-fields";
+import { getArticleShortenDescription } from "@/utils/article-fields";
 import { mockArticle } from "@/utils/__test__/article-fixture";
 
 describe("article-fields utils", () => {
   it("getArticleDescription", () => {
-    const desc = getArticleDescription(mockArticle);
+    const desc = getArticleShortenDescription(mockArticle);
 
     // check link removal
     expect(desc).not.toMatch(/https?:\/\/\S+/);

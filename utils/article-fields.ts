@@ -18,7 +18,7 @@ const extractText = (node?: RichTextNodeLike): string => {
   return "";
 };
 
-export const getArticleDescription = (
+export const getArticleShortenDescription = (
   article: ArticleDetail | ArticleEntry,
   fallback = "",
 ): string => {
