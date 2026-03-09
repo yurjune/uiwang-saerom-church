@@ -1,11 +1,11 @@
-import type { ArticleEntry } from "@/interface/article";
+import type { ArticleDetail, ArticleEntry } from "@/lib/contentful/article";
 
 type RichTextNodeLike = {
   value?: unknown;
   content?: RichTextNodeLike[];
 };
 
-const extractText = (node?: RichTextNodeLike): string => {
+const extractText = (node?: RichTextNodeLike | null): string => {
   if (!node) {
     return "";
   }
@@ -18,19 +18,8 @@ const extractText = (node?: RichTextNodeLike): string => {
   return "";
 };
 
-export function getArticleThumbnailUrl(article: ArticleEntry): string | null {
-  const thumbnail = article.fields.thumbnail;
-  const url =
-    thumbnail && "fields" in thumbnail ? thumbnail.fields.file?.url : undefined;
-  return url ? `https:${url}` : null;
-}
-
-export function getArticleTags(article: ArticleEntry): string[] {
-  return Array.isArray(article.fields?.tag) ? article.fields.tag : [];
-}
-
-export const getArticleDescription = (
-  article: ArticleEntry,
+export const getArticleShortenDescription = (
+  article: ArticleDetail | ArticleEntry,
   fallback = "",
 ): string => {
   const paragraph = article?.fields?.paragraph;

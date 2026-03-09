@@ -1,7 +1,6 @@
 import AppLayout from "@/components/layouts/AppLayout";
-import { getArticles } from "@/lib/contentful";
+import { getNewsArticles } from "@/lib/contentful";
 import { CHURCH_INFO } from "@/constants";
-import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
@@ -21,11 +20,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CommunityNews() {
-  const { articles } = await getArticles({
-    category: CONTENTFUL_CATEGORY.news,
-  });
-  const firstArticle = articles[0];
-
+  const { articles, firstArticle } = await getNewsArticles();
   if (!firstArticle) {
     return (
       <AppLayout>

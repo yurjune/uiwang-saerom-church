@@ -12,11 +12,7 @@ import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { CHURCH_INFO, SITE_METADATA } from "@/constants";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
-import {
-  getArticleThumbnailUrl,
-  getArticleDescription,
-  getArticleTags,
-} from "@/utils/article-fields";
+import { getArticleShortenDescription } from "@/utils/article-fields";
 
 type RouteParams = { id: string };
 type PageProps = { params: Promise<RouteParams> };
@@ -33,15 +29,14 @@ export async function generateMetadata({
   }
 
   const url = `${ProjectUrl.contents.movies.toString()}/${params.id}`;
-  const title = article.fields.title ?? ProjectMenu.movies.label;
-  const description = getArticleDescription(
+  const title = article.fields.title || ProjectMenu.movies.label;
+  const description = getArticleShortenDescription(
     article,
     `${CHURCH_INFO.name} 설교영상입니다.`,
   );
-  const thumbnailUrl = getArticleThumbnailUrl(article);
-  const tags = getArticleTags(article);
+  const tags = article.fields.tag;
   const keywords = [CHURCH_INFO.name, "설교영상", ...tags];
-  const image = thumbnailUrl ?? SITE_METADATA.og_image;
+  const image = article.fields.thumbnailUrl ?? SITE_METADATA.og_image;
 
   return {
     alternates: {

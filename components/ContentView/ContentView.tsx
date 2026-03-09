@@ -4,10 +4,10 @@ import ContentsNavigator from "@/components/ContentView/ContentsNavigator";
 import ContentBody from "@/components/ContentView/ContentBody";
 import ContentTagSection from "@/components/ContentView/ContentTagSection";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
-import type { ArticleEntry } from "@/interface/article";
+import type { ArticleDetail } from "@/lib/contentful/article";
 
 type Props = {
-  article: ArticleEntry;
+  article: ArticleDetail;
   prevId: string | undefined;
   nextId: string | undefined;
 };

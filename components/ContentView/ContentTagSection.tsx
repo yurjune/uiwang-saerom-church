@@ -1,9 +1,9 @@
 import { Box, Link } from "@chakra-ui/react";
 import { buildMoviesUrl } from "@/utils/category";
-import type { ArticleEntry } from "@/interface/article";
+import type { ArticleDetail } from "@/lib/contentful/article";
 
 type Props = {
-  article: ArticleEntry;
+  article: ArticleDetail;
 };
 
 const ContentTagSection = ({ article }: Props) => {

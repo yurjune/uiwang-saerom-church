@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import { categoryToContentUrl } from "@/utils/category";
-import type { ArticleEntry } from "@/interface/article";
+import type { ArticleSummary } from "@/lib/contentful/article";
 
 const noWrap = {
   overflow: "hidden",
@@ -10,7 +10,7 @@ const noWrap = {
 };
 
 type Props = {
-  articles: ArticleEntry[];
+  articles: ArticleSummary[];
 };
 
 const ContentsTable = ({ articles }: Props) => {

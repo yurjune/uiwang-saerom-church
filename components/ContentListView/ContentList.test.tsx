@@ -1,9 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import ContentList from "./ContentList";
 import { createMockArticle } from "@/utils/__test__/article-fixture";
+import { toArticleSummary } from "@/lib/contentful/transformers";
 
 function setUp(length: number = 10) {
-  const articles = Array.from({ length }).map(createMockArticle);
+  const articles = Array.from({ length }).map((_) =>
+    toArticleSummary(createMockArticle()),
+  );
   return render(<ContentList articles={articles} />);
 }
 

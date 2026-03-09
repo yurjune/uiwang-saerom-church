@@ -1,24 +1,9 @@
-import {
-  getArticleDescription,
-  getArticleTags,
-  getArticleThumbnailUrl,
-} from "@/utils/article-fields";
+import { getArticleShortenDescription } from "@/utils/article-fields";
 import { mockArticle } from "@/utils/__test__/article-fixture";
 
 describe("article-fields utils", () => {
-  it("getArticleThumbnailUrl", () => {
-    const expected =
-      "https://images.ctfassets.net/gahy3ijwoce2/6QTx4NXaucnwVwHnDNHOPR/490f021a08371a25370daa752241939e/_________1.png";
-
-    expect(getArticleThumbnailUrl(mockArticle)).toBe(expected);
-  });
-
-  it("getArticleTags", () => {
-    expect(getArticleTags(mockArticle)).toEqual(["빌립보서"]);
-  });
-
   it("getArticleDescription", () => {
-    const desc = getArticleDescription(mockArticle);
+    const desc = getArticleShortenDescription(mockArticle);
 
     // check link removal
     expect(desc).not.toMatch(/https?:\/\/\S+/);
