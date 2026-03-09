@@ -15,7 +15,7 @@ const ContentItemCard = ({ article, href }: Props) => {
   const thumbnailUrl = getArticleThumbnailUrl(article);
 
   return (
-    <Box as={Link} href={href} textAlign="center" cursor="pointer">
+    <Link href={href}>
       <Box h="0" pb="100%" position="relative" overflow="hidden" bg="gray.100">
         {thumbnailUrl ? (
           <Image
@@ -29,7 +29,7 @@ const ContentItemCard = ({ article, href }: Props) => {
         ) : null}
       </Box>
 
-      <Box p="20px 10px 0 10px">
+      <Box p="20px 10px 0 10px" textAlign="center">
         <Box
           mb="3px"
           fontWeight="semibold"
@@ -44,7 +44,7 @@ const ContentItemCard = ({ article, href }: Props) => {
           {date.slice(0, 10)}
         </Box>
       </Box>
-    </Box>
+    </Link>
   );
 };
 
