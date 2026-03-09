@@ -1,5 +1,10 @@
 import { createClient } from "contentful";
-import { ArticleEntry, ArticleSkeleton } from "../interface/article";
+import {
+  AdjacentArticleSummary,
+  ArticleEntry,
+  ArticleSkeleton,
+  ArticleSummary,
+} from "../interface/article";
 import { cacheLife, cacheTag } from "next/cache";
 
 const client = createClient({
@@ -28,9 +33,40 @@ type GetArticlesOptions = {
 };
 
 type GetArticlesResult = {
-  articles: ArticleEntry[];
+  articles: ArticleSummary[];
   totalCount: number;
 };
+
+function toArticleSummary(article: ArticleEntry): ArticleSummary {
+  const thumbnailUrl =
+    article.fields.thumbnail && "fields" in article.fields.thumbnail
+      ? article.fields.thumbnail.fields.file?.url
+      : undefined;
+
+  return {
+    sys: {
+      id: article.sys.id,
+      updatedAt: article.sys.updatedAt,
+    },
+    fields: {
+      title: article.fields.title,
+      category: article.fields.category,
+      date: article.fields.date,
+      tag: Array.isArray(article.fields.tag) ? article.fields.tag : undefined,
+      thumbnailUrl: thumbnailUrl ? `https:${thumbnailUrl}` : null,
+    },
+  };
+}
+
+function toAdjacentArticleSummary(
+  article: ArticleEntry,
+): AdjacentArticleSummary {
+  return {
+    sys: {
+      id: article.sys.id,
+    },
+  };
+}
 
 export async function getArticles(
   options: GetArticlesOptions = {},
@@ -69,7 +105,7 @@ export async function getArticles(
 
   const response = await client.getEntries<ArticleSkeleton>(query);
   return {
-    articles: response.items,
+    articles: response.items.map(toArticleSummary),
     totalCount: response.total,
   };
 }
@@ -94,8 +130,8 @@ type GetAdjacentArticlesOptions = {
 };
 
 type GetAdjacentArticlesResult = {
-  prevArticle?: ArticleEntry;
-  nextArticle?: ArticleEntry;
+  prevArticle?: AdjacentArticleSummary;
+  nextArticle?: AdjacentArticleSummary;
 };
 
 export async function getAdjacentArticles(
@@ -128,7 +164,11 @@ export async function getAdjacentArticles(
   ]);
 
   return {
-    prevArticle: prevResponse.items[0],
-    nextArticle: nextResponse.items[0],
+    prevArticle: prevResponse.items[0]
+      ? toAdjacentArticleSummary(prevResponse.items[0])
+      : undefined,
+    nextArticle: nextResponse.items[0]
+      ? toAdjacentArticleSummary(nextResponse.items[0])
+      : undefined,
   };
 }

@@ -1,5 +1,5 @@
 import AppLayout from "@/components/layouts/AppLayout";
-import { getArticles } from "@/lib/contentful";
+import { getArticleById, getArticles } from "@/lib/contentful";
 import { CHURCH_INFO } from "@/constants";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { ProjectUrl } from "@/constants/projectUrl";
@@ -24,8 +24,17 @@ export default async function CommunityNews() {
   const { articles } = await getArticles({
     category: CONTENTFUL_CATEGORY.news,
   });
-  const firstArticle = articles[0];
+  const firstArticleSummary = articles[0];
 
+  if (!firstArticleSummary) {
+    return (
+      <AppLayout>
+        <NoPost />
+      </AppLayout>
+    );
+  }
+
+  const firstArticle = await getArticleById(firstArticleSummary.sys.id);
   if (!firstArticle) {
     return (
       <AppLayout>

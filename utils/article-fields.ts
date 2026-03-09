@@ -1,4 +1,4 @@
-import type { ArticleEntry } from "@/interface/article";
+import type { ArticleEntry, ArticleSummary } from "@/interface/article";
 
 type RichTextNodeLike = {
   value?: unknown;
@@ -18,10 +18,22 @@ const extractText = (node?: RichTextNodeLike): string => {
   return "";
 };
 
-export function getArticleThumbnailUrl(article: ArticleEntry): string | null {
-  const thumbnail = article.fields.thumbnail;
+export function getArticleThumbnailUrl(
+  article: ArticleEntry | ArticleSummary,
+): string | null {
+  if ("thumbnailUrl" in article.fields) {
+    return article.fields.thumbnailUrl ?? null;
+  }
+
+  if (!("thumbnail" in article.fields)) {
+    return null;
+  }
+
+  const { thumbnail } = article.fields;
   const url =
-    thumbnail && "fields" in thumbnail ? thumbnail.fields.file?.url : undefined;
+    thumbnail && "fields" in thumbnail
+      ? thumbnail.fields?.file?.url
+      : undefined;
   return url ? `https:${url}` : null;
 }
 
