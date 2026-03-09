@@ -18,12 +18,6 @@ const extractText = (node?: RichTextNodeLike): string => {
   return "";
 };
 
-export function getArticleTags(
-  article: ArticleDetail | ArticleEntry,
-): string[] {
-  return Array.isArray(article.fields?.tag) ? article.fields.tag : [];
-}
-
 export const getArticleDescription = (
   article: ArticleDetail | ArticleEntry,
   fallback = "",

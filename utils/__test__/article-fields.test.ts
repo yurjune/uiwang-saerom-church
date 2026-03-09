@@ -1,11 +1,7 @@
-import { getArticleDescription, getArticleTags } from "@/utils/article-fields";
+import { getArticleDescription } from "@/utils/article-fields";
 import { mockArticle } from "@/utils/__test__/article-fixture";
 
 describe("article-fields utils", () => {
-  it("getArticleTags", () => {
-    expect(getArticleTags(mockArticle)).toEqual(["빌립보서"]);
-  });
-
   it("getArticleDescription", () => {
     const desc = getArticleDescription(mockArticle);
 
