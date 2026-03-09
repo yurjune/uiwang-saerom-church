@@ -29,12 +29,12 @@ export async function generateMetadata({
   }
 
   const url = `${ProjectUrl.contents.movies.toString()}/${params.id}`;
-  const title = article.fields.title ?? ProjectMenu.movies.label;
+  const title = article.fields.title || ProjectMenu.movies.label;
   const description = getArticleShortenDescription(
     article,
     `${CHURCH_INFO.name} 설교영상입니다.`,
   );
-  const tags = article.fields.tag ?? [];
+  const tags = article.fields.tag;
   const keywords = [CHURCH_INFO.name, "설교영상", ...tags];
   const image = article.fields.thumbnailUrl ?? SITE_METADATA.og_image;
 

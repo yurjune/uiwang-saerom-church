@@ -21,10 +21,10 @@ export function toArticleSummary(article: ArticleEntry): ArticleSummary {
       updatedAt: article.sys.updatedAt,
     },
     fields: {
-      title: article.fields.title,
-      category: article.fields.category,
+      title: article.fields.title ?? "",
+      category: article.fields.category ?? "",
       date: article.fields.date,
-      tag: Array.isArray(article.fields.tag) ? article.fields.tag : undefined,
+      tag: article.fields.tag ?? [],
       thumbnailUrl: getThumbnailUrl(article),
     },
   };
@@ -47,12 +47,11 @@ export function toArticleDetail(article: ArticleEntry): ArticleDetail {
       updatedAt: article.sys.updatedAt,
     },
     fields: {
-      title: article.fields.title,
-      category: article.fields.category,
+      title: article.fields.title ?? "",
+      category: article.fields.category ?? "",
       date: article.fields.date,
-      tag: Array.isArray(article.fields.tag) ? article.fields.tag : undefined,
-      paragraph: article.fields
-        .paragraph as ArticleDetail["fields"]["paragraph"],
+      tag: article.fields.tag ?? [],
+      paragraph: article.fields.paragraph ?? null,
       thumbnailUrl: getThumbnailUrl(article),
     },
   };

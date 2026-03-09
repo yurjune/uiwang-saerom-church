@@ -33,8 +33,8 @@ export async function generateMetadata({
     article,
     `${CHURCH_INFO.name} 소식입니다.`,
   );
-  const title = article.fields.title ?? ProjectMenu.news.label;
-  const tags = article.fields.tag ?? [];
+  const title = article.fields.title || ProjectMenu.news.label;
+  const tags = article.fields.tag;
   const keywords = [CHURCH_INFO.name, "교회소식", ...tags];
   const image = article.fields.thumbnailUrl ?? SITE_METADATA.og_image;
 

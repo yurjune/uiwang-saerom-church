@@ -5,7 +5,7 @@ type RichTextNodeLike = {
   content?: RichTextNodeLike[];
 };
 
-const extractText = (node?: RichTextNodeLike): string => {
+const extractText = (node?: RichTextNodeLike | null): string => {
   if (!node) {
     return "";
   }

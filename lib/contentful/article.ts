@@ -20,11 +20,11 @@ export type ArticleSummary = {
     updatedAt?: string;
   };
   fields: {
-    title?: string;
-    category?: string;
+    title: string;
+    category: string;
     date: string;
-    tag?: string[];
-    thumbnailUrl?: string | null;
+    tag: string[];
+    thumbnailUrl: string | null;
   };
 };
 
@@ -40,11 +40,11 @@ export type ArticleDetail = {
     updatedAt?: string;
   };
   fields: {
-    title?: string;
-    category?: string;
+    title: string;
+    category: string;
     date: string;
-    tag?: string[];
-    paragraph?: Document;
-    thumbnailUrl?: string | null;
+    tag: string[];
+    paragraph: Document | null;
+    thumbnailUrl: string | null;
   };
 };

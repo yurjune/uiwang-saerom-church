@@ -1,9 +1,11 @@
 import { ProjectUrl } from "@/constants/projectUrl";
 
+export type Category = "설교영상" | "교회소식";
+
 export const CONTENTFUL_CATEGORY = {
   movies: "설교영상",
   news: "교회소식",
-};
+} satisfies Record<string, Category>;
 
 export const categoryMap = {
   [CONTENTFUL_CATEGORY.movies]: {
