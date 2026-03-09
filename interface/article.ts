@@ -1,3 +1,4 @@
+import type { Document } from "@contentful/rich-text-types";
 import type { Entry, EntryFieldTypes, EntrySkeletonType } from "contentful";
 
 export type ArticleFields = {
@@ -30,5 +31,20 @@ export type ArticleSummary = {
 export type AdjacentArticleSummary = {
   sys: {
     id: string;
+  };
+};
+
+export type ArticleDetail = {
+  sys: {
+    id: string;
+    updatedAt?: string;
+  };
+  fields: {
+    title?: string;
+    category?: string;
+    date: string;
+    tag?: string[];
+    paragraph?: Document;
+    thumbnailUrl?: string | null;
   };
 };

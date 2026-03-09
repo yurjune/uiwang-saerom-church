@@ -1,6 +1,6 @@
 import { cacheLife, cacheTag } from "next/cache";
 import type {
-  ArticleEntry,
+  ArticleDetail,
   ArticleSkeleton,
   ArticleSummary,
 } from "@/interface/article";
@@ -11,11 +11,14 @@ import {
 } from "@/lib/contentful/constants";
 import { client } from "@/lib/contentful/client";
 import { getArticleCategoryTag } from "@/lib/contentful/tags";
-import { toArticleSummary } from "@/lib/contentful/transformers";
+import {
+  toArticleDetail,
+  toArticleSummary,
+} from "@/lib/contentful/transformers";
 
 export type GetNewsArticlesResult = {
   articles: ArticleSummary[];
-  firstArticle: ArticleEntry | null;
+  firstArticle: ArticleDetail | null;
 };
 
 export async function getNewsArticles(): Promise<GetNewsArticlesResult> {
@@ -38,6 +41,6 @@ export async function getNewsArticles(): Promise<GetNewsArticlesResult> {
 
   return {
     articles: response.items.map(toArticleSummary),
-    firstArticle: response.items[0] ?? null,
+    firstArticle: response.items[0] ? toArticleDetail(response.items[0]) : null,
   };
 }

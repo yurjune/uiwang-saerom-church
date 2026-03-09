@@ -12,7 +12,7 @@ import {
   type Options,
 } from "@contentful/rich-text-react-renderer";
 import type { ReactNode } from "react";
-import type { ArticleEntry } from "@/interface/article";
+import type { ArticleDetail } from "@/interface/article";
 
 const option: Options = {
   renderNode: {
@@ -67,7 +67,7 @@ const option: Options = {
 };
 
 type Props = {
-  article: ArticleEntry;
+  article: ArticleDetail;
 };
 
 const ContentBody = ({ article }: Props) => {

@@ -5,10 +5,10 @@ import { Flex, HStack, Button, Icon } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
 import { categoryToContentUrl, categoryToUrl } from "@/utils/category";
-import type { ArticleEntry } from "@/interface/article";
+import type { ArticleDetail } from "@/interface/article";
 
 type Props = {
-  article: ArticleEntry;
+  article: ArticleDetail;
   prevId: string | undefined;
   nextId: string | undefined;
 };
