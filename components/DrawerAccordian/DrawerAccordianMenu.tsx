@@ -28,14 +28,11 @@ interface Props {
 const DrawerAccordianMenu = ({ label, active, href, onClose }: Props) => {
   if (href) {
     return (
-      <AccordionButton
-        as={Link}
-        href={href}
-        {...createButtonProps(active)}
-        onClick={onClose}
-      >
-        {label}
-      </AccordionButton>
+      <Link href={href} prefetch>
+        <AccordionButton {...createButtonProps(active)} onClick={onClose}>
+          {label}
+        </AccordionButton>
+      </Link>
     );
   }
 
