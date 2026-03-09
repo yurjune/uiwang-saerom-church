@@ -1,7 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import Image from "next/image";
 import type { ArticleSummary } from "@/interface/article";
-import { getArticleThumbnailUrl } from "@/utils/article-fields";
 import Link from "next/link";
 
 type Props = {
@@ -10,9 +9,7 @@ type Props = {
 };
 
 const ContentItemCard = ({ article, href }: Props) => {
-  const { title } = article.fields;
-  const { date } = article.fields;
-  const thumbnailUrl = getArticleThumbnailUrl(article);
+  const { title, date, thumbnailUrl } = article.fields;
 
   return (
     <Link href={href}>

@@ -5,12 +5,16 @@ import type {
   ArticleSummary,
 } from "@/interface/article";
 
-export function toArticleSummary(article: ArticleEntry): ArticleSummary {
+function getThumbnailUrl(article: ArticleEntry): string | null {
   const thumbnailUrl =
     article.fields.thumbnail && "fields" in article.fields.thumbnail
       ? article.fields.thumbnail.fields.file?.url
       : undefined;
 
+  return thumbnailUrl ? `https:${thumbnailUrl}` : null;
+}
+
+export function toArticleSummary(article: ArticleEntry): ArticleSummary {
   return {
     sys: {
       id: article.sys.id,
@@ -21,7 +25,7 @@ export function toArticleSummary(article: ArticleEntry): ArticleSummary {
       category: article.fields.category,
       date: article.fields.date,
       tag: Array.isArray(article.fields.tag) ? article.fields.tag : undefined,
-      thumbnailUrl: thumbnailUrl ? `https:${thumbnailUrl}` : null,
+      thumbnailUrl: getThumbnailUrl(article),
     },
   };
 }
@@ -37,11 +41,6 @@ export function toAdjacentArticleSummary(
 }
 
 export function toArticleDetail(article: ArticleEntry): ArticleDetail {
-  const thumbnailUrl =
-    article.fields.thumbnail && "fields" in article.fields.thumbnail
-      ? article.fields.thumbnail.fields.file?.url
-      : undefined;
-
   return {
     sys: {
       id: article.sys.id,
@@ -54,7 +53,7 @@ export function toArticleDetail(article: ArticleEntry): ArticleDetail {
       tag: Array.isArray(article.fields.tag) ? article.fields.tag : undefined,
       paragraph: article.fields
         .paragraph as ArticleDetail["fields"]["paragraph"],
-      thumbnailUrl: thumbnailUrl ? `https:${thumbnailUrl}` : null,
+      thumbnailUrl: getThumbnailUrl(article),
     },
   };
 }
