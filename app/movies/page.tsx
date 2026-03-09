@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import AppLayout from "@/components/layouts/AppLayout";
 import MoviesPage from "./_components/MoviesPage";
+import MoviesHeader from "./_components/MoviesHeader";
 import { getArticles } from "@/lib/contentful";
 import { CHURCH_INFO } from "@/constants";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
@@ -8,6 +9,7 @@ import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
 import { postNumberPerOnePage } from "@/constants/pagination";
+import { Divider } from "@chakra-ui/react";
 
 export const metadata: Metadata = {
   alternates: {
@@ -32,14 +34,30 @@ function getCurrentPage(value?: string) {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
 }
 
+const category = CONTENTFUL_CATEGORY.movies;
+
 export default async function Movies({ searchParams }: PageProps) {
   return (
     <AppLayout>
+      <MoviesHeader category={category}>
+        <Suspense fallback={<span>{category}</span>}>
+          <MoviesHeaderTitle searchParams={searchParams} />
+        </Suspense>
+      </MoviesHeader>
+
+      <Divider mt="20px" mb="30px" />
+
       <Suspense fallback={null}>
         <MoviesContent searchParams={searchParams} />
       </Suspense>
     </AppLayout>
   );
+}
+
+async function MoviesHeaderTitle({ searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams;
+  const bible = resolvedSearchParams.bible;
+  return <span>{category + (bible ? ` - ${bible}` : "")}</span>;
 }
 
 async function MoviesContent({ searchParams }: PageProps) {
@@ -61,7 +79,6 @@ async function MoviesContent({ searchParams }: PageProps) {
       articles={articles}
       currentPage={currentPage}
       totalCount={totalCount}
-      bible={bible}
     />
   );
 }

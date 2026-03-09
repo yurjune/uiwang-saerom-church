@@ -1,7 +1,4 @@
-"use client";
-
 import { Box } from "@chakra-ui/react";
-import ContentListViewHeader from "@/components/ContentListView/ContentListViewHeader";
 import ContentList from "@/components/ContentListView/ContentList";
 import Pagination from "@/components/Pagination/Pagination";
 import NoPost from "@/components/NoPost/NoPost";
@@ -10,8 +7,6 @@ import type { ArticleEntry } from "@/interface/article";
 import { postNumberPerOnePage } from "@/constants/pagination";
 
 type Props = {
-  title: string;
-  category: string;
   articles: ArticleEntry[];
   currentPage: number;
   totalCount: number;
@@ -19,8 +14,6 @@ type Props = {
 };
 
 const ContentListView = ({
-  title,
-  category,
   articles,
   currentPage = 1,
   totalCount,
@@ -30,10 +23,6 @@ const ContentListView = ({
 
   return (
     <Fragment>
-      <Box mb="30px">
-        <ContentListViewHeader category={category} title={title} />
-      </Box>
-
       {!hasArticles ? (
         <NoPost />
       ) : (
