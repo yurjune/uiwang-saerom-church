@@ -13,7 +13,7 @@ type Props = {
   currentPage: number;
   limit?: number;
   pageGroupSize?: number;
-  getPageHref: (page: number) => string;
+  createPageHref: (page: number) => string;
 };
 
 const Pagination = ({
@@ -21,7 +21,7 @@ const Pagination = ({
   currentPage,
   limit,
   pageGroupSize,
-  getPageHref,
+  createPageHref,
 }: Props) => {
   const { currentPageGroup, lastPage, isFirstGroup, isLastGroup } =
     getPagination({ totalCount, currentPage, limit, pageGroupSize });
@@ -38,12 +38,12 @@ const Pagination = ({
     <Flex w="full" align="center" justify="center">
       {isFirstGroup ? null : (
         <>
-          <ArrowButton ariaLabel="to first page" href={getPageHref(1)}>
+          <ArrowButton ariaLabel="to first page" href={createPageHref(1)}>
             <Icon as={FaAngleDoubleLeft} boxSize={3} />
           </ArrowButton>
           <ArrowButton
             ariaLabel="to previous page group"
-            href={getPageHref(prevPage)}
+            href={createPageHref(prevPage)}
           >
             <Icon as={FaAngleLeft} boxSize={3} />
           </ArrowButton>
@@ -51,12 +51,12 @@ const Pagination = ({
       )}
 
       <Box mx={3}>
-        {currentPageGroup.map((curPage) => (
+        {currentPageGroup.map((page) => (
           <PageButton
-            key={curPage}
-            value={curPage}
-            selected={currentPage === curPage}
-            href={getPageHref(curPage)}
+            key={page}
+            value={page}
+            selected={currentPage === page}
+            href={createPageHref(page)}
           />
         ))}
       </Box>
@@ -65,11 +65,11 @@ const Pagination = ({
         <>
           <ArrowButton
             ariaLabel="to next page group"
-            href={getPageHref(nextPage)}
+            href={createPageHref(nextPage)}
           >
             <Icon as={FaAngleRight} boxSize={3} />
           </ArrowButton>
-          <ArrowButton ariaLabel="to last page" href={getPageHref(lastPage)}>
+          <ArrowButton ariaLabel="to last page" href={createPageHref(lastPage)}>
             <Icon as={FaAngleDoubleRight} boxSize={3} />
           </ArrowButton>
         </>

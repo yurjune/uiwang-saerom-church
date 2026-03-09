@@ -1,24 +1,24 @@
 "use client";
 
 import NextLink from "next/link";
-import { Flex, Heading, Box, HStack, Divider, Button } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, HStack } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import BibleTagCollapse from "@/components/BibleTagCollapse/BibleTagCollapse";
 import { categoryToUrl } from "@/utils/category";
 
-type Props = {
-  title: string;
+type MoviesListHeaderProps = {
+  children: React.ReactNode;
   category: string;
 };
 
-const ContentListViewHeader = ({ title, category }: Props) => {
+const MoviesHeader = ({ children, category }: MoviesListHeaderProps) => {
   const { isOpen, onClose, onToggle } = useDisclosure();
 
   return (
     <Box>
       <Flex direction={{ base: "column", sm: "row" }} justify="space-between">
         <Heading as="h2" size="lg">
-          {title}
+          {children}
         </Heading>
 
         <HStack mt={{ base: "20px", sm: "0" }}>
@@ -26,9 +26,7 @@ const ContentListViewHeader = ({ title, category }: Props) => {
             as={NextLink}
             href={categoryToUrl(category)}
             colorScheme="blue"
-            onClick={() => {
-              onClose();
-            }}
+            onClick={onClose}
           >
             전체
           </Button>
@@ -39,10 +37,8 @@ const ContentListViewHeader = ({ title, category }: Props) => {
       </Flex>
 
       <BibleTagCollapse category={category} isOpen={isOpen} onClose={onClose} />
-
-      <Divider mt="20px" />
     </Box>
   );
 };
 
-export default ContentListViewHeader;
+export default MoviesHeader;

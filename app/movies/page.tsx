@@ -1,14 +1,14 @@
+import { Suspense } from "react";
 import AppLayout from "@/components/layouts/AppLayout";
-import MoviesPage from "./_components/MoviesPage";
-import { getArticles } from "@/lib/contentful";
+import MoviesHeader from "./_components/MoviesHeader";
+import MoviesContent from "./_components/MoviesContent";
 import { CHURCH_INFO } from "@/constants";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
-import { postNumberPerOnePage } from "@/constants/pagination";
-
-export const revalidate = 86400; // 1 day
+import { Divider } from "@chakra-ui/react";
+import type { MoviesPageProps } from "./types";
 
 export const metadata: Metadata = {
   alternates: {
@@ -19,44 +19,28 @@ export const metadata: Metadata = {
   keywords: [CHURCH_INFO.name, "설교영상", "주일예배"],
 };
 
-type SearchParams = {
-  page?: string;
-  bible?: string;
-};
+const category = CONTENTFUL_CATEGORY.movies;
 
-type PageProps = {
-  searchParams: Promise<SearchParams>;
-};
-
-function getCurrentPage(value?: string) {
-  const parsed = Number.parseInt(value ?? "", 10);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
-}
-
-export default async function Movies({
-  searchParams: _searchParams,
-}: PageProps) {
-  const searchParams = await _searchParams;
-  const bible = searchParams.bible;
-  const currentPage = getCurrentPage(searchParams.page);
-  const limit = postNumberPerOnePage;
-  const skip = (currentPage - 1) * limit;
-
-  const { articles, totalCount } = await getArticles({
-    category: CONTENTFUL_CATEGORY.movies,
-    tag: bible,
-    limit,
-    skip,
-  });
-
+export default async function Movies({ searchParams }: MoviesPageProps) {
   return (
     <AppLayout>
-      <MoviesPage
-        articles={articles}
-        currentPage={currentPage}
-        totalCount={totalCount}
-        bible={bible}
-      />
+      <MoviesHeader category={category}>
+        <Suspense fallback={<span>{category}</span>}>
+          <MoviesHeaderTitle searchParams={searchParams} />
+        </Suspense>
+      </MoviesHeader>
+
+      <Divider mt="20px" mb="30px" />
+
+      <Suspense fallback={null}>
+        <MoviesContent searchParams={searchParams} />
+      </Suspense>
     </AppLayout>
   );
+}
+
+async function MoviesHeaderTitle({ searchParams }: MoviesPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const bible = resolvedSearchParams.bible;
+  return <span>{category + (bible ? ` - ${bible}` : "")}</span>;
 }

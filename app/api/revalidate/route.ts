@@ -1,6 +1,5 @@
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import { ProjectUrl } from "@/constants/projectUrl";
 
 type RevalidateBody = {
   sys?: {
@@ -27,21 +26,18 @@ async function handleRevalidate(
     );
   }
 
-  const entryId = (body.sys?.id ?? "").trim();
-  // always revalidate /movies and /news
-  const paths = [ProjectUrl.movies.toString(), ProjectUrl.news.toString()];
-  if (entryId) {
-    paths.push(`${ProjectUrl.contents.movies.toString()}/${entryId}`);
-    paths.push(`${ProjectUrl.contents.news.toString()}/${entryId}`);
-  }
+  const revalidated = ["articles"];
+  revalidateTag("articles", "max");
 
-  for (const path of new Set(paths)) {
-    revalidatePath(path);
+  const entryId = (body.sys?.id ?? "").trim();
+  if (entryId) {
+    revalidateTag(`article:${entryId}`, "max");
+    revalidated.push(`article:${entryId}`);
   }
 
   return NextResponse.json({
     ok: true,
-    revalidated: paths,
+    revalidated,
   });
 }
 
