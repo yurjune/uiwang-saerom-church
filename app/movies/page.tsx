@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import AppLayout from "@/components/layouts/AppLayout";
 import MoviesPage from "./_components/MoviesPage";
 import { getArticles } from "@/lib/contentful";
@@ -31,12 +32,20 @@ function getCurrentPage(value?: string) {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
 }
 
-export default async function Movies({
-  searchParams: _searchParams,
-}: PageProps) {
-  const searchParams = await _searchParams;
-  const bible = searchParams.bible;
-  const currentPage = getCurrentPage(searchParams.page);
+export default async function Movies({ searchParams }: PageProps) {
+  return (
+    <AppLayout>
+      <Suspense fallback={null}>
+        <MoviesContent searchParams={searchParams} />
+      </Suspense>
+    </AppLayout>
+  );
+}
+
+async function MoviesContent({ searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams;
+  const bible = resolvedSearchParams.bible;
+  const currentPage = getCurrentPage(resolvedSearchParams.page);
   const limit = postNumberPerOnePage;
   const skip = (currentPage - 1) * limit;
 
@@ -48,13 +57,11 @@ export default async function Movies({
   });
 
   return (
-    <AppLayout>
-      <MoviesPage
-        articles={articles}
-        currentPage={currentPage}
-        totalCount={totalCount}
-        bible={bible}
-      />
-    </AppLayout>
+    <MoviesPage
+      articles={articles}
+      currentPage={currentPage}
+      totalCount={totalCount}
+      bible={bible}
+    />
   );
 }
