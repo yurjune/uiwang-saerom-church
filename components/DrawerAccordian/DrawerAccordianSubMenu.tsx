@@ -1,4 +1,5 @@
-import { Box, Link } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import Link from "next/link";
 import { ReactNode } from "react";
 
 interface Props {
@@ -10,26 +11,26 @@ interface Props {
 
 const DrawerAccordianSubMenu = ({ children, href, active, onMove }: Props) => {
   return (
-    <Box
-      as={Link}
-      href={href}
-      onClick={onMove}
-      textDecoration="none"
-      px={3}
-      py={2}
-      rounded="md"
-      fontSize="15px"
-      fontWeight={active ? 700 : 500}
-      color={active ? "blue.700" : "gray.700"}
-      bg={active ? "blue.100" : "transparent"}
-      _hover={{
-        bg: "blue.50",
-        color: "blue.800",
-        textDecoration: "none",
-      }}
-    >
-      {children}
-    </Box>
+    <Link href={href} prefetch>
+      <Box
+        textDecoration="none"
+        px={3}
+        py={2}
+        rounded="md"
+        fontSize="15px"
+        fontWeight={active ? 700 : 500}
+        color={active ? "blue.700" : "gray.700"}
+        bg={active ? "blue.100" : "transparent"}
+        _hover={{
+          bg: "blue.50",
+          color: "blue.800",
+          textDecoration: "none",
+        }}
+        onClick={onMove}
+      >
+        {children}
+      </Box>
+    </Link>
   );
 };
 

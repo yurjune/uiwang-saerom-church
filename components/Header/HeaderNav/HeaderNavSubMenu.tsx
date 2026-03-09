@@ -12,18 +12,18 @@ const HeaderNavSubMenu = ({
   active: boolean;
 }) => {
   return (
-    <MenuItem
-      as={Link}
-      href={href}
-      rounded="sm"
-      py="10px"
-      fontWeight={active ? 700 : 500}
-      bg={active ? "blue.50" : "transparent"}
-      _hover={{ bg: "blue.100" }}
-      _focus={{ bg: "blue.100" }}
-    >
-      {children}
-    </MenuItem>
+    <Link href={href} prefetch>
+      <MenuItem
+        rounded="sm"
+        py="10px"
+        fontWeight={active ? 700 : 500}
+        bg={active ? "blue.50" : "transparent"}
+        _hover={{ bg: "blue.100" }}
+        _focus={{ bg: "blue.100" }}
+      >
+        {children}
+      </MenuItem>
+    </Link>
   );
 };
 
