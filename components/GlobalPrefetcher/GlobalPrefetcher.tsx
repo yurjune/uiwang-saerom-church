@@ -1,8 +1,10 @@
+"use client";
+
 import { ProjectUrl } from "@/constants/projectUrl";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export const useAggressivePrefetcher = () => {
+const GlobalPrefetcher = () => {
   const router = useRouter();
 
   useEffect(() => {
@@ -14,4 +16,8 @@ export const useAggressivePrefetcher = () => {
 
     return () => {};
   }, [router]);
+
+  return null;
 };
+
+export default GlobalPrefetcher;

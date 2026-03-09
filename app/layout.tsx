@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { CHURCH_INFO, SITE_METADATA, TWITTER_CONFIG } from "@/constants";
+import GlobalPrefetcher from "@/components/GlobalPrefetcher/GlobalPrefetcher";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
@@ -66,6 +67,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="ko">
       <body>
         <Providers>{children}</Providers>
+
+        <GlobalPrefetcher />
       </body>
     </html>
   );
