@@ -6,13 +6,14 @@ import Link from "next/link";
 type Props = {
   article: ArticleSummary;
   href: string;
+  prefetch?: boolean;
 };
 
-const ContentItemCard = ({ article, href }: Props) => {
+const ContentItemCard = ({ article, href, prefetch = false }: Props) => {
   const { title, date, thumbnailUrl } = article.fields;
 
   return (
-    <Link href={href}>
+    <Link href={href} prefetch={prefetch}>
       <Box h="0" pb="100%" position="relative" overflow="hidden" bg="gray.100">
         {thumbnailUrl ? (
           <Image
