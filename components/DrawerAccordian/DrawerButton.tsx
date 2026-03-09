@@ -12,10 +12,13 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import DrawerAccordian from "@/components/DrawerAccordian/DrawerAccordian";
+import { useAggressivePrefetcher } from "@/hooks/useAggressivePrefetcher";
 
 const DrawerButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef(null);
+
+  useAggressivePrefetcher();
 
   return (
     <Box>

@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { HStack, Box, Menu, MenuList } from "@chakra-ui/react";
 import { navItems } from "@/components/Header/navItems";
 import HeaderNavMenu from "./HeaderNavMenu";
 import HeaderNavSubMenu from "./HeaderNavSubMenu";
+import { useAggressivePrefetcher } from "@/hooks/useAggressivePrefetcher";
 
 const HeaderNav = () => {
   const pathname = usePathname();
+
+  useAggressivePrefetcher();
 
   const [openMenu, setOpenMenu] = useState<string | null>(null);
 
