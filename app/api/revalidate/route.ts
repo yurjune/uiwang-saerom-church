@@ -35,8 +35,6 @@ async function handleRevalidate(
     revalidated.push(`article:${entryId}`);
   }
 
-  refresh();
-
   return NextResponse.json({
     ok: true,
     revalidated,
