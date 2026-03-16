@@ -9,6 +9,7 @@ import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
 import { Divider } from "@chakra-ui/react";
 import type { MoviesPageProps } from "./types";
+import ContentListSkeleton from "@/components/ContentListView/ContentListSkeleton";
 
 export const metadata: Metadata = {
   alternates: {
@@ -32,7 +33,7 @@ export default async function Movies({ searchParams }: MoviesPageProps) {
 
       <Divider mt="20px" mb="30px" />
 
-      <Suspense fallback={null}>
+      <Suspense fallback={<ContentListSkeleton />}>
         <MoviesContent searchParams={searchParams} />
       </Suspense>
     </AppLayout>
