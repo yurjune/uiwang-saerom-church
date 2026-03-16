@@ -45,7 +45,7 @@ const option: Options = {
       const uri = (node as any).data?.uri;
       if (typeof uri === "string" && uri.includes("youtube.com")) {
         return (
-          <AspectRatio ratio={16 / 9}>
+          <AspectRatio ratio={16 / 9} marginBottom="16px">
             <iframe
               src={uri}
               title="YouTube video player"
