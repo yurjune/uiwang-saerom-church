@@ -3,7 +3,11 @@ import WorshipTimeItem from "@/components/WorshipTime/WorshipTimeItem";
 import { worshipSchedule } from "@/components/WorshipTime/constant";
 import { ProjectMenu } from "@/constants/menu";
 
-const WorshipTime = () => {
+interface Props {
+  enableAnimation: boolean;
+}
+
+const WorshipTime = ({ enableAnimation }: Props) => {
   return (
     <Box width="100%" bgGradient="linear(to-b, #F4F9FF 0%, #FFF 100%)">
       <Flex
@@ -33,7 +37,7 @@ const WorshipTime = () => {
               title={item.title}
               day={item.day}
               time={item.time}
-              enableAnimation
+              enableAnimation={enableAnimation}
             />
           ))}
         </Box>

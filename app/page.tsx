@@ -20,7 +20,7 @@ export default async function HomePage() {
       <Header />
       <main>
         <Introduction />
-        <WorshipTime />
+        <WorshipTime enableAnimation />
         <ChurchLocation appKey={appKey} />
       </main>
       <Footer />

@@ -35,6 +35,7 @@ export default async function About() {
             day={item.day}
             time={item.time}
             index={index}
+            enableAnimation={false}
           />
         </Flex>
       ))}
