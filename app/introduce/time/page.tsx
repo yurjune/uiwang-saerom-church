@@ -28,9 +28,14 @@ export default async function About() {
     <AppLayout>
       <TitleBar title="예배시간 안내" />
 
-      {worshipSchedule.map((item) => (
+      {worshipSchedule.map((item, index) => (
         <Flex key={item.title} w="100%" justify="center">
-          <WorshipTimeItem title={item.title} day={item.day} time={item.time} />
+          <WorshipTimeItem
+            title={item.title}
+            day={item.day}
+            time={item.time}
+            index={index}
+          />
         </Flex>
       ))}
     </AppLayout>

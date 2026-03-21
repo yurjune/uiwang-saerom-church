@@ -8,11 +8,18 @@ type Props = {
   day: string;
   time: string;
   index: number;
+  enableAnimation: boolean;
 };
 
-const WorshipTimeItem = ({ title, day, time, index }: Props) => {
+const WorshipTimeItem = ({
+  title,
+  day,
+  time,
+  index,
+  enableAnimation,
+}: Props) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(!enableAnimation);
 
   useEffect(() => {
     const node = ref.current;

@@ -33,6 +33,7 @@ const WorshipTime = () => {
               title={item.title}
               day={item.day}
               time={item.time}
+              enableAnimation
             />
           ))}
         </Box>
