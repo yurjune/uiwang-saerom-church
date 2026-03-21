@@ -15,17 +15,22 @@ const ContentTagSection = ({ article }: Props) => {
 
       {tag && (
         <Box mt="16px">
-          {tag.map((item, index) => (
-            <Link
-              key={item + index}
-              href={buildMoviesUrl({ bible: item })}
-              mr="10px"
-              fontSize="15px"
-              color="grayLetter"
-            >
-              {item},
-            </Link>
-          ))}
+          {tag.map((item, index) => {
+            const isLast = index === tag.length - 1;
+            const suffix = isLast ? "" : ", ";
+            const tagName = item + suffix;
+            return (
+              <Link
+                key={tagName + index}
+                href={buildMoviesUrl({ bible: tagName })}
+                mr="10px"
+                fontSize="15px"
+                color="grayLetter"
+              >
+                {tagName}
+              </Link>
+            );
+          })}
         </Box>
       )}
     </Box>
