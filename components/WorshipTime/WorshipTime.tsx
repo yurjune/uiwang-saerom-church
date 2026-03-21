@@ -26,14 +26,14 @@ const WorshipTime = () => {
         </Box>
 
         <Box w="100%">
-          {worshipSchedule.map((item) => (
-            <Flex key={item.title} justify="center">
-              <WorshipTimeItem
-                title={item.title}
-                day={item.day}
-                time={item.time}
-              />
-            </Flex>
+          {worshipSchedule.map((item, index) => (
+            <WorshipTimeItem
+              key={item.title}
+              index={index}
+              title={item.title}
+              day={item.day}
+              time={item.time}
+            />
           ))}
         </Box>
       </Flex>
