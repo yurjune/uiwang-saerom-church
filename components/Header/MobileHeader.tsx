@@ -17,7 +17,7 @@ const MobileHeader = () => {
       bg="white"
       borderBottom="1px solid"
       borderColor="gray.200"
-      px={4}
+      px={2}
     >
       <Link href="/">
         <Box rounded="xl" transition="all 0.2s ease">
