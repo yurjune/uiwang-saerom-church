@@ -4,7 +4,7 @@ import { Flex, Box } from "@chakra-ui/react";
 
 import HeaderNav from "@/components/Header/HeaderNav/HeaderNav";
 import { layoutWidth } from "@/constants/layout";
-import LogoImage from "@/public/logo.jpg";
+import LogoImage from "@/public/logo.png";
 
 const DesktopHeader = () => {
   return (
@@ -33,7 +33,7 @@ const DesktopHeader = () => {
               src={LogoImage}
               alt="Church logo"
               width={150}
-              height={32}
+              height={57}
               priority
             />
           </Box>
