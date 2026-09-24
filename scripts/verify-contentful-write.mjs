@@ -7,6 +7,10 @@ const API_ENV_PATH = path.join(ROOT_DIR, "apps/api/.env");
 const WEB_ENV_PATH = path.join(ROOT_DIR, "apps/web/.env");
 const ARTICLE_CONTENT_TYPE = "article";
 const TEST_VIDEO_URL = "https://www.youtube.com/embed/YATPaLsfT08";
+const TEST_PNG = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII=",
+  "base64",
+);
 
 function parseEnvFile(text) {
   return Object.fromEntries(
@@ -78,6 +82,27 @@ function createYouTubeParagraphDocument(embedUrl) {
   };
 }
 
+function createEmptyDocument() {
+  return {
+    nodeType: "document",
+    data: {},
+    content: [
+      {
+        nodeType: "paragraph",
+        data: {},
+        content: [
+          {
+            nodeType: "text",
+            value: "",
+            marks: [],
+            data: {},
+          },
+        ],
+      },
+    ],
+  };
+}
+
 async function cmaFetch({
   spaceId,
   environmentId,
@@ -116,6 +141,30 @@ async function cmaFetch({
 
     throw new Error(
       `Contentful CMA 요청 실패: ${response.status} ${response.statusText}\n${text}`,
+    );
+  }
+
+  return body;
+}
+
+async function uploadFetch({ spaceId, token, pathname, init = {} }) {
+  const response = await fetch(
+    `https://upload.contentful.com/spaces/${spaceId}${pathname}`,
+    {
+      ...init,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        ...init.headers,
+      },
+    },
+  );
+
+  const text = await response.text();
+  const body = text ? JSON.parse(text) : null;
+
+  if (!response.ok) {
+    throw new Error(
+      `Contentful Upload 요청 실패: ${response.status} ${response.statusText}\n${text}`,
     );
   }
 
@@ -168,6 +217,209 @@ async function getEntry(config, entryId) {
   });
 }
 
+async function publishAsset(config, asset) {
+  return cmaFetch({
+    ...config,
+    pathname: `/assets/${asset.sys.id}/published`,
+    init: {
+      method: "PUT",
+      headers: {
+        "X-Contentful-Version": String(asset.sys.version),
+      },
+    },
+  });
+}
+
+async function unpublishAsset(config, asset) {
+  return cmaFetch({
+    ...config,
+    pathname: `/assets/${asset.sys.id}/published`,
+    init: {
+      method: "DELETE",
+      headers: {
+        "X-Contentful-Version": String(asset.sys.version),
+      },
+    },
+  });
+}
+
+async function deleteAsset(config, asset) {
+  await cmaFetch({
+    ...config,
+    pathname: `/assets/${asset.sys.id}`,
+    init: {
+      method: "DELETE",
+      headers: {
+        "X-Contentful-Version": String(asset.sys.version),
+      },
+    },
+  });
+}
+
+async function getAsset(config, assetId) {
+  return cmaFetch({
+    ...config,
+    pathname: `/assets/${assetId}`,
+  });
+}
+
+async function waitForProcessedAsset(config, assetId, locale) {
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    const asset = await getAsset(config, assetId);
+    if (asset.fields?.file?.[locale]?.url) {
+      return asset;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+
+  throw new Error("Contentful Asset 처리가 시간 내에 완료되지 않았습니다.");
+}
+
+async function createTestAsset(config, locale, title) {
+  const upload = await uploadFetch({
+    ...config,
+    pathname: "/uploads",
+    init: {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/octet-stream",
+      },
+      body: TEST_PNG,
+    },
+  });
+  console.log(`created upload: ${upload.sys.id}`);
+
+  let asset = await cmaFetch({
+    ...config,
+    pathname: "/assets",
+    init: {
+      method: "POST",
+      body: JSON.stringify({
+        fields: {
+          title: {
+            [locale]: title,
+          },
+          file: {
+            [locale]: {
+              contentType: "image/png",
+              fileName: "contentful-write-test.png",
+              uploadFrom: {
+                sys: {
+                  type: "Link",
+                  linkType: "Upload",
+                  id: upload.sys.id,
+                },
+              },
+            },
+          },
+        },
+      }),
+    },
+  });
+  console.log(`created draft asset: ${asset.sys.id}`);
+
+  await cmaFetch({
+    ...config,
+    pathname: `/assets/${asset.sys.id}/files/${locale}/process`,
+    init: {
+      method: "PUT",
+      headers: {
+        "X-Contentful-Version": String(asset.sys.version),
+      },
+    },
+  });
+  asset = await waitForProcessedAsset(config, asset.sys.id, locale);
+  console.log(`processed asset: ${asset.sys.id}`);
+
+  asset = await publishAsset(config, asset);
+  console.log(`published asset: ${asset.sys.id}`);
+
+  return asset;
+}
+
+async function runNewsImageVerification(config, locale, title, keepEntry) {
+  const asset = await createTestAsset(config, locale, `${title} 이미지`);
+  let entry = await cmaFetch({
+    ...config,
+    pathname: "/entries",
+    init: {
+      method: "POST",
+      headers: {
+        "X-Contentful-Content-Type": ARTICLE_CONTENT_TYPE,
+      },
+      body: JSON.stringify({
+        fields: {
+          title: {
+            [locale]: title,
+          },
+          category: {
+            [locale]: "교회소식",
+          },
+          date: {
+            [locale]: new Date().toISOString(),
+          },
+          paragraph: {
+            [locale]: createEmptyDocument(),
+          },
+          thumbnail: {
+            [locale]: {
+              sys: {
+                type: "Link",
+                linkType: "Asset",
+                id: asset.sys.id,
+              },
+            },
+          },
+        },
+      }),
+    },
+  });
+  console.log(`created news draft entry: ${entry.sys.id}`);
+
+  entry = await publishEntry(config, entry);
+  console.log(`published news entry: ${entry.sys.id}`);
+
+  entry = await cmaFetch({
+    ...config,
+    pathname: `/entries/${entry.sys.id}`,
+    init: {
+      method: "PUT",
+      headers: {
+        "X-Contentful-Version": String(entry.sys.version),
+        "X-Contentful-Content-Type": ARTICLE_CONTENT_TYPE,
+      },
+      body: JSON.stringify({
+        fields: {
+          ...entry.fields,
+          title: {
+            [locale]: `${title} 수정`,
+          },
+        },
+      }),
+    },
+  });
+  console.log(`updated news draft entry: ${entry.sys.id}`);
+
+  entry = await publishEntry(config, entry);
+  console.log(`republished news entry: ${entry.sys.id}`);
+
+  if (!keepEntry) {
+    entry = await unpublishEntry(config, entry);
+    await deleteEntry(config, entry);
+    console.log(`cleaned up news entry: ${entry.sys.id}`);
+
+    const latestAsset = await getAsset(config, asset.sys.id);
+    const unpublishedAsset = latestAsset.sys.publishedVersion
+      ? await unpublishAsset(config, latestAsset)
+      : latestAsset;
+    await deleteAsset(config, unpublishedAsset);
+    console.log(`cleaned up asset: ${asset.sys.id}`);
+  } else {
+    console.log(`kept news entry for manual verification: ${entry.sys.id}`);
+    console.log(`kept asset for manual verification: ${asset.sys.id}`);
+  }
+}
+
 async function main() {
   if (!process.env.CONFIRM_CONTENTFUL_WRITE) {
     throw new Error(
@@ -194,10 +446,27 @@ async function main() {
     console.log(`deleted entry: ${entry.sys.id}`);
     return;
   }
+  const deleteAssetId = getArgValue("--delete-asset");
+  if (deleteAssetId) {
+    let asset = await getAsset(config, deleteAssetId);
+    if (asset.sys.publishedVersion) {
+      asset = await unpublishAsset(config, asset);
+      console.log(`unpublished asset: ${asset.sys.id}`);
+    }
+    await deleteAsset(config, asset);
+    console.log(`deleted asset: ${asset.sys.id}`);
+    return;
+  }
 
   const keepEntry = process.argv.includes("--keep");
+  const verifyNewsImage = process.argv.includes("--news-image");
   const title =
     getArgValue("--title") ?? `[CMA 검증] ${new Date().toISOString()}`;
+
+  if (verifyNewsImage) {
+    await runNewsImageVerification(config, locale, title, keepEntry);
+    return;
+  }
 
   let entry = await cmaFetch({
     ...config,
