@@ -8,8 +8,6 @@ import {
   verifyAdminSessionToken,
 } from "@/lib/admin/auth/session";
 
-export const runtime = "nodejs";
-
 type LoginBody = {
   password?: unknown;
 };

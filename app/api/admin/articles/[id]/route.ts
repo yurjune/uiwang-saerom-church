@@ -13,8 +13,6 @@ import {
   updateContentfulArticle,
 } from "@/lib/admin/contentful/management";
 
-export const runtime = "nodejs";
-
 type RouteContext = {
   params: Promise<{
     id: string;

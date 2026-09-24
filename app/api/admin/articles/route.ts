@@ -14,8 +14,6 @@ import {
 } from "@/lib/admin/contentful/management";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 
-export const runtime = "nodejs";
-
 function getImageFile(formData: FormData): File | undefined {
   const file = formData.get("image");
   return file instanceof File && file.size > 0 ? file : undefined;
