@@ -1,5 +1,6 @@
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import {
+  createAssetDocument,
   createEmptyDocument,
   createYouTubeParagraphDocument,
 } from "./richText";
@@ -107,7 +108,9 @@ export function toContentfulArticleFields(
     title: payload.title,
     category: payload.category,
     date: payload.date ?? new Date().toISOString(),
-    paragraph: createEmptyDocument(),
+    paragraph: thumbnailAssetId
+      ? createAssetDocument(thumbnailAssetId)
+      : createEmptyDocument(),
     thumbnailAssetId,
   };
 }

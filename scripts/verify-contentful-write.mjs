@@ -103,6 +103,28 @@ function createEmptyDocument() {
   };
 }
 
+function createAssetDocument(assetId) {
+  return {
+    nodeType: "document",
+    data: {},
+    content: [
+      {
+        nodeType: "embedded-asset-block",
+        data: {
+          target: {
+            sys: {
+              type: "Link",
+              linkType: "Asset",
+              id: assetId,
+            },
+          },
+        },
+        content: [],
+      },
+    ],
+  };
+}
+
 async function cmaFetch({
   spaceId,
   environmentId,
@@ -359,7 +381,7 @@ async function runNewsImageVerification(config, locale, title, keepEntry) {
             [locale]: new Date().toISOString(),
           },
           paragraph: {
-            [locale]: createEmptyDocument(),
+            [locale]: createAssetDocument(asset.sys.id),
           },
           thumbnail: {
             [locale]: {

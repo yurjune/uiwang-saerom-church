@@ -51,6 +51,21 @@ describe("toContentfulArticleFields", () => {
       title: "소식 제목",
       category: CONTENTFUL_CATEGORY.news,
       thumbnailAssetId: "asset-id",
+      paragraph: {
+        nodeType: BLOCKS.DOCUMENT,
+        content: [
+          {
+            nodeType: BLOCKS.EMBEDDED_ASSET,
+            data: {
+              target: {
+                sys: {
+                  id: "asset-id",
+                },
+              },
+            },
+          },
+        ],
+      },
     });
   });
 });
