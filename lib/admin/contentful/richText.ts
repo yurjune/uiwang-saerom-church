@@ -1,5 +1,26 @@
 import { BLOCKS, INLINES, type Document } from "@contentful/rich-text-types";
 
+export function createEmptyDocument(): Document {
+  return {
+    nodeType: BLOCKS.DOCUMENT,
+    data: {},
+    content: [
+      {
+        nodeType: BLOCKS.PARAGRAPH,
+        data: {},
+        content: [
+          {
+            nodeType: "text",
+            value: "",
+            marks: [],
+            data: {},
+          },
+        ],
+      },
+    ],
+  };
+}
+
 export function createYouTubeParagraphDocument(embedUrl: string): Document {
   return {
     nodeType: BLOCKS.DOCUMENT,
