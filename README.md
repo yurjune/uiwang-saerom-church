@@ -6,6 +6,13 @@
 
 콘텐츠는 Headless CMS [Contentful](https://www.contentful.com/)에서 발행하고 관리합니다.
 
+## 관리자 인증
+
+관리자 업로드 API는 서버 환경변수 기반 인증을 사용합니다.
+
+- `ADMIN_PASSWORD`: 관리자 로그인 비밀번호
+- `ADMIN_SESSION_SECRET`: 관리자 세션 쿠키 서명용 secret. 생략 시 `ADMIN_PASSWORD`를 사용합니다.
+
 ## 페이지 캐시 전략
 
 페이지는 SSG + ISR로 제공되며, 기본 `revalidate` 주기는 `86400초(1일)`입니다.
@@ -13,11 +20,13 @@
 ### Contentful Webhook Revalidate
 
 Contentful webhook은 secret key와 `sys.id`를 전달합니다.
+
 - secret key는 x-revalidate-secret header로 전달합니다.
 - `sys.id`가 있으면 `movies/news` 목록과 해당 entry 상세 경로를 갱신합니다.
 - `sys.id`가 없으면 `movies/news` 목록만 갱신합니다.
 
 webhook은 다음 entry 액션으로 트리거됩니다.
+
 - Publish
 - Unpublish
 
