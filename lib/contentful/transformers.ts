@@ -25,6 +25,7 @@ export function toArticleSummary(article: ArticleEntry): ArticleSummary {
       category: article.fields.category ?? "",
       date: article.fields.date,
       tag: article.fields.tag ?? [],
+      reference: article.fields.reference ?? null,
       thumbnailUrl: getThumbnailUrl(article),
     },
   };
@@ -51,6 +52,7 @@ export function toArticleDetail(article: ArticleEntry): ArticleDetail {
       category: article.fields.category ?? "",
       date: article.fields.date,
       tag: article.fields.tag ?? [],
+      reference: article.fields.reference ?? null,
       paragraph: article.fields.paragraph ?? null,
       thumbnailUrl: getThumbnailUrl(article),
     },

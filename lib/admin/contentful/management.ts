@@ -18,6 +18,7 @@ type ArticleFields = {
   category: string;
   date: string;
   tag?: string[];
+  reference?: string;
   paragraph?: Document;
   thumbnailAssetId?: string;
 };
@@ -66,6 +67,12 @@ function toLocalizedFields(config: ManagementConfig, fields: ArticleFields) {
   if (fields.tag) {
     localizedFields.tag = {
       [config.locale]: fields.tag,
+    };
+  }
+
+  if (fields.reference) {
+    localizedFields.reference = {
+      [config.locale]: fields.reference,
     };
   }
 
@@ -288,6 +295,9 @@ export async function updateContentfulArticle(
   };
   if (fields.category === CONTENTFUL_CATEGORY.movies) {
     delete localizedFields.thumbnail;
+    if (!fields.reference) {
+      delete localizedFields.reference;
+    }
   }
 
   const entry = await cmaFetch<ContentfulSys>(config, `/entries/${entryId}`, {

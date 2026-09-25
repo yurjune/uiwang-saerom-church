@@ -16,6 +16,7 @@ type MovieArticlePayload = {
   title: string;
   youtubeUrl: string;
   tags: string[];
+  reference?: string;
   date?: string;
 };
 
@@ -51,6 +52,23 @@ function parseDate(value: string | undefined): string {
   return date.toISOString();
 }
 
+const MAX_REFERENCE_LENGTH = 256;
+
+function parseReference(value: FormDataEntryValue | null) {
+  if (typeof value !== "string" || !value.trim()) {
+    return undefined;
+  }
+
+  const reference = value.trim();
+  if (reference.length > MAX_REFERENCE_LENGTH) {
+    throw new Error(
+      `본문 말씀은 ${MAX_REFERENCE_LENGTH}자 이하로 입력해주세요.`,
+    );
+  }
+
+  return reference;
+}
+
 function parseTags(value: FormDataEntryValue | null): string[] {
   if (typeof value !== "string") {
     return [];
@@ -80,6 +98,7 @@ export function parseAdminArticleFormData(
       date,
       youtubeUrl: assertString(formData.get("youtubeUrl"), "youtubeUrl"),
       tags: parseTags(formData.get("tags")),
+      reference: parseReference(formData.get("reference")),
     };
   }
 
@@ -143,6 +162,7 @@ export function toContentfulArticleFields(
       category: payload.category,
       date: payload.date ?? new Date().toISOString(),
       tag: payload.tags,
+      reference: payload.reference,
       paragraph: createYouTubeParagraphDocument(embedUrl),
     };
   }

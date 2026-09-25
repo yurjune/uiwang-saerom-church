@@ -14,6 +14,7 @@ describe("toContentfulArticleFields", () => {
       title: "설교 제목",
       youtubeUrl: "https://www.youtube.com/watch?v=YATPaLsfT08",
       tags: ["빌립보서"],
+      reference: "빌 4:4",
       date: "2026-09-25T00:00:00.000Z",
     });
 
@@ -22,6 +23,7 @@ describe("toContentfulArticleFields", () => {
       category: CONTENTFUL_CATEGORY.movies,
       date: "2026-09-25T00:00:00.000Z",
       tag: ["빌립보서"],
+      reference: "빌 4:4",
       paragraph: {
         nodeType: BLOCKS.DOCUMENT,
         content: [

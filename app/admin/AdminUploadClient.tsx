@@ -279,6 +279,21 @@ export default function AdminUploadClient() {
             />
           </FormControl>
 
+          {isMovie && (
+            <FormControl>
+              <FormLabel {...labelStyle}>본문 말씀</FormLabel>
+              <Input
+                name="reference"
+                placeholder="예) 창 1:1"
+                maxLength={256}
+                {...fieldStyle}
+              />
+              <FormHelperText fontSize="13px" color="gray.500">
+                썸네일에서 제목 아래에 표시됩니다.
+              </FormHelperText>
+            </FormControl>
+          )}
+
           <FormControl id="admin-date">
             <FormLabel {...labelStyle}>날짜</FormLabel>
             <DatePicker
