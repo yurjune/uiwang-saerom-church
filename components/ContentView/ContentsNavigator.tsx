@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Flex, HStack, Button, Icon } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
+import AdminArticleActions from "@/components/AdminArticleActions/AdminArticleActions";
 import { categoryToContentUrl, categoryToUrl } from "@/utils/category";
 import type { ArticleDetail } from "@/lib/contentful/article";
 
@@ -58,6 +59,12 @@ const ContentsNavigator = ({ article, prevId, nextId }: Props) => {
           </Button>
         )}
       </HStack>
+
+      <AdminArticleActions
+        articleId={article.sys.id}
+        category={category}
+        title={article.fields.title}
+      />
     </Flex>
   );
 };

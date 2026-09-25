@@ -21,13 +21,13 @@ const ContentView = ({ article, prevId, nextId }: Props) => {
       direction={{ base: "column", lg: "row" }}
       gap="20px"
     >
-      <Box flex={1} flexShrink={0}>
+      <Box flex={2} flexShrink={0}>
         <ContentMeta article={article} />
         <Divider my="20px" />
         <ContentsNavigator article={article} prevId={prevId} nextId={nextId} />
       </Box>
 
-      <Box flex={2}>
+      <Box flex={5}>
         <ContentBody article={article} />
 
         {showTag && (

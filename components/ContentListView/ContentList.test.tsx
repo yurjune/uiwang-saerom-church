@@ -7,7 +7,9 @@ function setUp(length: number = 10) {
   const articles = Array.from({ length }).map((_) =>
     toArticleSummary(createMockArticle()),
   );
-  return render(<ContentList articles={articles} />);
+  return render(
+    <ContentList articles={articles} currentPage={1} totalCount={length} />,
+  );
 }
 
 describe("ContentList", () => {

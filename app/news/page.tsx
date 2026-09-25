@@ -37,11 +37,11 @@ export default async function CommunityNews() {
           direction={{ base: "column", lg: "row" }}
           gap="20px"
         >
-          <Box flex={1} flexShrink={0}>
+          <Box flex={2} flexShrink={0}>
             <ContentMeta article={firstArticle} />
           </Box>
 
-          <Box flex={2}>
+          <Box flex={5}>
             <ContentBody article={firstArticle} />
           </Box>
         </Flex>

@@ -28,7 +28,11 @@ const ContentListView = ({
       ) : (
         <Fragment>
           <Box mb="50px">
-            <ContentList articles={articles} currentPage={currentPage} />
+            <ContentList
+              articles={articles}
+              currentPage={currentPage}
+              totalCount={totalCount}
+            />
           </Box>
           <Pagination
             totalCount={totalCount}

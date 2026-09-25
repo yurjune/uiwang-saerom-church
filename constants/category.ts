@@ -7,6 +7,14 @@ export const CONTENTFUL_CATEGORY = {
   news: "교회소식",
 } satisfies Record<string, Category>;
 
+export const MOVIE_TYPES = ["주일설교", "수요설교", "기타"] as const;
+
+export type MovieType = (typeof MOVIE_TYPES)[number];
+
+export const NEWS_TYPES = ["주보", "기타"] as const;
+
+export type NewsType = (typeof NEWS_TYPES)[number];
+
 export const categoryMap = {
   [CONTENTFUL_CATEGORY.movies]: {
     label: "설교영상",

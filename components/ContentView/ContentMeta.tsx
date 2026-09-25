@@ -1,4 +1,5 @@
 import { Box, Text } from "@chakra-ui/react";
+import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import type { ArticleDetail } from "@/lib/contentful/article";
 
 type Props = {
@@ -6,7 +7,7 @@ type Props = {
 };
 
 const ContentMeta = ({ article }: Props) => {
-  const { category, title } = article.fields;
+  const { category, movieType, title } = article.fields;
   const { date } = article.fields;
 
   return (
@@ -17,6 +18,11 @@ const ContentMeta = ({ article }: Props) => {
       <Text marginBottom="10px" fontSize="16px">
         제목: {title}
       </Text>
+      {category === CONTENTFUL_CATEGORY.movies && (
+        <Text marginBottom="10px" fontSize="16px">
+          종류: {movieType ?? "기타"}
+        </Text>
+      )}
       <Text marginBottom="10px" fontSize="16px">
         일시: {date.slice(0, 10)}
       </Text>

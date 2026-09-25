@@ -1,9 +1,9 @@
-import { ArticleEntry } from "@/lib/contentful/article";
+import type { LegacyArticleEntry } from "@/lib/contentful/article";
 import { BLOCKS, INLINES } from "@contentful/rich-text-types";
 
 let seq = 0;
 
-export function createMockArticle() {
+export function createMockArticle(): LegacyArticleEntry {
   seq += 1;
   return {
     ...mockArticle,
@@ -14,7 +14,7 @@ export function createMockArticle() {
   };
 }
 
-export const mockArticle: ArticleEntry = {
+export const mockArticle: LegacyArticleEntry = {
   metadata: {
     tags: [],
     concepts: [],
