@@ -1,19 +1,9 @@
 import { cacheLife, cacheTag } from "next/cache";
-import type {
-  ArticleDetail,
-  ArticleSkeleton,
-  ArticleSummary,
-} from "@/lib/contentful/article";
+import type { ArticleDetail, ArticleSummary } from "@/lib/contentful/article";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
-import {
-  DEFAULT_ARTICLE_ORDER,
-  THIRTY_DAYS_IN_SECONDS,
-} from "@/lib/contentful/constants";
-import { client } from "@/lib/contentful/client";
-import {
-  toArticleDetail,
-  toArticleSummary,
-} from "@/lib/contentful/transformers";
+import { getArticleById } from "@/lib/contentful/getArticleById";
+import { getArticles } from "@/lib/contentful/getArticles";
+import { THIRTY_DAYS_IN_SECONDS } from "@/lib/contentful/constants";
 
 export type GetNewsArticlesResult = {
   articles: ArticleSummary[];
@@ -25,20 +15,15 @@ export async function getNewsArticles(): Promise<GetNewsArticlesResult> {
   cacheLife({ revalidate: THIRTY_DAYS_IN_SECONDS });
   cacheTag("articles");
 
-  const query: {
-    content_type: "article";
-    order: string[];
-    "fields.category": string;
-  } = {
-    content_type: "article",
-    order: DEFAULT_ARTICLE_ORDER,
-    "fields.category": CONTENTFUL_CATEGORY.news,
-  };
-
-  const response = await client.getEntries<ArticleSkeleton>(query);
+  const { articles } = await getArticles({
+    category: CONTENTFUL_CATEGORY.news,
+  });
+  const firstArticle = articles[0]
+    ? await getArticleById(articles[0].sys.id)
+    : undefined;
 
   return {
-    articles: response.items.map(toArticleSummary),
-    firstArticle: response.items[0] ? toArticleDetail(response.items[0]) : null,
+    articles,
+    firstArticle: firstArticle ?? null,
   };
 }

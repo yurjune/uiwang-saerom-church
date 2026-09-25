@@ -14,6 +14,17 @@ import {
 import type { ReactNode } from "react";
 import type { ArticleDetail } from "@/lib/contentful/article";
 
+const YouTubePlayer = ({ src }: { src: string }) => (
+  <AspectRatio ratio={16 / 9} marginBottom="16px">
+    <iframe
+      src={src}
+      title="YouTube video player"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+  </AspectRatio>
+);
+
 const option: Options = {
   renderNode: {
     [BLOCKS.DOCUMENT]: (_node: Block | Inline, children: ReactNode) => (
@@ -41,19 +52,11 @@ const option: Options = {
       }
       return null;
     },
+    // 기존 article 모델은 본문 첫 줄의 hyperlink로 유튜브 영상을 저장했다.
     [INLINES.HYPERLINK]: (node: Block | Inline, _children: ReactNode) => {
       const uri = (node as any).data?.uri;
       if (typeof uri === "string" && uri.includes("youtube.com")) {
-        return (
-          <AspectRatio ratio={16 / 9} marginBottom="16px">
-            <iframe
-              src={uri}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </AspectRatio>
-        );
+        return <YouTubePlayer src={uri} />;
       }
       return null;
     },
@@ -70,10 +73,24 @@ type Props = {
 };
 
 const ContentBody = ({ article }: Props) => {
-  const paragraph = article.fields.paragraph as Document | undefined;
-  if (!paragraph) return null;
+  const { youtubeUrl, images } = article.fields;
+  const paragraph = article.fields.paragraph as Document | null;
 
-  return <Box>{documentToReactComponents(paragraph, option)}</Box>;
+  return (
+    <Box>
+      {youtubeUrl && <YouTubePlayer src={youtubeUrl} />}
+      {paragraph && documentToReactComponents(paragraph, option)}
+      {images.map((image) => (
+        <NextImage
+          key={image.url}
+          src={image.url}
+          alt={image.title || article.fields.title}
+          width={image.width}
+          height={image.height}
+        />
+      ))}
+    </Box>
+  );
 };
 
 export default ContentBody;
