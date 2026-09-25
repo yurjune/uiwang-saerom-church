@@ -12,14 +12,14 @@ const Bulletin = async () => {
 
   return (
     <Box
-      bg="white"
+      bg="#F7FAFC"
       px={{ base: "16px", md: "24px" }}
       py={{ base: "48px", md: "64px" }}
     >
       <Box maxW="960px" mx="auto">
         <Box textAlign="center" mb={{ base: "28px", md: "40px" }}>
           <Heading as="h2" size="lg" color="gray.800" letterSpacing="tight">
-            이번 주 주보
+            주보
           </Heading>
         </Box>
 
