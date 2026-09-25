@@ -571,7 +571,7 @@ export default function AdminUploadClient({ articleId }: Props) {
                   placeholder="내용을 입력하세요"
                   value={contentText}
                   onChange={(event) => setContentText(event.target.value)}
-                  minH="180px"
+                  minH="360px"
                   borderRadius="10px"
                   resize="vertical"
                 />
