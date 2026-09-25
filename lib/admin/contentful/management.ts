@@ -1,12 +1,10 @@
-import type { Document } from "@contentful/rich-text-types";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import {
-  getEmbeddedAssetIds,
-  getFirstHyperlinkUri,
-  replaceEmbeddedAssets,
-} from "./richText";
+  categoryToContentType,
+  MOVIE_CONTENT_TYPE,
+  NEWS_CONTENT_TYPE,
+} from "@/lib/contentful/contentTypes";
 
-const ARTICLE_CONTENT_TYPE = "article";
 const DEFAULT_ENVIRONMENT_ID = "master";
 const DEFAULT_LOCALE = "ko";
 
@@ -15,6 +13,7 @@ type ContentfulSys = {
     id: string;
     version: number;
     publishedVersion?: number;
+    contentType?: { sys: { id: string } };
   };
 };
 
@@ -28,11 +27,12 @@ type ArticleFields = {
   date: string;
   movieType?: string;
   newsType?: string;
+  youtubeUrl?: string;
   tag?: string[];
   thumbnailTitle?: string;
   thumbnailBible?: string;
-  paragraph?: Document;
-  thumbnailAssetId?: string;
+  // undefined면 이미지를 건드리지 않고, 빈 배열이면 모두 뺀다.
+  imageAssetIds?: string[];
 };
 
 type ManagementConfig = {
@@ -63,64 +63,30 @@ function getManagementConfig(): ManagementConfig {
   };
 }
 
-function toLocalizedFields(config: ManagementConfig, fields: ArticleFields) {
-  const localizedFields: Record<string, Record<string, unknown>> = {
-    title: {
-      [config.locale]: fields.title,
-    },
-    category: {
-      [config.locale]: fields.category,
-    },
-    date: {
-      [config.locale]: fields.date,
+function toAssetLink(assetId: string) {
+  return {
+    sys: {
+      type: "Link",
+      linkType: "Asset",
+      id: assetId,
     },
   };
+}
 
-  if (fields.movieType) {
-    localizedFields.movieType = {
-      [config.locale]: fields.movieType,
-    };
+function toLocalizedFields(config: ManagementConfig, fields: ArticleFields) {
+  // category는 콘텐츠 모델(movie/news)로 구분하므로 필드로 저장하지 않는다.
+  const { category: _category, imageAssetIds, ...values } = fields;
+  const localizedFields: Record<string, Record<string, unknown>> = {};
+
+  for (const [fieldId, value] of Object.entries(values)) {
+    if (value !== undefined && value !== "") {
+      localizedFields[fieldId] = { [config.locale]: value };
+    }
   }
 
-  if (fields.newsType) {
-    localizedFields.newsType = {
-      [config.locale]: fields.newsType,
-    };
-  }
-
-  if (fields.tag) {
-    localizedFields.tag = {
-      [config.locale]: fields.tag,
-    };
-  }
-
-  if (fields.thumbnailTitle) {
-    localizedFields.thumbnailTitle = {
-      [config.locale]: fields.thumbnailTitle,
-    };
-  }
-
-  if (fields.thumbnailBible) {
-    localizedFields.thumbnailBible = {
-      [config.locale]: fields.thumbnailBible,
-    };
-  }
-
-  if (fields.paragraph) {
-    localizedFields.paragraph = {
-      [config.locale]: fields.paragraph,
-    };
-  }
-
-  if (fields.thumbnailAssetId) {
-    localizedFields.thumbnail = {
-      [config.locale]: {
-        sys: {
-          type: "Link",
-          linkType: "Asset",
-          id: fields.thumbnailAssetId,
-        },
-      },
+  if (imageAssetIds && imageAssetIds.length > 0) {
+    localizedFields.images = {
+      [config.locale]: imageAssetIds.map(toAssetLink),
     };
   }
 
@@ -300,7 +266,7 @@ export async function createContentfulArticle(fields: ArticleFields) {
   const entry = await cmaFetch<ContentfulSys>(config, "/entries", {
     method: "POST",
     headers: {
-      "X-Contentful-Content-Type": ARTICLE_CONTENT_TYPE,
+      "X-Contentful-Content-Type": categoryToContentType(fields.category),
     },
     body: JSON.stringify({
       fields: toLocalizedFields(config, fields),
@@ -310,18 +276,22 @@ export async function createContentfulArticle(fields: ArticleFields) {
   return publishEntry(config, entry);
 }
 
+type AssetLinkLike = { sys?: { id?: string } };
+
+function toAssetIds(links: AssetLinkLike[]) {
+  return links
+    .map((link) => link.sys?.id)
+    .filter((id): id is string => typeof id === "string");
+}
+
 function getLinkedAssetIds(config: ManagementConfig, entry: LocalizedEntry) {
-  const paragraph = entry.fields.paragraph?.[config.locale] as
-    | Document
-    | undefined;
+  const images = (entry.fields.images?.[config.locale] ??
+    []) as AssetLinkLike[];
   const thumbnail = entry.fields.thumbnail?.[config.locale] as
-    | { sys?: { id?: string } }
+    | AssetLinkLike
     | undefined;
 
-  return [
-    ...getEmbeddedAssetIds(paragraph),
-    ...(thumbnail?.sys?.id ? [thumbnail.sys.id] : []),
-  ];
+  return toAssetIds([...images, ...(thumbnail ? [thumbnail] : [])]);
 }
 
 // 더 이상 어떤 entry에서도 참조하지 않는 asset만 지운다. 실패해도 게시글 작업은 성공으로 본다.
@@ -349,6 +319,25 @@ async function getEntry(config: ManagementConfig, entryId: string) {
   );
 }
 
+// 관리자 화면은 movie/news 모델만 다룬다. 기존 article 모델은 데이터 이전 후 사라진다.
+async function getArticleEntry(config: ManagementConfig, entryId: string) {
+  const entry = await getEntry(config, entryId);
+  const contentType = entry.sys.contentType?.sys.id;
+  if (contentType !== MOVIE_CONTENT_TYPE && contentType !== NEWS_CONTENT_TYPE) {
+    throw new Error(
+      "새 콘텐츠 모델(movie/news)로 옮겨지지 않은 게시글은 수정할 수 없습니다.",
+    );
+  }
+
+  return {
+    entry,
+    category:
+      contentType === MOVIE_CONTENT_TYPE
+        ? CONTENTFUL_CATEGORY.movies
+        : CONTENTFUL_CATEGORY.news,
+  };
+}
+
 export type AdminArticleImage = {
   id: string;
   url: string;
@@ -369,48 +358,52 @@ export type AdminArticleDetail = {
   images: AdminArticleImage[];
 };
 
+async function getAdminArticleImages(
+  config: ManagementConfig,
+  assetIds: string[],
+): Promise<AdminArticleImage[]> {
+  if (assetIds.length === 0) {
+    return [];
+  }
+
+  const assets = await cmaFetch<{
+    items: Array<
+      ContentfulSys & {
+        fields: {
+          title?: Record<string, string>;
+          file?: Record<string, { url?: string; fileName?: string }>;
+        };
+      }
+    >;
+  }>(config, `/assets?sys.id[in]=${assetIds.join(",")}`);
+
+  return assetIds.flatMap((assetId) => {
+    const asset = assets.items.find((item) => item.sys.id === assetId);
+    const file = asset?.fields.file?.[config.locale];
+    if (!file?.url) {
+      return [];
+    }
+    return [
+      {
+        id: assetId,
+        url: `https:${file.url}`,
+        name: asset?.fields.title?.[config.locale] ?? file.fileName ?? assetId,
+      },
+    ];
+  });
+}
+
 export async function getContentfulArticle(
   entryId: string,
 ): Promise<AdminArticleDetail> {
   const config = getManagementConfig();
-  const entry = await getEntry(config, entryId);
+  const { entry, category } = await getArticleEntry(config, entryId);
   const read = <T>(fieldId: string) =>
     entry.fields[fieldId]?.[config.locale] as T | undefined;
-  const paragraph = read<Document>("paragraph");
-  const assetIds = getEmbeddedAssetIds(paragraph);
-
-  let images: AdminArticleImage[] = [];
-  if (assetIds.length > 0) {
-    const assets = await cmaFetch<{
-      items: Array<
-        ContentfulSys & {
-          fields: {
-            title?: Record<string, string>;
-            file?: Record<string, { url?: string; fileName?: string }>;
-          };
-        }
-      >;
-    }>(config, `/assets?sys.id[in]=${assetIds.join(",")}`);
-    images = assetIds.flatMap((assetId) => {
-      const asset = assets.items.find((item) => item.sys.id === assetId);
-      const file = asset?.fields.file?.[config.locale];
-      if (!file?.url) {
-        return [];
-      }
-      return [
-        {
-          id: assetId,
-          url: `https:${file.url}`,
-          name:
-            asset?.fields.title?.[config.locale] ?? file.fileName ?? assetId,
-        },
-      ];
-    });
-  }
 
   return {
     id: entry.sys.id,
-    category: read<string>("category") ?? "",
+    category,
     title: read<string>("title") ?? "",
     date: read<string>("date") ?? null,
     movieType: read<string>("movieType") ?? null,
@@ -418,8 +411,11 @@ export async function getContentfulArticle(
     tags: read<string[]>("tag") ?? [],
     thumbnailTitle: read<string>("thumbnailTitle") ?? null,
     thumbnailBible: read<string>("thumbnailBible") ?? null,
-    youtubeUrl: getFirstHyperlinkUri(paragraph),
-    images,
+    youtubeUrl: read<string>("youtubeUrl") ?? null,
+    images: await getAdminArticleImages(
+      config,
+      toAssetIds(read<AssetLinkLike[]>("images") ?? []),
+    ),
   };
 }
 
@@ -428,27 +424,21 @@ export async function updateContentfulArticle(
   fields: ArticleFields,
 ) {
   const config = getManagementConfig();
-  const currentEntry = await getEntry(config, entryId);
-  const previousAssetIds = getLinkedAssetIds(config, currentEntry);
-
-  if (fields.category === CONTENTFUL_CATEGORY.news && fields.paragraph) {
-    fields = {
-      ...fields,
-      paragraph: replaceEmbeddedAssets(
-        currentEntry.fields.paragraph?.[config.locale] as Document | undefined,
-        getEmbeddedAssetIds(fields.paragraph),
-      ),
-    };
+  const { entry: currentEntry, category } = await getArticleEntry(
+    config,
+    entryId,
+  );
+  if (category !== fields.category) {
+    throw new Error("게시글 카테고리는 바꿀 수 없습니다.");
   }
+  const previousAssetIds = getLinkedAssetIds(config, currentEntry);
 
   const localizedFields = {
     ...currentEntry.fields,
     ...toLocalizedFields(config, fields),
   };
-  if (fields.category === CONTENTFUL_CATEGORY.movies) {
-    delete localizedFields.thumbnail;
-    // reference는 thumbnailBible로 대체되어 Contentful에서 삭제될 필드
-    delete localizedFields.reference;
+  // 비워서 저장한 선택 필드는 기존 값도 지운다.
+  if (category === CONTENTFUL_CATEGORY.movies) {
     if (!fields.thumbnailTitle) {
       delete localizedFields.thumbnailTitle;
     }
@@ -456,12 +446,8 @@ export async function updateContentfulArticle(
       delete localizedFields.thumbnailBible;
     }
   }
-  if (
-    fields.category === CONTENTFUL_CATEGORY.news &&
-    fields.paragraph &&
-    !fields.thumbnailAssetId
-  ) {
-    delete localizedFields.thumbnail;
+  if (fields.imageAssetIds?.length === 0) {
+    delete localizedFields.images;
   }
 
   const entry = await cmaFetch<LocalizedEntry>(
@@ -471,7 +457,6 @@ export async function updateContentfulArticle(
       method: "PUT",
       headers: {
         "X-Contentful-Version": String(currentEntry.sys.version),
-        "X-Contentful-Content-Type": ARTICLE_CONTENT_TYPE,
       },
       body: JSON.stringify({
         fields: localizedFields,

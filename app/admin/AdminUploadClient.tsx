@@ -103,6 +103,7 @@ export default function AdminUploadClient({ articleId }: Props) {
   const [loadState, setLoadState] = useState<"loading" | "ready" | "error">(
     isEdit ? "loading" : "ready",
   );
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [initialAssetIds, setInitialAssetIds] = useState<string[]>([]);
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [category, setCategory] = useState<Category>(
@@ -193,8 +194,9 @@ export default function AdminUploadClient({ articleId }: Props) {
         setImages(loadedImages);
         setInitialAssetIds(getAssetIds(loadedImages));
         setLoadState("ready");
-      } catch {
+      } catch (error) {
         if (!canceled) {
+          setLoadError(error instanceof Error ? error.message : null);
           setLoadState("error");
         }
       }
@@ -385,7 +387,7 @@ export default function AdminUploadClient({ articleId }: Props) {
         <Text color="grayLetter">
           {loadState === "loading"
             ? "게시글을 불러오는 중입니다."
-            : "게시글을 불러오지 못했습니다."}
+            : loadError || "게시글을 불러오지 못했습니다."}
         </Text>
       </Box>
     );

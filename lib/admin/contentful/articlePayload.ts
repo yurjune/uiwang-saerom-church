@@ -10,11 +10,6 @@ import {
   MAX_NEWS_IMAGES,
   NEWS_IMAGE_TYPES,
 } from "@/constants/upload";
-import {
-  createAssetDocument,
-  createEmptyDocument,
-  createYouTubeParagraphDocument,
-} from "./richText";
 import { normalizeYouTubeEmbedUrl } from "./youtube";
 
 type MovieArticlePayload = {
@@ -186,7 +181,7 @@ export function assertAdminImageFile(value: FormDataEntryValue | null): File {
 }
 
 type ArticleFieldOptions = {
-  // 수정 시 이미지를 바꾸지 않았다면 본문과 대표 이미지를 그대로 둔다.
+  // 수정 시 이미지를 바꾸지 않았다면 기존 이미지를 그대로 둔다.
   updateImages?: boolean;
 };
 
@@ -195,37 +190,26 @@ export function toContentfulArticleFields(
   assetIds: string[] = [],
   { updateImages = true }: ArticleFieldOptions = {},
 ) {
+  const date = payload.date ?? new Date().toISOString();
+
   if (payload.category === CONTENTFUL_CATEGORY.movies) {
-    const embedUrl = normalizeYouTubeEmbedUrl(payload.youtubeUrl);
     return {
       title: payload.title,
       category: payload.category,
-      date: payload.date ?? new Date().toISOString(),
+      date,
       movieType: payload.movieType,
+      youtubeUrl: normalizeYouTubeEmbedUrl(payload.youtubeUrl),
       tag: payload.tags,
       thumbnailTitle: payload.thumbnailTitle,
       thumbnailBible: payload.thumbnailBible,
-      paragraph: createYouTubeParagraphDocument(embedUrl),
     };
   }
 
-  const fields = {
+  return {
     title: payload.title,
     category: payload.category,
-    date: payload.date ?? new Date().toISOString(),
+    date,
     newsType: payload.newsType,
-  };
-
-  if (!updateImages) {
-    return fields;
-  }
-
-  return {
-    ...fields,
-    paragraph:
-      assetIds.length > 0
-        ? createAssetDocument(assetIds)
-        : createEmptyDocument(),
-    thumbnailAssetId: assetIds[0],
+    imageAssetIds: updateImages ? assetIds : undefined,
   };
 }

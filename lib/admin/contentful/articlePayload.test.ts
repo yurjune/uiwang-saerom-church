@@ -1,4 +1,3 @@
-import { BLOCKS, INLINES } from "@contentful/rich-text-types";
 import { describe, expect, it } from "vitest";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import {
@@ -9,7 +8,7 @@ import {
 } from "./articlePayload";
 
 describe("toContentfulArticleFields", () => {
-  it("설교영상 유튜브 링크를 embed hyperlink paragraph로 변환한다", () => {
+  it("설교영상은 유튜브 링크를 embed URL로 정규화해 youtubeUrl 필드로 보낸다", () => {
     const fields = toContentfulArticleFields({
       category: CONTENTFUL_CATEGORY.movies,
       title: "설교 제목",
@@ -21,34 +20,19 @@ describe("toContentfulArticleFields", () => {
       date: "2026-09-25T00:00:00.000Z",
     });
 
-    expect(fields).toMatchObject({
+    expect(fields).toEqual({
       title: "설교 제목",
       category: CONTENTFUL_CATEGORY.movies,
       date: "2026-09-25T00:00:00.000Z",
       movieType: "주일설교",
+      youtubeUrl: "https://www.youtube.com/embed/YATPaLsfT08",
       tag: ["빌립보서"],
       thumbnailTitle: "기뻐하라",
       thumbnailBible: "빌 4:4",
-      paragraph: {
-        nodeType: BLOCKS.DOCUMENT,
-        content: [
-          {
-            nodeType: BLOCKS.PARAGRAPH,
-            content: [
-              {
-                nodeType: INLINES.HYPERLINK,
-                data: {
-                  uri: "https://www.youtube.com/embed/YATPaLsfT08",
-                },
-              },
-            ],
-          },
-        ],
-      },
     });
   });
 
-  it("교회소식은 thumbnail asset id를 Contentful 필드로 전달한다", () => {
+  it("교회소식은 이미지 asset id를 순서대로 images 필드로 보낸다", () => {
     expect(
       toContentfulArticleFields(
         {
@@ -57,49 +41,14 @@ describe("toContentfulArticleFields", () => {
           newsType: "주보",
           date: "2026-09-25T00:00:00.000Z",
         },
-        ["asset-id"],
+        ["asset-1", "asset-2"],
       ),
-    ).toMatchObject({
+    ).toEqual({
       title: "소식 제목",
       category: CONTENTFUL_CATEGORY.news,
+      date: "2026-09-25T00:00:00.000Z",
       newsType: "주보",
-      thumbnailAssetId: "asset-id",
-      paragraph: {
-        nodeType: BLOCKS.DOCUMENT,
-        content: [
-          {
-            nodeType: BLOCKS.EMBEDDED_ASSET,
-            data: {
-              target: {
-                sys: {
-                  id: "asset-id",
-                },
-              },
-            },
-          },
-        ],
-      },
-    });
-  });
-
-  it("교회소식 이미지가 여러 장이면 순서대로 본문에 넣고 첫 장을 썸네일로 쓴다", () => {
-    const fields = toContentfulArticleFields(
-      {
-        category: CONTENTFUL_CATEGORY.news,
-        title: "소식 제목",
-        newsType: "기타",
-      },
-      ["asset-1", "asset-2"],
-    );
-
-    expect(fields).toMatchObject({
-      thumbnailAssetId: "asset-1",
-      paragraph: {
-        content: [
-          { data: { target: { sys: { id: "asset-1" } } } },
-          { data: { target: { sys: { id: "asset-2" } } } },
-        ],
-      },
+      imageAssetIds: ["asset-1", "asset-2"],
     });
   });
 });
@@ -213,7 +162,7 @@ describe("parseAdminArticleFormData", () => {
 });
 
 describe("toContentfulArticleFields updateImages", () => {
-  it("이미지를 바꾸지 않은 교회소식 수정은 본문과 대표 이미지를 보내지 않는다", () => {
+  it("이미지를 바꾸지 않은 교회소식 수정은 이미지 필드를 보내지 않는다", () => {
     const fields = toContentfulArticleFields(
       {
         category: CONTENTFUL_CATEGORY.news,
@@ -224,7 +173,6 @@ describe("toContentfulArticleFields updateImages", () => {
       { updateImages: false },
     );
 
-    expect(fields).not.toHaveProperty("paragraph");
-    expect(fields).not.toHaveProperty("thumbnailAssetId");
+    expect(fields).toHaveProperty("imageAssetIds", undefined);
   });
 });
