@@ -10,6 +10,7 @@ const GlobalPrefetcher = () => {
   useEffect(() => {
     router.prefetch(ProjectUrl.introduce.about.toString());
     router.prefetch(ProjectUrl.introduce.time.toString());
+    router.prefetch(ProjectUrl.introduce.bulletin.toString());
     router.prefetch(ProjectUrl.introduce.location.toString());
     router.prefetch(ProjectUrl.movies.toString());
     router.prefetch(ProjectUrl.news.toString());

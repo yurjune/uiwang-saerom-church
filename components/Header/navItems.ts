@@ -25,6 +25,10 @@ export const navItems: NavItem[] = [
         label: ProjectMenu.introduce.time.label,
       },
       {
+        href: ProjectUrl.introduce.bulletin.toString(),
+        label: ProjectMenu.introduce.bulletin.label,
+      },
+      {
         href: ProjectUrl.introduce.location.toString(),
         label: ProjectMenu.introduce.location.label,
       },

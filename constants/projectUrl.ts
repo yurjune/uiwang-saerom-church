@@ -7,6 +7,9 @@ export const ProjectUrl = {
     time: {
       toString: () => "/introduce/time",
     },
+    bulletin: {
+      toString: () => "/introduce/bulletin",
+    },
     location: {
       toString: () => "/introduce/location",
     },

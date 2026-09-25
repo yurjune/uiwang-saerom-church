@@ -13,6 +13,9 @@ export const ProjectMenu = {
     time: {
       label: "예배시간 안내",
     },
+    bulletin: {
+      label: "주보",
+    },
     location: {
       label: "오시는길",
     },
