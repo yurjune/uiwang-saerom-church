@@ -19,7 +19,6 @@ import { useEffect, useState } from "react";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import AdminLogin from "@/components/AdminLogin/AdminLogin";
 import TitleThumbnail from "@/components/ContentListView/TitleThumbnail";
-import { THUMBNAIL_PRESETS } from "@/constants/thumbnail";
 import DatePicker from "@/components/DatePicker/DatePicker";
 import BibleTagSelect from "@/components/BibleTagSelect/BibleTagSelect";
 import ImageUploadField from "@/components/ImageUploadField/ImageUploadField";
@@ -80,14 +79,8 @@ export default function AdminUploadClient() {
   const [title, setTitle] = useState("");
   const [thumbnailTitle, setThumbnailTitle] = useState("");
   const [thumbnailBible, setThumbnailBible] = useState("");
-  const [previewSequence, setPreviewSequence] = useState(0);
 
   const isMovie = category === CONTENTFUL_CATEGORY.movies;
-
-  useEffect(() => {
-    // 프리렌더 중 Math.random()을 쓰면 Next가 막으므로, 브라우저에서 마운트된 뒤 프리셋을 고른다.
-    setPreviewSequence(Math.floor(Math.random() * THUMBNAIL_PRESETS.length));
-  }, []);
 
   useEffect(() => {
     let canceled = false;
@@ -340,7 +333,7 @@ export default function AdminUploadClient() {
                   borderColor="gray.200"
                 >
                   <TitleThumbnail
-                    sequence={previewSequence}
+                    sequence={0}
                     title={thumbnailTitle.trim() || title.trim()}
                     bible={thumbnailBible.trim()}
                   />
