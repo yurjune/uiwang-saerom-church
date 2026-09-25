@@ -1,31 +1,26 @@
 import { Box } from "@chakra-ui/react";
-import Image from "next/image";
 import type { ArticleSummary } from "@/lib/contentful/article";
 import Link from "next/link";
+import TitleThumbnail from "@/components/ContentListView/TitleThumbnail";
 
 type Props = {
   article: ArticleSummary;
   href: string;
   prefetch?: boolean;
+  sequence?: number;
 };
 
-const ContentItemCard = ({ article, href, prefetch = false }: Props) => {
-  const { title, date, thumbnailUrl } = article.fields;
+const ContentItemCard = ({
+  article,
+  href,
+  prefetch = false,
+  sequence = 0,
+}: Props) => {
+  const { title, date, reference } = article.fields;
 
   return (
     <Link href={href} prefetch={prefetch}>
-      <Box h="0" pb="100%" position="relative" overflow="hidden" bg="gray.100">
-        {thumbnailUrl ? (
-          <Image
-            src={thumbnailUrl}
-            alt="thumbnail"
-            fetchPriority="high"
-            fill
-            sizes="(max-width: 768px) 100vw, 33vw"
-            style={{ objectFit: "cover" }}
-          />
-        ) : null}
-      </Box>
+      <TitleThumbnail sequence={sequence} title={title} reference={reference} />
 
       <Box p="20px 10px 0 10px" textAlign="center">
         <Box

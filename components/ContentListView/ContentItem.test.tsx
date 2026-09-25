@@ -15,10 +15,10 @@ describe("ContentItem", () => {
     expect(screen.getByRole("link")).toBeInTheDocument();
   });
 
-  it("has thumbnail img", () => {
-    setUp();
-    const img = screen.getByRole("img");
-    const src = img.getAttribute("src") ?? "";
-    expect(src).toContain(".png");
+  it("renders the title over a preset thumbnail", () => {
+    const { container } = setUp();
+    const img = container.querySelector("img");
+    expect(img?.getAttribute("src") ?? "").toContain(".webp");
+    expect(screen.getAllByText("항상 기뻐하라")).toHaveLength(2);
   });
 });
