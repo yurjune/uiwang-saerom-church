@@ -1,4 +1,4 @@
-import { Box, AspectRatio } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import NextImage from "next/image";
 import {
   BLOCKS,
@@ -15,14 +15,19 @@ import type { ReactNode } from "react";
 import type { ArticleDetail } from "@/lib/contentful/article";
 
 const YouTubePlayer = ({ src }: { src: string }) => (
-  <AspectRatio ratio={16 / 9} marginBottom="16px">
-    <iframe
-      src={src}
-      title="YouTube video player"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    />
-  </AspectRatio>
+  // Chakra AspectRatio는 Children.only를 써서 서버 컴포넌트에서 넘긴 자식으로 prerender가 실패한다.
+  <Box
+    as="iframe"
+    src={src}
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+    display="block"
+    w="100%"
+    sx={{ aspectRatio: "16 / 9" }}
+    border="0"
+    marginBottom="16px"
+  />
 );
 
 const option: Options = {
@@ -32,7 +37,7 @@ const option: Options = {
         {children}
       </Box>
     ),
-    // Quick workaround: avoid invalid <p><div/></p> nesting when inline YouTube renders AspectRatio (div).
+    // Quick workaround: avoid invalid <p><div/></p> nesting when inline YouTube renders a block iframe.
     [BLOCKS.PARAGRAPH]: (_node: Block | Inline, children: ReactNode) => (
       <Box as="div">{children}</Box>
     ),
