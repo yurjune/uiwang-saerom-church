@@ -13,6 +13,7 @@ import {
   Input,
   Stack,
   Text,
+  Textarea,
   useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
@@ -106,6 +107,7 @@ export default function AdminUploadClient({ articleId }: Props) {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [initialAssetIds, setInitialAssetIds] = useState<string[]>([]);
   const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [contentText, setContentText] = useState("");
   const [category, setCategory] = useState<Category>(
     CONTENTFUL_CATEGORY.movies,
   );
@@ -191,6 +193,7 @@ export default function AdminUploadClient({ articleId }: Props) {
         setDate(article.date ? new Date(article.date) : null);
         setTags(article.tags);
         setYoutubeUrl(article.youtubeUrl ?? "");
+        setContentText(article.contentText ?? "");
         setImages(loadedImages);
         setInitialAssetIds(getAssetIds(loadedImages));
         setLoadState("ready");
@@ -344,6 +347,7 @@ export default function AdminUploadClient({ articleId }: Props) {
       form.reset();
       setTitle("");
       setYoutubeUrl("");
+      setContentText("");
       setThumbnailTitle("");
       setThumbnailBible("");
       setImages([]);
@@ -557,6 +561,22 @@ export default function AdminUploadClient({ articleId }: Props) {
                 <FormHelperText fontSize="13px" color="gray.500">
                   유튜브 주소를 그대로 붙여넣으면 임베드 주소로 자동 변환되어
                   저장됩니다.
+                </FormHelperText>
+              </FormControl>
+
+              <FormControl>
+                <FormLabel {...labelStyle}>내용</FormLabel>
+                <Textarea
+                  name="contentText"
+                  placeholder="내용을 입력하세요"
+                  value={contentText}
+                  onChange={(event) => setContentText(event.target.value)}
+                  minH="180px"
+                  borderRadius="10px"
+                  resize="vertical"
+                />
+                <FormHelperText fontSize="13px" color="gray.500">
+                  줄바꿈은 상세 페이지 본문에 그대로 표시됩니다.
                 </FormHelperText>
               </FormControl>
 

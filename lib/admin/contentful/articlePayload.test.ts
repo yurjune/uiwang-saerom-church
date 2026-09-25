@@ -15,6 +15,7 @@ describe("toContentfulArticleFields", () => {
       youtubeUrl: "https://www.youtube.com/watch?v=YATPaLsfT08",
       movieType: "주일설교",
       tags: ["빌립보서"],
+      contentText: "빌립보서 4장 4절\n주 안에서 항상 기뻐하라",
       thumbnailTitle: "기뻐하라",
       thumbnailBible: "빌 4:4",
       date: "2026-09-25T00:00:00.000Z",
@@ -26,6 +27,44 @@ describe("toContentfulArticleFields", () => {
       date: "2026-09-25T00:00:00.000Z",
       movieType: "주일설교",
       youtubeUrl: "https://www.youtube.com/embed/YATPaLsfT08",
+      paragraph: {
+        nodeType: "document",
+        data: {},
+        content: [
+          {
+            nodeType: "paragraph",
+            data: {},
+            content: [
+              {
+                nodeType: "hyperlink",
+                data: {
+                  uri: "https://www.youtube.com/embed/YATPaLsfT08",
+                },
+                content: [
+                  {
+                    nodeType: "text",
+                    value: "https://www.youtube.com/embed/YATPaLsfT08",
+                    marks: [],
+                    data: {},
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            nodeType: "paragraph",
+            data: {},
+            content: [
+              {
+                nodeType: "text",
+                value: "빌립보서 4장 4절\n주 안에서 항상 기뻐하라",
+                marks: [],
+                data: {},
+              },
+            ],
+          },
+        ],
+      },
       tag: ["빌립보서"],
       thumbnailTitle: "기뻐하라",
       thumbnailBible: "빌 4:4",
@@ -121,9 +160,13 @@ describe("parseAdminArticleFormData", () => {
   }
 
   it("설교영상의 설교 종류를 읽는다", () => {
-    expect(
-      parseAdminArticleFormData(createMovieFormData("수요설교")),
-    ).toMatchObject({ movieType: "수요설교" });
+    const formData = createMovieFormData("수요설교");
+    formData.set("contentText", "요한복음 3장 16절");
+
+    expect(parseAdminArticleFormData(formData)).toMatchObject({
+      movieType: "수요설교",
+      contentText: "요한복음 3장 16절",
+    });
   });
 
   it("설교 종류가 없거나 허용되지 않은 값이면 에러를 던진다", () => {

@@ -1,15 +1,21 @@
 import {
+  BLOCKS,
+  INLINES,
+  type Document,
+  type Paragraph,
+} from "@contentful/rich-text-types";
+import {
+  MAX_NEWS_IMAGE_BYTES,
+  MAX_NEWS_IMAGES,
+  NEWS_IMAGE_TYPES,
+} from "@/constants/upload";
+import {
   CONTENTFUL_CATEGORY,
   MOVIE_TYPES,
   NEWS_TYPES,
   type MovieType,
   type NewsType,
 } from "@/constants/category";
-import {
-  MAX_NEWS_IMAGE_BYTES,
-  MAX_NEWS_IMAGES,
-  NEWS_IMAGE_TYPES,
-} from "@/constants/upload";
 import { normalizeYouTubeEmbedUrl } from "./youtube";
 
 type MovieArticlePayload = {
@@ -18,6 +24,7 @@ type MovieArticlePayload = {
   youtubeUrl: string;
   movieType: MovieType;
   tags: string[];
+  contentText?: string;
   thumbnailTitle?: string;
   thumbnailBible?: string;
   date?: string;
@@ -89,6 +96,14 @@ function parseOptionalSymbol(value: FormDataEntryValue | null, label: string) {
   return text;
 }
 
+function parseOptionalText(value: FormDataEntryValue | null) {
+  if (typeof value !== "string" || !value.trim()) {
+    return undefined;
+  }
+
+  return value.trim();
+}
+
 function parseTags(value: FormDataEntryValue | null): string[] {
   if (typeof value !== "string") {
     return [];
@@ -98,6 +113,57 @@ function parseTags(value: FormDataEntryValue | null): string[] {
     .split(",")
     .map((tag) => tag.trim())
     .filter(Boolean);
+}
+
+function toTextParagraph(text: string): Paragraph {
+  return {
+    nodeType: BLOCKS.PARAGRAPH,
+    data: {},
+    content: [
+      {
+        nodeType: "text",
+        value: text,
+        marks: [],
+        data: {},
+      },
+    ],
+  };
+}
+
+function toYouTubeHyperlinkParagraph(youtubeUrl: string): Paragraph {
+  return {
+    nodeType: BLOCKS.PARAGRAPH,
+    data: {},
+    content: [
+      {
+        nodeType: INLINES.HYPERLINK,
+        data: {
+          uri: youtubeUrl,
+        },
+        content: [
+          {
+            nodeType: "text",
+            value: youtubeUrl,
+            marks: [],
+            data: {},
+          },
+        ],
+      },
+    ],
+  };
+}
+
+function toMovieParagraph(youtubeUrl: string, contentText?: string): Document {
+  return {
+    nodeType: BLOCKS.DOCUMENT,
+    data: {},
+    content: [
+      toYouTubeHyperlinkParagraph(youtubeUrl),
+      ...(contentText
+        ? contentText.split(/\n{2,}/).map((text) => toTextParagraph(text))
+        : []),
+    ],
+  };
 }
 
 export function parseAdminArticleFormData(
@@ -119,6 +185,7 @@ export function parseAdminArticleFormData(
       youtubeUrl: assertString(formData.get("youtubeUrl"), "youtubeUrl"),
       movieType: parseMovieType(formData.get("movieType")),
       tags: parseTags(formData.get("tags")),
+      contentText: parseOptionalText(formData.get("contentText")),
       thumbnailTitle: parseOptionalSymbol(
         formData.get("thumbnailTitle"),
         "썸네일 제목",
@@ -193,12 +260,15 @@ export function toContentfulArticleFields(
   const date = payload.date ?? new Date().toISOString();
 
   if (payload.category === CONTENTFUL_CATEGORY.movies) {
+    const youtubeUrl = normalizeYouTubeEmbedUrl(payload.youtubeUrl);
+
     return {
       title: payload.title,
       category: payload.category,
       date,
       movieType: payload.movieType,
-      youtubeUrl: normalizeYouTubeEmbedUrl(payload.youtubeUrl),
+      youtubeUrl,
+      paragraph: toMovieParagraph(youtubeUrl, payload.contentText),
       tag: payload.tags,
       thumbnailTitle: payload.thumbnailTitle,
       thumbnailBible: payload.thumbnailBible,

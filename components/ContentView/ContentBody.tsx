@@ -6,6 +6,7 @@ import {
   type Block,
   type Document,
   type Inline,
+  type Text,
 } from "@contentful/rich-text-types";
 import {
   documentToReactComponents,
@@ -73,6 +74,22 @@ const option: Options = {
   },
 };
 
+function hasYouTubeHyperlinkNode(node: Block | Inline | Text): boolean {
+  if (
+    node.nodeType === INLINES.HYPERLINK &&
+    typeof node.data?.uri === "string" &&
+    node.data.uri.includes("youtube.com")
+  ) {
+    return true;
+  }
+
+  if (node.nodeType === "text") {
+    return false;
+  }
+
+  return node.content.some(hasYouTubeHyperlinkNode);
+}
+
 type Props = {
   article: ArticleDetail;
 };
@@ -80,10 +97,11 @@ type Props = {
 const ContentBody = ({ article }: Props) => {
   const { youtubeUrl, images } = article.fields;
   const paragraph = article.fields.paragraph as Document | null;
+  const paragraphHasYouTube = paragraph?.content.some(hasYouTubeHyperlinkNode);
 
   return (
     <Box>
-      {youtubeUrl && <YouTubePlayer src={youtubeUrl} />}
+      {youtubeUrl && !paragraphHasYouTube && <YouTubePlayer src={youtubeUrl} />}
       {paragraph && documentToReactComponents(paragraph, option)}
       {images.map((image) => (
         <NextImage

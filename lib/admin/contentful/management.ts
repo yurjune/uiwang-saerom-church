@@ -4,6 +4,14 @@ import {
   MOVIE_CONTENT_TYPE,
   NEWS_CONTENT_TYPE,
 } from "@/lib/contentful/contentTypes";
+import {
+  BLOCKS,
+  INLINES,
+  type Document,
+  type Block,
+  type Inline,
+  type Text,
+} from "@contentful/rich-text-types";
 
 const DEFAULT_ENVIRONMENT_ID = "master";
 const DEFAULT_LOCALE = "ko";
@@ -28,6 +36,7 @@ type ArticleFields = {
   movieType?: string;
   newsType?: string;
   youtubeUrl?: string;
+  paragraph?: Document;
   tag?: string[];
   thumbnailTitle?: string;
   thumbnailBible?: string;
@@ -355,8 +364,44 @@ export type AdminArticleDetail = {
   thumbnailTitle: string | null;
   thumbnailBible: string | null;
   youtubeUrl: string | null;
+  contentText: string | null;
   images: AdminArticleImage[];
 };
+
+function isYouTubeHyperlink(node: Block | Inline | Text) {
+  return (
+    node.nodeType === INLINES.HYPERLINK &&
+    typeof node.data?.uri === "string" &&
+    node.data.uri.includes("youtube.com")
+  );
+}
+
+function richTextNodeToPlainText(node: Block | Inline | Text): string {
+  if (node.nodeType === "text") {
+    return node.value;
+  }
+
+  if (isYouTubeHyperlink(node)) {
+    return "";
+  }
+
+  return node.content.map(richTextNodeToPlainText).join("");
+}
+
+function getContentText(paragraph: Document | undefined) {
+  if (!paragraph) {
+    return null;
+  }
+
+  const text = paragraph.content
+    .filter((node) => node.nodeType === BLOCKS.PARAGRAPH)
+    .map(richTextNodeToPlainText)
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .join("\n\n");
+
+  return text || null;
+}
 
 async function getAdminArticleImages(
   config: ManagementConfig,
@@ -412,6 +457,7 @@ export async function getContentfulArticle(
     thumbnailTitle: read<string>("thumbnailTitle") ?? null,
     thumbnailBible: read<string>("thumbnailBible") ?? null,
     youtubeUrl: read<string>("youtubeUrl") ?? null,
+    contentText: getContentText(read<Document>("paragraph")),
     images: await getAdminArticleImages(
       config,
       toAssetIds(read<AssetLinkLike[]>("images") ?? []),
