@@ -1,5 +1,7 @@
+import { Flex } from "@chakra-ui/react";
 import type { Metadata } from "next";
-import AppLayout from "@/components/layouts/AppLayout";
+import Footer from "@/components/Footer/Footer";
+import Header from "@/components/Header/Header";
 import AdminUploadClient from "./AdminUploadClient";
 
 export const metadata: Metadata = {
@@ -12,8 +14,12 @@ export const metadata: Metadata = {
 
 export default function AdminPage() {
   return (
-    <AppLayout>
-      <AdminUploadClient />
-    </AppLayout>
+    <Flex minH="100vh" direction="column">
+      <Header />
+      <Flex as="main" flex="1">
+        <AdminUploadClient />
+      </Flex>
+      <Footer />
+    </Flex>
   );
 }

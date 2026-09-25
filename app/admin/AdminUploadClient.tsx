@@ -16,10 +16,10 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import type { FormEvent } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import { Bible } from "@/constants/bible";
+import AdminLogin from "@/components/AdminLogin/AdminLogin";
 
 type AuthState = "checking" | "authenticated" | "unauthenticated";
 type Category =
@@ -32,6 +32,11 @@ type ApiResult = {
   authenticated?: boolean;
   id?: string;
   message?: string;
+};
+
+type FormSubmitEvent = {
+  preventDefault: () => void;
+  currentTarget: HTMLFormElement;
 };
 
 const CATEGORY_OPTIONS = [CONTENTFUL_CATEGORY.movies, CONTENTFUL_CATEGORY.news];
@@ -47,7 +52,6 @@ async function readApiResult(response: Response): Promise<ApiResult> {
 export default function AdminUploadClient() {
   const toast = useToast();
   const [authState, setAuthState] = useState<AuthState>("checking");
-  const [password, setPassword] = useState("");
   const [category, setCategory] = useState<Category>(
     CONTENTFUL_CATEGORY.movies,
   );
@@ -86,33 +90,25 @@ export default function AdminUploadClient() {
     };
   }, []);
 
-  async function handleLogin(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSubmitState("submitting");
-
+  async function login(nextPassword: string) {
     try {
       const response = await fetch("/api/admin/session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ password: nextPassword }),
       });
       const result = await readApiResult(response);
+      const ok = response.ok && Boolean(result.authenticated);
 
-      if (!response.ok || !result.authenticated) {
-        toast({
-          status: "error",
-          title: "로그인에 실패했습니다.",
-          description: result.message,
-        });
-        return;
+      if (ok) {
+        setAuthState("authenticated");
       }
 
-      setPassword("");
-      setAuthState("authenticated");
-    } finally {
-      setSubmitState("idle");
+      return ok;
+    } catch {
+      return false;
     }
   }
 
@@ -124,7 +120,7 @@ export default function AdminUploadClient() {
     setLastCreatedId(null);
   }
 
-  async function handleCreateArticle(event: FormEvent<HTMLFormElement>) {
+  async function handleCreateArticle(event: FormSubmitEvent) {
     event.preventDefault();
     setSubmitState("submitting");
     setLastCreatedId(null);
@@ -163,14 +159,24 @@ export default function AdminUploadClient() {
 
   if (authState === "checking") {
     return (
-      <Box py="80px" textAlign="center">
+      <Box w="100%" py="80px" textAlign="center">
         <Text color="grayLetter">확인 중입니다.</Text>
       </Box>
     );
   }
 
+  if (authState === "unauthenticated") {
+    return <AdminLogin onLogin={login} />;
+  }
+
   return (
-    <Box maxW="720px" mx="auto" py={{ base: "24px", md: "48px" }}>
+    <Box
+      w="100%"
+      maxW="720px"
+      mx="auto"
+      px="16px"
+      py={{ base: "24px", md: "48px" }}
+    >
       <Flex justify="space-between" align="center" gap="16px" mb="24px">
         <Box>
           <Heading as="h1" size="lg">
@@ -178,115 +184,87 @@ export default function AdminUploadClient() {
           </Heading>
         </Box>
 
-        {authState === "authenticated" && (
-          <Button variant="outline" onClick={handleLogout}>
-            로그아웃
-          </Button>
-        )}
+        <Button variant="outline" onClick={handleLogout}>
+          로그아웃
+        </Button>
       </Flex>
 
       <Divider mb="28px" />
 
-      {authState === "unauthenticated" ? (
-        <Box as="form" onSubmit={handleLogin}>
-          <Stack spacing="18px">
+      <Box as="form" onSubmit={handleCreateArticle}>
+        <Stack spacing="20px">
+          {lastCreatedId && (
+            <Alert status="success">
+              <AlertIcon />
+              생성된 Contentful entry ID: {lastCreatedId}
+            </Alert>
+          )}
+
+          <FormControl isRequired>
+            <FormLabel>카테고리</FormLabel>
+            <Select
+              name="category"
+              value={category}
+              onChange={(event) => setCategory(event.target.value as Category)}
+            >
+              {CATEGORY_OPTIONS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl isRequired>
+            <FormLabel>제목</FormLabel>
+            <Input name="title" />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>날짜</FormLabel>
+            <Input name="date" type="datetime-local" />
+          </FormControl>
+
+          {isMovie ? (
+            <>
+              <FormControl isRequired>
+                <FormLabel>유튜브 링크</FormLabel>
+                <Input name="youtubeUrl" type="url" />
+              </FormControl>
+
+              <FormControl>
+                <FormLabel>성경 본문 태그</FormLabel>
+                <Select name="tags" defaultValue="">
+                  <option value="">선택 안 함</option>
+                  {bibleOptions.map((bible) => (
+                    <option key={bible} value={bible}>
+                      {bible}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+            </>
+          ) : (
             <FormControl isRequired>
-              <FormLabel>관리자 비밀번호</FormLabel>
+              <FormLabel>이미지</FormLabel>
               <Input
-                type="password"
-                value={password}
-                autoComplete="current-password"
-                onChange={(event) => setPassword(event.target.value)}
+                name="image"
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                p="6px"
               />
             </FormControl>
+          )}
 
-            <Button
-              type="submit"
-              colorScheme="blue"
-              isLoading={submitState === "submitting"}
-            >
-              로그인
-            </Button>
-          </Stack>
-        </Box>
-      ) : (
-        <Box as="form" onSubmit={handleCreateArticle}>
-          <Stack spacing="20px">
-            {lastCreatedId && (
-              <Alert status="success">
-                <AlertIcon />
-                생성된 Contentful entry ID: {lastCreatedId}
-              </Alert>
-            )}
-
-            <FormControl isRequired>
-              <FormLabel>카테고리</FormLabel>
-              <Select
-                name="category"
-                value={category}
-                onChange={(event) =>
-                  setCategory(event.target.value as Category)
-                }
-              >
-                {CATEGORY_OPTIONS.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel>제목</FormLabel>
-              <Input name="title" />
-            </FormControl>
-
-            <FormControl>
-              <FormLabel>날짜</FormLabel>
-              <Input name="date" type="datetime-local" />
-            </FormControl>
-
-            {isMovie ? (
-              <>
-                <FormControl isRequired>
-                  <FormLabel>유튜브 링크</FormLabel>
-                  <Input name="youtubeUrl" type="url" />
-                </FormControl>
-
-                <FormControl>
-                  <FormLabel>성경 본문 태그</FormLabel>
-                  <Select name="tags" defaultValue="">
-                    <option value="">선택 안 함</option>
-                    {bibleOptions.map((bible) => (
-                      <option key={bible} value={bible}>
-                        {bible}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-              </>
-            ) : (
-              <FormControl isRequired>
-                <FormLabel>이미지</FormLabel>
-                <Input
-                  name="image"
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp"
-                  p="6px"
-                />
-              </FormControl>
-            )}
-
-            <Button
-              type="submit"
-              colorScheme="blue"
-              isLoading={submitState === "submitting"}
-            >
-              업로드
-            </Button>
-          </Stack>
-        </Box>
-      )}
+          <Button
+            type="submit"
+            colorScheme="blue"
+            isLoading={submitState === "submitting"}
+          >
+            업로드
+          </Button>
+        </Stack>
+      </Box>
     </Box>
   );
 }
