@@ -12,7 +12,12 @@ type ProvidersProps = {
 export default function Providers({ children }: ProvidersProps) {
   return (
     <EmotionRegistry>
-      <ChakraProvider theme={theme}>{children}</ChakraProvider>
+      <ChakraProvider
+        theme={theme}
+        toastOptions={{ defaultOptions: { position: "top" } }}
+      >
+        {children}
+      </ChakraProvider>
     </EmotionRegistry>
   );
 }
