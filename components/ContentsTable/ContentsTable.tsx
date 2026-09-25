@@ -39,7 +39,6 @@ const ContentsTable = ({ articles }: Props) => {
       <Thead>
         <Tr>
           <Th {...noWrap}>카테고리</Th>
-          <Th display={{ base: "none", md: "table-cell" }}>작성자</Th>
           <Th>제목</Th>
           <Th
             {...noWrap}
@@ -71,15 +70,6 @@ const ContentsTable = ({ articles }: Props) => {
                     >
                       <TagLabel>{newsType}</TagLabel>
                     </Tag>
-                  </NextLink>
-                </Td>
-                <Td
-                  {...noWrap}
-                  p={0}
-                  display={{ base: "none", md: "table-cell" }}
-                >
-                  <NextLink href={href} style={linkCellStyle}>
-                    관리자
                   </NextLink>
                 </Td>
                 <Td maxWidth={0} w="60%" p={0}>
