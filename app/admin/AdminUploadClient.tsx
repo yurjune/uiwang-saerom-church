@@ -80,11 +80,14 @@ export default function AdminUploadClient() {
   const [title, setTitle] = useState("");
   const [thumbnailTitle, setThumbnailTitle] = useState("");
   const [thumbnailBible, setThumbnailBible] = useState("");
-  const [previewSequence] = useState(() =>
-    Math.floor(Math.random() * THUMBNAIL_PRESETS.length),
-  );
+  const [previewSequence, setPreviewSequence] = useState(0);
 
   const isMovie = category === CONTENTFUL_CATEGORY.movies;
+
+  useEffect(() => {
+    // 프리렌더 중 Math.random()을 쓰면 Next가 막으므로, 브라우저에서 마운트된 뒤 프리셋을 고른다.
+    setPreviewSequence(Math.floor(Math.random() * THUMBNAIL_PRESETS.length));
+  }, []);
 
   useEffect(() => {
     let canceled = false;
