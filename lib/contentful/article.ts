@@ -5,6 +5,7 @@ export type ArticleFields = {
   title?: EntryFieldTypes.Text;
   category?: EntryFieldTypes.Symbol;
   paragraph?: EntryFieldTypes.RichText;
+  movieType?: EntryFieldTypes.Symbol;
   tag?: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
   thumbnailTitle?: EntryFieldTypes.Symbol;
   thumbnailBible?: EntryFieldTypes.Symbol;
@@ -25,6 +26,7 @@ export type ArticleSummary = {
     title: string;
     category: string;
     date: string;
+    movieType: string | null;
     tag: string[];
     thumbnailTitle: string | null;
     thumbnailBible: string | null;
@@ -47,6 +49,7 @@ export type ArticleDetail = {
     title: string;
     category: string;
     date: string;
+    movieType: string | null;
     tag: string[];
     thumbnailTitle: string | null;
     thumbnailBible: string | null;
