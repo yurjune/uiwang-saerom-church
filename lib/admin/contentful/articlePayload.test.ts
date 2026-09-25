@@ -211,3 +211,20 @@ describe("parseAdminArticleFormData", () => {
     );
   });
 });
+
+describe("toContentfulArticleFields updateImages", () => {
+  it("이미지를 바꾸지 않은 교회소식 수정은 본문과 대표 이미지를 보내지 않는다", () => {
+    const fields = toContentfulArticleFields(
+      {
+        category: CONTENTFUL_CATEGORY.news,
+        title: "소식 제목",
+        newsType: "주보",
+      },
+      [],
+      { updateImages: false },
+    );
+
+    expect(fields).not.toHaveProperty("paragraph");
+    expect(fields).not.toHaveProperty("thumbnailAssetId");
+  });
+});

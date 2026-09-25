@@ -185,9 +185,15 @@ export function assertAdminImageFile(value: FormDataEntryValue | null): File {
   return value;
 }
 
+type ArticleFieldOptions = {
+  // 수정 시 이미지를 바꾸지 않았다면 본문과 대표 이미지를 그대로 둔다.
+  updateImages?: boolean;
+};
+
 export function toContentfulArticleFields(
   payload: AdminArticlePayload,
   assetIds: string[] = [],
+  { updateImages = true }: ArticleFieldOptions = {},
 ) {
   if (payload.category === CONTENTFUL_CATEGORY.movies) {
     const embedUrl = normalizeYouTubeEmbedUrl(payload.youtubeUrl);
@@ -203,11 +209,19 @@ export function toContentfulArticleFields(
     };
   }
 
-  return {
+  const fields = {
     title: payload.title,
     category: payload.category,
     date: payload.date ?? new Date().toISOString(),
     newsType: payload.newsType,
+  };
+
+  if (!updateImages) {
+    return fields;
+  }
+
+  return {
+    ...fields,
     paragraph:
       assetIds.length > 0
         ? createAssetDocument(assetIds)

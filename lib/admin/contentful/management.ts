@@ -1,5 +1,10 @@
 import type { Document } from "@contentful/rich-text-types";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
+import {
+  getEmbeddedAssetIds,
+  getFirstHyperlinkUri,
+  replaceEmbeddedAssets,
+} from "./richText";
 
 const ARTICLE_CONTENT_TYPE = "article";
 const DEFAULT_ENVIRONMENT_ID = "master";
@@ -11,6 +16,10 @@ type ContentfulSys = {
     version: number;
     publishedVersion?: number;
   };
+};
+
+type LocalizedEntry = ContentfulSys & {
+  fields: Record<string, Record<string, unknown> | undefined>;
 };
 
 type ArticleFields = {
@@ -301,17 +310,139 @@ export async function createContentfulArticle(fields: ArticleFields) {
   return publishEntry(config, entry);
 }
 
+function getLinkedAssetIds(config: ManagementConfig, entry: LocalizedEntry) {
+  const paragraph = entry.fields.paragraph?.[config.locale] as
+    | Document
+    | undefined;
+  const thumbnail = entry.fields.thumbnail?.[config.locale] as
+    | { sys?: { id?: string } }
+    | undefined;
+
+  return [
+    ...getEmbeddedAssetIds(paragraph),
+    ...(thumbnail?.sys?.id ? [thumbnail.sys.id] : []),
+  ];
+}
+
+// 더 이상 어떤 entry에서도 참조하지 않는 asset만 지운다. 실패해도 게시글 작업은 성공으로 본다.
+async function deleteOrphanAssets(
+  config: ManagementConfig,
+  assetIds: string[],
+) {
+  await Promise.allSettled(
+    [...new Set(assetIds)].map(async (assetId) => {
+      const links = await cmaFetch<{ total: number }>(
+        config,
+        `/entries?links_to_asset=${encodeURIComponent(assetId)}&limit=0`,
+      );
+      if (links.total === 0) {
+        await deleteContentfulAsset(assetId);
+      }
+    }),
+  );
+}
+
+async function getEntry(config: ManagementConfig, entryId: string) {
+  return cmaFetch<LocalizedEntry>(
+    config,
+    `/entries/${encodeURIComponent(entryId)}`,
+  );
+}
+
+export type AdminArticleImage = {
+  id: string;
+  url: string;
+  name: string;
+};
+
+export type AdminArticleDetail = {
+  id: string;
+  category: string;
+  title: string;
+  date: string | null;
+  movieType: string | null;
+  newsType: string | null;
+  tags: string[];
+  thumbnailTitle: string | null;
+  thumbnailBible: string | null;
+  youtubeUrl: string | null;
+  images: AdminArticleImage[];
+};
+
+export async function getContentfulArticle(
+  entryId: string,
+): Promise<AdminArticleDetail> {
+  const config = getManagementConfig();
+  const entry = await getEntry(config, entryId);
+  const read = <T>(fieldId: string) =>
+    entry.fields[fieldId]?.[config.locale] as T | undefined;
+  const paragraph = read<Document>("paragraph");
+  const assetIds = getEmbeddedAssetIds(paragraph);
+
+  let images: AdminArticleImage[] = [];
+  if (assetIds.length > 0) {
+    const assets = await cmaFetch<{
+      items: Array<
+        ContentfulSys & {
+          fields: {
+            title?: Record<string, string>;
+            file?: Record<string, { url?: string; fileName?: string }>;
+          };
+        }
+      >;
+    }>(config, `/assets?sys.id[in]=${assetIds.join(",")}`);
+    images = assetIds.flatMap((assetId) => {
+      const asset = assets.items.find((item) => item.sys.id === assetId);
+      const file = asset?.fields.file?.[config.locale];
+      if (!file?.url) {
+        return [];
+      }
+      return [
+        {
+          id: assetId,
+          url: `https:${file.url}`,
+          name:
+            asset?.fields.title?.[config.locale] ?? file.fileName ?? assetId,
+        },
+      ];
+    });
+  }
+
+  return {
+    id: entry.sys.id,
+    category: read<string>("category") ?? "",
+    title: read<string>("title") ?? "",
+    date: read<string>("date") ?? null,
+    movieType: read<string>("movieType") ?? null,
+    newsType: read<string>("newsType") ?? null,
+    tags: read<string[]>("tag") ?? [],
+    thumbnailTitle: read<string>("thumbnailTitle") ?? null,
+    thumbnailBible: read<string>("thumbnailBible") ?? null,
+    youtubeUrl: getFirstHyperlinkUri(paragraph),
+    images,
+  };
+}
+
 export async function updateContentfulArticle(
   entryId: string,
   fields: ArticleFields,
 ) {
   const config = getManagementConfig();
-  const currentEntry = await cmaFetch<ContentfulSys & { fields: unknown }>(
-    config,
-    `/entries/${entryId}`,
-  );
+  const currentEntry = await getEntry(config, entryId);
+  const previousAssetIds = getLinkedAssetIds(config, currentEntry);
+
+  if (fields.category === CONTENTFUL_CATEGORY.news && fields.paragraph) {
+    fields = {
+      ...fields,
+      paragraph: replaceEmbeddedAssets(
+        currentEntry.fields.paragraph?.[config.locale] as Document | undefined,
+        getEmbeddedAssetIds(fields.paragraph),
+      ),
+    };
+  }
+
   const localizedFields = {
-    ...(currentEntry.fields as Record<string, unknown>),
+    ...currentEntry.fields,
     ...toLocalizedFields(config, fields),
   };
   if (fields.category === CONTENTFUL_CATEGORY.movies) {
@@ -325,17 +456,51 @@ export async function updateContentfulArticle(
       delete localizedFields.thumbnailBible;
     }
   }
+  if (
+    fields.category === CONTENTFUL_CATEGORY.news &&
+    fields.paragraph &&
+    !fields.thumbnailAssetId
+  ) {
+    delete localizedFields.thumbnail;
+  }
 
-  const entry = await cmaFetch<ContentfulSys>(config, `/entries/${entryId}`, {
-    method: "PUT",
-    headers: {
-      "X-Contentful-Version": String(currentEntry.sys.version),
-      "X-Contentful-Content-Type": ARTICLE_CONTENT_TYPE,
+  const entry = await cmaFetch<LocalizedEntry>(
+    config,
+    `/entries/${encodeURIComponent(entryId)}`,
+    {
+      method: "PUT",
+      headers: {
+        "X-Contentful-Version": String(currentEntry.sys.version),
+        "X-Contentful-Content-Type": ARTICLE_CONTENT_TYPE,
+      },
+      body: JSON.stringify({
+        fields: localizedFields,
+      }),
     },
-    body: JSON.stringify({
-      fields: localizedFields,
-    }),
-  });
+  );
 
-  return publishEntry(config, entry);
+  const publishedEntry = await publishEntry(config, entry);
+  const nextAssetIds = new Set(getLinkedAssetIds(config, entry));
+  await deleteOrphanAssets(
+    config,
+    previousAssetIds.filter((assetId) => !nextAssetIds.has(assetId)),
+  );
+
+  return publishedEntry;
+}
+
+// 사이트에서만 내리고 Contentful에는 초안으로 남겨, 필요하면 다시 게시할 수 있게 한다.
+export async function unpublishContentfulArticle(entryId: string) {
+  const config = getManagementConfig();
+  const entry = await getEntry(config, entryId);
+
+  if (!entry.sys.publishedVersion) {
+    return;
+  }
+
+  await cmaFetch<unknown>(
+    config,
+    `/entries/${encodeURIComponent(entryId)}/published`,
+    { method: "DELETE" },
+  );
 }
