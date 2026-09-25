@@ -17,6 +17,7 @@ import { toArticleSummary } from "@/lib/contentful/transformers";
 export type GetArticlesOptions = {
   category?: string;
   tag?: string;
+  newsType?: string;
   limit?: number;
   skip?: number;
   order?: string[];
@@ -34,6 +35,7 @@ type ArticleQuery = {
   skip?: number;
   "fields.category"?: string;
   "fields.tag[in]"?: string;
+  "fields.newsType"?: string;
 };
 
 // 사이트맵처럼 전체 게시글이 필요할 때 한 번에 가져올 최대 개수
@@ -85,7 +87,14 @@ export async function getArticles(
   cacheLife({ revalidate: THIRTY_DAYS_IN_SECONDS });
   cacheTag("articles");
 
-  const { category, tag, limit, skip, order = DEFAULT_ARTICLE_ORDER } = options;
+  const {
+    category,
+    tag,
+    newsType,
+    limit,
+    skip,
+    order = DEFAULT_ARTICLE_ORDER,
+  } = options;
 
   if (!category) {
     const response = await getAllArticles(order);
@@ -104,6 +113,9 @@ export async function getArticles(
   }
   if (tag) {
     query["fields.tag[in]"] = tag;
+  }
+  if (newsType) {
+    query["fields.newsType"] = newsType;
   }
 
   const response = await withLegacyFallback(

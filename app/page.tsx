@@ -2,6 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import Footer from "@/components/Footer/Footer";
 import Introduction from "@/components/Introduction/Introduction";
 import WorshipTime from "@/components/WorshipTime/WorshipTime";
+import Bulletin from "@/components/Bulletin/Bulletin";
 import { ChurchLocation } from "@/components/ChurchLocation/ChurchLocation";
 import Header from "@/components/Header/Header";
 import { Metadata } from "next/types";
@@ -21,6 +22,7 @@ export default async function HomePage() {
       <main>
         <Introduction />
         <WorshipTime enableAnimation />
+        <Bulletin />
         <ChurchLocation appKey={appKey} />
       </main>
       <Footer />
