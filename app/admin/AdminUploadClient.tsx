@@ -527,7 +527,7 @@ export default function AdminUploadClient({ articleId }: Props) {
                   />
                 </Box>
                 <Text fontSize="13px" color="gray.500" mt="8px">
-                  배경은 실제 목록과 다를 수 있습니다.
+                  배경은 실제와 다를 수 있습니다.
                 </Text>
               </Box>
             </>
@@ -581,12 +581,13 @@ export default function AdminUploadClient({ articleId }: Props) {
               </FormControl>
 
               <FormControl id="admin-tags">
-                <FormLabel {...labelStyle}>성경 본문 태그</FormLabel>
+                <FormLabel {...labelStyle}>태그</FormLabel>
                 <BibleTagSelect
                   labelId="admin-tags-label"
                   name="tags"
                   value={tags}
                   onChange={setTags}
+                  placeholder="태그를 선택하세요."
                 />
               </FormControl>
             </>
