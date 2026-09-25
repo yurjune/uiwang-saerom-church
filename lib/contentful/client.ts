@@ -1,16 +1,4 @@
-import path from "node:path";
-import { loadEnvConfig } from "@next/env";
 import { createClient } from "contentful";
-
-function loadLocalContentfulEnv() {
-  const hasContentfulEnv =
-    process.env.CONTENTFUL_SPACE_ID && process.env.CONTENTFUL_ACCESS_KEY;
-  if (hasContentfulEnv) {
-    return;
-  }
-
-  loadEnvConfig(path.join(process.cwd(), "apps/web"));
-}
 
 function getRequiredEnv(name: string): string {
   const value = (process.env[name] ?? "").trim();
@@ -20,8 +8,6 @@ function getRequiredEnv(name: string): string {
 
   return value;
 }
-
-loadLocalContentfulEnv();
 
 export const client = createClient({
   space: getRequiredEnv("CONTENTFUL_SPACE_ID"),

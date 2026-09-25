@@ -3,8 +3,7 @@ import path from "node:path";
 import process from "node:process";
 
 const ROOT_DIR = process.cwd();
-const API_ENV_PATH = path.join(ROOT_DIR, "apps/api/.env");
-const WEB_ENV_PATH = path.join(ROOT_DIR, "apps/web/.env");
+const LOCAL_ENV_PATH = path.join(ROOT_DIR, ".env.local");
 const ARTICLE_CONTENT_TYPE = "article";
 const TEST_VIDEO_URL = "https://www.youtube.com/embed/YATPaLsfT08";
 const TEST_PNG = Buffer.from(
@@ -26,15 +25,13 @@ function parseEnvFile(text) {
 }
 
 async function loadEnv() {
-  const envEntries = await Promise.allSettled([
-    readFile(API_ENV_PATH, "utf8"),
-    readFile(WEB_ENV_PATH, "utf8"),
-  ]);
-
-  for (const result of envEntries) {
-    if (result.status === "fulfilled") {
-      Object.assign(process.env, parseEnvFile(result.value));
-    }
+  try {
+    Object.assign(
+      process.env,
+      parseEnvFile(await readFile(LOCAL_ENV_PATH, "utf8")),
+    );
+  } catch {
+    return;
   }
 }
 
