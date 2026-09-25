@@ -6,17 +6,22 @@ import {
   Divider,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormHelperText,
   FormLabel,
   Heading,
   Input,
-  SimpleGrid,
   Stack,
   Text,
   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { CONTENTFUL_CATEGORY } from "@/constants/category";
+import {
+  CONTENTFUL_CATEGORY,
+  MOVIE_TYPES,
+  type MovieType,
+} from "@/constants/category";
+import ToggleButtonGroup from "@/components/ToggleButtonGroup/ToggleButtonGroup";
 import AdminLogin from "@/components/AdminLogin/AdminLogin";
 import TitleThumbnail from "@/components/ContentListView/TitleThumbnail";
 import DatePicker from "@/components/DatePicker/DatePicker";
@@ -76,6 +81,8 @@ export default function AdminUploadClient() {
   const [images, setImages] = useState<File[]>([]);
   const [date, setDate] = useState<Date | null>(null);
   const [tags, setTags] = useState<string[]>([]);
+  const [movieType, setMovieType] = useState<MovieType | null>(null);
+  const [hasMovieTypeError, setHasMovieTypeError] = useState(false);
   const [title, setTitle] = useState("");
   const [thumbnailTitle, setThumbnailTitle] = useState("");
   const [thumbnailBible, setThumbnailBible] = useState("");
@@ -168,9 +175,17 @@ export default function AdminUploadClient() {
   async function handleCreateArticle(event: FormSubmitEvent) {
     event.preventDefault();
 
+    if (isMovie && !movieType) {
+      setHasMovieTypeError(true);
+      return;
+    }
+
     const form = event.currentTarget;
     const formData = new FormData(form);
     formData.set("category", category);
+    if (isMovie && movieType) {
+      formData.set("movieType", movieType);
+    }
     const uploadedAssetIds: string[] = [];
 
     try {
@@ -202,6 +217,7 @@ export default function AdminUploadClient() {
       setImages([]);
       setDate(null);
       setTags([]);
+      setMovieType(null);
       setCategory(CONTENTFUL_CATEGORY.movies);
       toast({
         status: "success",
@@ -252,30 +268,32 @@ export default function AdminUploadClient() {
             <FormLabel as="legend" {...labelStyle}>
               카테고리
             </FormLabel>
-            <SimpleGrid columns={2} spacing="8px">
-              {CATEGORY_OPTIONS.map((option) => {
-                const selected = option === category;
-                return (
-                  <Button
-                    key={option}
-                    type="button"
-                    h="48px"
-                    borderRadius="10px"
-                    border="1px solid"
-                    borderColor={selected ? "blue.500" : "gray.200"}
-                    bg={selected ? "blue.50" : "white"}
-                    color={selected ? "blue.600" : "gray.600"}
-                    fontWeight="700"
-                    _hover={{ bg: selected ? "blue.50" : "gray.50" }}
-                    aria-pressed={selected}
-                    onClick={() => setCategory(option)}
-                  >
-                    {option}
-                  </Button>
-                );
-              })}
-            </SimpleGrid>
+            <ToggleButtonGroup
+              options={CATEGORY_OPTIONS}
+              value={category}
+              onChange={setCategory}
+            />
           </FormControl>
+
+          {isMovie && (
+            <FormControl as="fieldset" isRequired isInvalid={hasMovieTypeError}>
+              <FormLabel as="legend" {...labelStyle}>
+                설교 종류
+              </FormLabel>
+              <ToggleButtonGroup
+                options={MOVIE_TYPES}
+                value={movieType}
+                onChange={(next) => {
+                  setMovieType(next);
+                  setHasMovieTypeError(false);
+                }}
+                isInvalid={hasMovieTypeError}
+              />
+              <FormErrorMessage fontSize="14px">
+                설교 종류를 선택해 주세요.
+              </FormErrorMessage>
+            </FormControl>
+          )}
 
           <FormControl isRequired>
             <FormLabel {...labelStyle}>제목</FormLabel>

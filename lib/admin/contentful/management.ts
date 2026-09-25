@@ -17,6 +17,7 @@ type ArticleFields = {
   title: string;
   category: string;
   date: string;
+  movieType?: string;
   tag?: string[];
   thumbnailTitle?: string;
   thumbnailBible?: string;
@@ -64,6 +65,12 @@ function toLocalizedFields(config: ManagementConfig, fields: ArticleFields) {
       [config.locale]: fields.date,
     },
   };
+
+  if (fields.movieType) {
+    localizedFields.movieType = {
+      [config.locale]: fields.movieType,
+    };
+  }
 
   if (fields.tag) {
     localizedFields.tag = {

@@ -4,6 +4,7 @@ import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import {
   assertAdminImageFile,
   getAdminAssetIds,
+  parseAdminArticleFormData,
   toContentfulArticleFields,
 } from "./articlePayload";
 
@@ -13,6 +14,7 @@ describe("toContentfulArticleFields", () => {
       category: CONTENTFUL_CATEGORY.movies,
       title: "설교 제목",
       youtubeUrl: "https://www.youtube.com/watch?v=YATPaLsfT08",
+      movieType: "주일설교",
       tags: ["빌립보서"],
       thumbnailTitle: "기뻐하라",
       thumbnailBible: "빌 4:4",
@@ -23,6 +25,7 @@ describe("toContentfulArticleFields", () => {
       title: "설교 제목",
       category: CONTENTFUL_CATEGORY.movies,
       date: "2026-09-25T00:00:00.000Z",
+      movieType: "주일설교",
       tag: ["빌립보서"],
       thumbnailTitle: "기뻐하라",
       thumbnailBible: "빌 4:4",
@@ -150,5 +153,33 @@ describe("assertAdminImageFile", () => {
     expect(() => assertAdminImageFile(null)).toThrow(
       "업로드할 이미지가 필요합니다.",
     );
+  });
+});
+
+describe("parseAdminArticleFormData", () => {
+  function createMovieFormData(movieType?: string) {
+    const formData = new FormData();
+    formData.set("category", CONTENTFUL_CATEGORY.movies);
+    formData.set("title", "설교 제목");
+    formData.set("youtubeUrl", "https://www.youtube.com/watch?v=YATPaLsfT08");
+    if (movieType !== undefined) {
+      formData.set("movieType", movieType);
+    }
+    return formData;
+  }
+
+  it("설교영상의 설교 종류를 읽는다", () => {
+    expect(
+      parseAdminArticleFormData(createMovieFormData("수요설교")),
+    ).toMatchObject({ movieType: "수요설교" });
+  });
+
+  it("설교 종류가 없거나 허용되지 않은 값이면 에러를 던진다", () => {
+    expect(() => parseAdminArticleFormData(createMovieFormData())).toThrow(
+      "설교 종류를 선택해주세요.",
+    );
+    expect(() =>
+      parseAdminArticleFormData(createMovieFormData("금요설교")),
+    ).toThrow("설교 종류를 선택해주세요.");
   });
 });

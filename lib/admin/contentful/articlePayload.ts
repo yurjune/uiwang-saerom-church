@@ -1,4 +1,8 @@
-import { CONTENTFUL_CATEGORY } from "@/constants/category";
+import {
+  CONTENTFUL_CATEGORY,
+  MOVIE_TYPES,
+  type MovieType,
+} from "@/constants/category";
 import {
   MAX_NEWS_IMAGE_BYTES,
   MAX_NEWS_IMAGES,
@@ -15,6 +19,7 @@ type MovieArticlePayload = {
   category: typeof CONTENTFUL_CATEGORY.movies;
   title: string;
   youtubeUrl: string;
+  movieType: MovieType;
   tags: string[];
   thumbnailTitle?: string;
   thumbnailBible?: string;
@@ -51,6 +56,15 @@ function parseDate(value: string | undefined): string {
   }
 
   return date.toISOString();
+}
+
+function parseMovieType(value: FormDataEntryValue | null): MovieType {
+  const movieType = MOVIE_TYPES.find((type) => type === value);
+  if (!movieType) {
+    throw new Error("설교 종류를 선택해주세요.");
+  }
+
+  return movieType;
 }
 
 const MAX_SYMBOL_LENGTH = 256;
@@ -96,6 +110,7 @@ export function parseAdminArticleFormData(
       title,
       date,
       youtubeUrl: assertString(formData.get("youtubeUrl"), "youtubeUrl"),
+      movieType: parseMovieType(formData.get("movieType")),
       tags: parseTags(formData.get("tags")),
       thumbnailTitle: parseOptionalSymbol(
         formData.get("thumbnailTitle"),
@@ -167,6 +182,7 @@ export function toContentfulArticleFields(
       title: payload.title,
       category: payload.category,
       date: payload.date ?? new Date().toISOString(),
+      movieType: payload.movieType,
       tag: payload.tags,
       thumbnailTitle: payload.thumbnailTitle,
       thumbnailBible: payload.thumbnailBible,
