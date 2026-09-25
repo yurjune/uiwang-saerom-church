@@ -243,6 +243,21 @@ export async function createContentfulAsset(file: File): Promise<string> {
   return asset.sys.id;
 }
 
+export async function deleteContentfulAsset(assetId: string) {
+  const config = getManagementConfig();
+  const asset = await getAsset(config, assetId);
+
+  if (asset.sys.publishedVersion) {
+    await cmaFetch<unknown>(config, `/assets/${assetId}/published`, {
+      method: "DELETE",
+    });
+  }
+
+  await cmaFetch<unknown>(config, `/assets/${assetId}`, {
+    method: "DELETE",
+  });
+}
+
 export async function createContentfulArticle(fields: ArticleFields) {
   const config = getManagementConfig();
   const entry = await cmaFetch<ContentfulSys>(config, "/entries", {

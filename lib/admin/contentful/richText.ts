@@ -21,25 +21,23 @@ export function createEmptyDocument(): Document {
   };
 }
 
-export function createAssetDocument(assetId: string): Document {
+export function createAssetDocument(assetIds: string[]): Document {
   return {
     nodeType: BLOCKS.DOCUMENT,
     data: {},
-    content: [
-      {
-        nodeType: BLOCKS.EMBEDDED_ASSET,
-        data: {
-          target: {
-            sys: {
-              type: "Link",
-              linkType: "Asset",
-              id: assetId,
-            },
+    content: assetIds.map((assetId) => ({
+      nodeType: BLOCKS.EMBEDDED_ASSET,
+      data: {
+        target: {
+          sys: {
+            type: "Link",
+            linkType: "Asset",
+            id: assetId,
           },
         },
-        content: [],
       },
-    ],
+      content: [],
+    })),
   };
 }
 

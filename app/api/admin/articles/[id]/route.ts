@@ -5,24 +5,17 @@ import {
   isAdminRequest,
 } from "@/lib/admin/auth/guard";
 import {
+  getAdminAssetIds,
   parseAdminArticleFormData,
   toContentfulArticleFields,
 } from "@/lib/admin/contentful/articlePayload";
-import {
-  createContentfulAsset,
-  updateContentfulArticle,
-} from "@/lib/admin/contentful/management";
+import { updateContentfulArticle } from "@/lib/admin/contentful/management";
 
 type RouteContext = {
   params: Promise<{
     id: string;
   }>;
 };
-
-function getImageFile(formData: FormData): File | undefined {
-  const file = formData.get("image");
-  return file instanceof File && file.size > 0 ? file : undefined;
-}
 
 export async function PUT(
   req: NextRequest,
@@ -36,13 +29,10 @@ export async function PUT(
     const { id } = await context.params;
     const formData = await req.formData();
     const payload = parseAdminArticleFormData(formData);
-    const imageFile = getImageFile(formData);
-    const thumbnailAssetId = imageFile
-      ? await createContentfulAsset(imageFile)
-      : undefined;
+    const assetIds = getAdminAssetIds(formData);
     const entry = await updateContentfulArticle(
       id,
-      toContentfulArticleFields(payload, thumbnailAssetId),
+      toContentfulArticleFields(payload, assetIds),
     );
 
     revalidateTag("articles", "max");

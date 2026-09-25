@@ -5,19 +5,11 @@ import {
   isAdminRequest,
 } from "@/lib/admin/auth/guard";
 import {
+  getAdminAssetIds,
   parseAdminArticleFormData,
   toContentfulArticleFields,
 } from "@/lib/admin/contentful/articlePayload";
-import {
-  createContentfulArticle,
-  createContentfulAsset,
-} from "@/lib/admin/contentful/management";
-import { CONTENTFUL_CATEGORY } from "@/constants/category";
-
-function getImageFile(formData: FormData): File | undefined {
-  const file = formData.get("image");
-  return file instanceof File && file.size > 0 ? file : undefined;
-}
+import { createContentfulArticle } from "@/lib/admin/contentful/management";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   if (!isAdminRequest(req)) {
@@ -27,20 +19,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const formData = await req.formData();
     const payload = parseAdminArticleFormData(formData);
-    const imageFile = getImageFile(formData);
+    const assetIds = getAdminAssetIds(formData);
 
-    if (payload.category === CONTENTFUL_CATEGORY.news && !imageFile) {
-      return NextResponse.json(
-        { ok: false, message: "교회소식 이미지를 업로드해주세요." },
-        { status: 400 },
-      );
-    }
-
-    const thumbnailAssetId = imageFile
-      ? await createContentfulAsset(imageFile)
-      : undefined;
     const entry = await createContentfulArticle(
-      toContentfulArticleFields(payload, thumbnailAssetId),
+      toContentfulArticleFields(payload, assetIds),
     );
 
     revalidateTag("articles", "max");
