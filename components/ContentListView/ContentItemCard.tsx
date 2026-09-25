@@ -16,7 +16,8 @@ const ContentItemCard = ({
   prefetch = false,
   sequence = 0,
 }: Props) => {
-  const { title, date, thumbnailTitle, thumbnailBible } = article.fields;
+  const { title, date, movieType, thumbnailTitle, thumbnailBible } =
+    article.fields;
 
   return (
     <Link href={href} prefetch={prefetch}>
@@ -27,17 +28,12 @@ const ContentItemCard = ({
       />
 
       <Box p="20px 10px 0 10px" textAlign="center">
-        <Box
-          mb="3px"
-          fontWeight="semibold"
-          overflow="hidden"
-          whiteSpace="nowrap"
-          textOverflow="ellipsis"
-        >
+        <Box mb="3px" fontWeight="semibold" wordBreak="keep-all" noOfLines={2}>
           {title}
         </Box>
 
         <Box fontSize="14px" color="grayLetter">
+          {movieType && `${movieType} · `}
           {date.slice(0, 10)}
         </Box>
       </Box>
