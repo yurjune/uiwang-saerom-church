@@ -5,9 +5,7 @@ import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
 import ContentsTable from "@/components/ContentsTable/ContentsTable";
-import ContentBody from "@/components/ContentView/ContentBody";
-import ContentMeta from "@/components/ContentView/ContentMeta";
-import { Box, Flex, Divider } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import NoPost from "@/components/NoPost/NoPost";
 
 export const metadata: Metadata = {
@@ -20,8 +18,8 @@ export const metadata: Metadata = {
 };
 
 export default async function CommunityNews() {
-  const { articles, firstArticle } = await getNewsArticles();
-  if (!firstArticle) {
+  const { articles } = await getNewsArticles();
+  if (articles.length === 0) {
     return (
       <AppLayout>
         <NoPost />
@@ -31,24 +29,6 @@ export default async function CommunityNews() {
 
   return (
     <AppLayout>
-      <Box mb="140px">
-        <Flex
-          justify={{ base: "flex-start", lg: "space-between" }}
-          direction={{ base: "column", lg: "row" }}
-          gap="20px"
-        >
-          <Box flex={2} flexShrink={0}>
-            <ContentMeta article={firstArticle} />
-          </Box>
-
-          <Box flex={5}>
-            <ContentBody article={firstArticle} />
-          </Box>
-        </Flex>
-      </Box>
-
-      <Divider />
-
       <Box mb="40px">
         <ContentsTable articles={articles} />
       </Box>
