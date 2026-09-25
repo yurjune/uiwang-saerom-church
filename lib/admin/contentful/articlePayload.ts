@@ -16,7 +16,8 @@ type MovieArticlePayload = {
   title: string;
   youtubeUrl: string;
   tags: string[];
-  reference?: string;
+  thumbnailTitle?: string;
+  thumbnailBible?: string;
   date?: string;
 };
 
@@ -52,21 +53,19 @@ function parseDate(value: string | undefined): string {
   return date.toISOString();
 }
 
-const MAX_REFERENCE_LENGTH = 256;
+const MAX_SYMBOL_LENGTH = 256;
 
-function parseReference(value: FormDataEntryValue | null) {
+function parseOptionalSymbol(value: FormDataEntryValue | null, label: string) {
   if (typeof value !== "string" || !value.trim()) {
     return undefined;
   }
 
-  const reference = value.trim();
-  if (reference.length > MAX_REFERENCE_LENGTH) {
-    throw new Error(
-      `본문 말씀은 ${MAX_REFERENCE_LENGTH}자 이하로 입력해주세요.`,
-    );
+  const text = value.trim();
+  if (text.length > MAX_SYMBOL_LENGTH) {
+    throw new Error(`${label}은 ${MAX_SYMBOL_LENGTH}자 이하로 입력해주세요.`);
   }
 
-  return reference;
+  return text;
 }
 
 function parseTags(value: FormDataEntryValue | null): string[] {
@@ -98,7 +97,14 @@ export function parseAdminArticleFormData(
       date,
       youtubeUrl: assertString(formData.get("youtubeUrl"), "youtubeUrl"),
       tags: parseTags(formData.get("tags")),
-      reference: parseReference(formData.get("reference")),
+      thumbnailTitle: parseOptionalSymbol(
+        formData.get("thumbnailTitle"),
+        "썸네일 제목",
+      ),
+      thumbnailBible: parseOptionalSymbol(
+        formData.get("thumbnailBible"),
+        "썸네일 본문 말씀",
+      ),
     };
   }
 
@@ -162,7 +168,8 @@ export function toContentfulArticleFields(
       category: payload.category,
       date: payload.date ?? new Date().toISOString(),
       tag: payload.tags,
-      reference: payload.reference,
+      thumbnailTitle: payload.thumbnailTitle,
+      thumbnailBible: payload.thumbnailBible,
       paragraph: createYouTubeParagraphDocument(embedUrl),
     };
   }

@@ -16,11 +16,15 @@ const ContentItemCard = ({
   prefetch = false,
   sequence = 0,
 }: Props) => {
-  const { title, date, reference } = article.fields;
+  const { title, date, thumbnailTitle, thumbnailBible } = article.fields;
 
   return (
     <Link href={href} prefetch={prefetch}>
-      <TitleThumbnail sequence={sequence} title={title} reference={reference} />
+      <TitleThumbnail
+        sequence={sequence}
+        title={thumbnailTitle || title}
+        bible={thumbnailBible}
+      />
 
       <Box p="20px 10px 0 10px" textAlign="center">
         <Box

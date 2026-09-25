@@ -6,7 +6,8 @@ export type ArticleFields = {
   category?: EntryFieldTypes.Symbol;
   paragraph?: EntryFieldTypes.RichText;
   tag?: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
-  reference?: EntryFieldTypes.Symbol;
+  thumbnailTitle?: EntryFieldTypes.Symbol;
+  thumbnailBible?: EntryFieldTypes.Symbol;
   thumbnail?: EntryFieldTypes.AssetLink;
   date: EntryFieldTypes.Date;
 };
@@ -25,7 +26,8 @@ export type ArticleSummary = {
     category: string;
     date: string;
     tag: string[];
-    reference: string | null;
+    thumbnailTitle: string | null;
+    thumbnailBible: string | null;
     thumbnailUrl: string | null;
   };
 };
@@ -46,7 +48,8 @@ export type ArticleDetail = {
     category: string;
     date: string;
     tag: string[];
-    reference: string | null;
+    thumbnailTitle: string | null;
+    thumbnailBible: string | null;
     paragraph: Document | null;
     thumbnailUrl: string | null;
   };

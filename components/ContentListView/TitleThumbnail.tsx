@@ -5,11 +5,11 @@ import { getThumbnailPreset } from "@/constants/thumbnail";
 type Props = {
   sequence: number;
   title: string;
-  reference?: string | null;
+  bible?: string | null;
 };
 
 // 1024px 프리셋 기준 thumbnail-maker 규칙(제목 120px, 말씀 70px, 사이 간격 96px, 좌우 30px)을 비율로 옮긴 값
-const TitleThumbnail = ({ sequence, title, reference }: Props) => {
+const TitleThumbnail = ({ sequence, title, bible }: Props) => {
   return (
     <Box
       h="0"
@@ -44,7 +44,7 @@ const TitleThumbnail = ({ sequence, title, reference }: Props) => {
         overflowWrap="anywhere"
       >
         <Box>{title}</Box>
-        {reference && <Box fontSize="6.8cqw">{reference}</Box>}
+        {bible && <Box fontSize="6.8cqw">{bible}</Box>}
       </Flex>
     </Box>
   );

@@ -280,18 +280,33 @@ export default function AdminUploadClient() {
           </FormControl>
 
           {isMovie && (
-            <FormControl>
-              <FormLabel {...labelStyle}>본문 말씀</FormLabel>
-              <Input
-                name="reference"
-                placeholder="예) 창 1:1"
-                maxLength={256}
-                {...fieldStyle}
-              />
-              <FormHelperText fontSize="13px" color="gray.500">
-                썸네일에서 제목 아래에 표시됩니다.
-              </FormHelperText>
-            </FormControl>
+            <>
+              <FormControl>
+                <FormLabel {...labelStyle}>썸네일 제목</FormLabel>
+                <Input
+                  name="thumbnailTitle"
+                  placeholder="썸네일에 표시할 제목을 입력하세요"
+                  maxLength={256}
+                  {...fieldStyle}
+                />
+                <FormHelperText fontSize="13px" color="gray.500">
+                  비워두면 게시글 제목이 썸네일에 표시됩니다.
+                </FormHelperText>
+              </FormControl>
+
+              <FormControl>
+                <FormLabel {...labelStyle}>썸네일 본문 말씀</FormLabel>
+                <Input
+                  name="thumbnailBible"
+                  placeholder="예) 창 1:1"
+                  maxLength={256}
+                  {...fieldStyle}
+                />
+                <FormHelperText fontSize="13px" color="gray.500">
+                  썸네일에서 제목 아래에 표시됩니다.
+                </FormHelperText>
+              </FormControl>
+            </>
           )}
 
           <FormControl id="admin-date">

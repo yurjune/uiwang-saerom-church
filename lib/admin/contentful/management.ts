@@ -18,7 +18,8 @@ type ArticleFields = {
   category: string;
   date: string;
   tag?: string[];
-  reference?: string;
+  thumbnailTitle?: string;
+  thumbnailBible?: string;
   paragraph?: Document;
   thumbnailAssetId?: string;
 };
@@ -70,9 +71,15 @@ function toLocalizedFields(config: ManagementConfig, fields: ArticleFields) {
     };
   }
 
-  if (fields.reference) {
-    localizedFields.reference = {
-      [config.locale]: fields.reference,
+  if (fields.thumbnailTitle) {
+    localizedFields.thumbnailTitle = {
+      [config.locale]: fields.thumbnailTitle,
+    };
+  }
+
+  if (fields.thumbnailBible) {
+    localizedFields.thumbnailBible = {
+      [config.locale]: fields.thumbnailBible,
     };
   }
 
@@ -295,8 +302,13 @@ export async function updateContentfulArticle(
   };
   if (fields.category === CONTENTFUL_CATEGORY.movies) {
     delete localizedFields.thumbnail;
-    if (!fields.reference) {
-      delete localizedFields.reference;
+    // reference는 thumbnailBible로 대체되어 Contentful에서 삭제될 필드
+    delete localizedFields.reference;
+    if (!fields.thumbnailTitle) {
+      delete localizedFields.thumbnailTitle;
+    }
+    if (!fields.thumbnailBible) {
+      delete localizedFields.thumbnailBible;
     }
   }
 
