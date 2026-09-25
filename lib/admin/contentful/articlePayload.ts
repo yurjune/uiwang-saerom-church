@@ -1,7 +1,9 @@
 import {
   CONTENTFUL_CATEGORY,
   MOVIE_TYPES,
+  NEWS_TYPES,
   type MovieType,
+  type NewsType,
 } from "@/constants/category";
 import {
   MAX_NEWS_IMAGE_BYTES,
@@ -29,6 +31,7 @@ type MovieArticlePayload = {
 type NewsArticlePayload = {
   category: typeof CONTENTFUL_CATEGORY.news;
   title: string;
+  newsType: NewsType;
   date?: string;
 };
 
@@ -65,6 +68,15 @@ function parseMovieType(value: FormDataEntryValue | null): MovieType {
   }
 
   return movieType;
+}
+
+function parseNewsType(value: FormDataEntryValue | null): NewsType {
+  const newsType = NEWS_TYPES.find((type) => type === value);
+  if (!newsType) {
+    throw new Error("소식 종류를 선택해주세요.");
+  }
+
+  return newsType;
 }
 
 const MAX_SYMBOL_LENGTH = 256;
@@ -128,6 +140,7 @@ export function parseAdminArticleFormData(
       category,
       title,
       date,
+      newsType: parseNewsType(formData.get("newsType")),
     };
   }
 
@@ -194,6 +207,7 @@ export function toContentfulArticleFields(
     title: payload.title,
     category: payload.category,
     date: payload.date ?? new Date().toISOString(),
+    newsType: payload.newsType,
     paragraph:
       assetIds.length > 0
         ? createAssetDocument(assetIds)

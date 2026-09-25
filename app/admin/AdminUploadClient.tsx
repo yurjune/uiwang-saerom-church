@@ -19,7 +19,9 @@ import { useEffect, useState } from "react";
 import {
   CONTENTFUL_CATEGORY,
   MOVIE_TYPES,
+  NEWS_TYPES,
   type MovieType,
+  type NewsType,
 } from "@/constants/category";
 import ToggleButtonGroup from "@/components/ToggleButtonGroup/ToggleButtonGroup";
 import AdminLogin from "@/components/AdminLogin/AdminLogin";
@@ -83,6 +85,8 @@ export default function AdminUploadClient() {
   const [tags, setTags] = useState<string[]>([]);
   const [movieType, setMovieType] = useState<MovieType | null>(null);
   const [hasMovieTypeError, setHasMovieTypeError] = useState(false);
+  const [newsType, setNewsType] = useState<NewsType | null>(null);
+  const [hasNewsTypeError, setHasNewsTypeError] = useState(false);
   const [title, setTitle] = useState("");
   const [thumbnailTitle, setThumbnailTitle] = useState("");
   const [thumbnailBible, setThumbnailBible] = useState("");
@@ -179,12 +183,19 @@ export default function AdminUploadClient() {
       setHasMovieTypeError(true);
       return;
     }
+    if (!isMovie && !newsType) {
+      setHasNewsTypeError(true);
+      return;
+    }
 
     const form = event.currentTarget;
     const formData = new FormData(form);
     formData.set("category", category);
     if (isMovie && movieType) {
       formData.set("movieType", movieType);
+    }
+    if (!isMovie && newsType) {
+      formData.set("newsType", newsType);
     }
     const uploadedAssetIds: string[] = [];
 
@@ -218,6 +229,7 @@ export default function AdminUploadClient() {
       setDate(null);
       setTags([]);
       setMovieType(null);
+      setNewsType(null);
       setCategory(CONTENTFUL_CATEGORY.movies);
       toast({
         status: "success",
@@ -291,6 +303,26 @@ export default function AdminUploadClient() {
               />
               <FormErrorMessage fontSize="14px">
                 설교 종류를 선택해 주세요.
+              </FormErrorMessage>
+            </FormControl>
+          )}
+
+          {!isMovie && (
+            <FormControl as="fieldset" isRequired isInvalid={hasNewsTypeError}>
+              <FormLabel as="legend" {...labelStyle}>
+                소식 종류
+              </FormLabel>
+              <ToggleButtonGroup
+                options={NEWS_TYPES}
+                value={newsType}
+                onChange={(next) => {
+                  setNewsType(next);
+                  setHasNewsTypeError(false);
+                }}
+                isInvalid={hasNewsTypeError}
+              />
+              <FormErrorMessage fontSize="14px">
+                소식 종류를 선택해 주세요.
               </FormErrorMessage>
             </FormControl>
           )}

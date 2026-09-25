@@ -54,6 +54,7 @@ describe("toContentfulArticleFields", () => {
         {
           category: CONTENTFUL_CATEGORY.news,
           title: "소식 제목",
+          newsType: "주보",
           date: "2026-09-25T00:00:00.000Z",
         },
         ["asset-id"],
@@ -61,6 +62,7 @@ describe("toContentfulArticleFields", () => {
     ).toMatchObject({
       title: "소식 제목",
       category: CONTENTFUL_CATEGORY.news,
+      newsType: "주보",
       thumbnailAssetId: "asset-id",
       paragraph: {
         nodeType: BLOCKS.DOCUMENT,
@@ -85,6 +87,7 @@ describe("toContentfulArticleFields", () => {
       {
         category: CONTENTFUL_CATEGORY.news,
         title: "소식 제목",
+        newsType: "기타",
       },
       ["asset-1", "asset-2"],
     );
@@ -181,5 +184,30 @@ describe("parseAdminArticleFormData", () => {
     expect(() =>
       parseAdminArticleFormData(createMovieFormData("금요설교")),
     ).toThrow("설교 종류를 선택해주세요.");
+  });
+
+  function createNewsFormData(newsType?: string) {
+    const formData = new FormData();
+    formData.set("category", CONTENTFUL_CATEGORY.news);
+    formData.set("title", "소식 제목");
+    if (newsType !== undefined) {
+      formData.set("newsType", newsType);
+    }
+    return formData;
+  }
+
+  it("교회소식의 소식 종류를 읽는다", () => {
+    expect(parseAdminArticleFormData(createNewsFormData("주보"))).toMatchObject(
+      { newsType: "주보" },
+    );
+  });
+
+  it("소식 종류가 없거나 허용되지 않은 값이면 에러를 던진다", () => {
+    expect(() => parseAdminArticleFormData(createNewsFormData())).toThrow(
+      "소식 종류를 선택해주세요.",
+    );
+    expect(() => parseAdminArticleFormData(createNewsFormData("행사"))).toThrow(
+      "소식 종류를 선택해주세요.",
+    );
   });
 });
