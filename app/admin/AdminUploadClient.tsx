@@ -15,6 +15,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   CONTENTFUL_CATEGORY,
@@ -28,12 +29,16 @@ import AdminLogin from "@/components/AdminLogin/AdminLogin";
 import TitleThumbnail from "@/components/ContentListView/TitleThumbnail";
 import DatePicker from "@/components/DatePicker/DatePicker";
 import BibleTagSelect from "@/components/BibleTagSelect/BibleTagSelect";
-import ImageUploadField from "@/components/ImageUploadField/ImageUploadField";
+import ImageUploadField, {
+  type ImageUploadItem,
+} from "@/components/ImageUploadField/ImageUploadField";
 import {
   MAX_NEWS_IMAGE_BYTES,
   MAX_NEWS_IMAGES,
   NEWS_IMAGE_ACCEPT,
 } from "@/constants/upload";
+import type { AdminArticleDetail } from "@/lib/admin/contentful/management";
+import { categoryToContentUrl } from "@/utils/category";
 
 type AuthState = "checking" | "authenticated" | "unauthenticated";
 type Category =
@@ -45,6 +50,12 @@ type ApiResult = {
   authenticated?: boolean;
   id?: string;
   message?: string;
+  article?: AdminArticleDetail;
+};
+
+type Props = {
+  // 있으면 해당 게시글을 불러와 수정하고, 없으면 새 게시글을 업로드한다.
+  articleId?: string;
 };
 
 type FormSubmitEvent = {
@@ -65,6 +76,17 @@ const labelStyle = {
   color: "gray.700",
 } as const;
 
+function findOption<T extends string>(
+  options: readonly T[],
+  value: string | null,
+): T | null {
+  return options.find((option) => option === value) ?? null;
+}
+
+function getAssetIds(items: ImageUploadItem[]) {
+  return items.flatMap((item) => (item.kind === "asset" ? [item.id] : []));
+}
+
 async function readApiResult(response: Response): Promise<ApiResult> {
   try {
     return (await response.json()) as ApiResult;
@@ -73,14 +95,21 @@ async function readApiResult(response: Response): Promise<ApiResult> {
   }
 }
 
-export default function AdminUploadClient() {
+export default function AdminUploadClient({ articleId }: Props) {
   const toast = useToast();
+  const router = useRouter();
+  const isEdit = articleId !== undefined;
   const [authState, setAuthState] = useState<AuthState>("checking");
+  const [loadState, setLoadState] = useState<"loading" | "ready" | "error">(
+    isEdit ? "loading" : "ready",
+  );
+  const [initialAssetIds, setInitialAssetIds] = useState<string[]>([]);
+  const [youtubeUrl, setYoutubeUrl] = useState("");
   const [category, setCategory] = useState<Category>(
     CONTENTFUL_CATEGORY.movies,
   );
   const [progressLabel, setProgressLabel] = useState<string | null>(null);
-  const [images, setImages] = useState<File[]>([]);
+  const [images, setImages] = useState<ImageUploadItem[]>([]);
   const [date, setDate] = useState<Date | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [movieType, setMovieType] = useState<MovieType | null>(null);
@@ -121,6 +150,62 @@ export default function AdminUploadClient() {
       canceled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (!articleId || authState !== "authenticated") {
+      return;
+    }
+
+    let canceled = false;
+
+    async function loadArticle(id: string) {
+      try {
+        const response = await fetch(
+          `/api/admin/articles/${encodeURIComponent(id)}`,
+          { cache: "no-store" },
+        );
+        const result = await readApiResult(response);
+        if (!response.ok || !result.ok || !result.article) {
+          throw new Error(result.message);
+        }
+        if (canceled) {
+          return;
+        }
+
+        const article = result.article;
+        const loadedImages: ImageUploadItem[] = article.images.map((image) => ({
+          kind: "asset",
+          ...image,
+        }));
+        setCategory(
+          article.category === CONTENTFUL_CATEGORY.news
+            ? CONTENTFUL_CATEGORY.news
+            : CONTENTFUL_CATEGORY.movies,
+        );
+        setTitle(article.title);
+        setThumbnailTitle(article.thumbnailTitle ?? "");
+        setThumbnailBible(article.thumbnailBible ?? "");
+        setMovieType(findOption(MOVIE_TYPES, article.movieType));
+        setNewsType(findOption(NEWS_TYPES, article.newsType));
+        setDate(article.date ? new Date(article.date) : null);
+        setTags(article.tags);
+        setYoutubeUrl(article.youtubeUrl ?? "");
+        setImages(loadedImages);
+        setInitialAssetIds(getAssetIds(loadedImages));
+        setLoadState("ready");
+      } catch {
+        if (!canceled) {
+          setLoadState("error");
+        }
+      }
+    }
+
+    loadArticle(articleId);
+
+    return () => {
+      canceled = true;
+    };
+  }, [articleId, authState]);
 
   async function login(nextPassword: string) {
     try {
@@ -201,28 +286,62 @@ export default function AdminUploadClient() {
 
     try {
       if (!isMovie) {
-        for (const [index, image] of images.entries()) {
-          setProgressLabel(`이미지 업로드 중 (${index + 1}/${images.length})…`);
-          uploadedAssetIds.push(await uploadImage(image));
+        const newFiles = images.filter((image) => image.kind === "file");
+        const assetIds: string[] = [];
+        for (const image of images) {
+          if (image.kind === "asset") {
+            assetIds.push(image.id);
+            continue;
+          }
+          setProgressLabel(
+            `이미지 업로드 중 (${uploadedAssetIds.length + 1}/${newFiles.length})…`,
+          );
+          const assetId = await uploadImage(image.file);
+          uploadedAssetIds.push(assetId);
+          assetIds.push(assetId);
         }
-        uploadedAssetIds.forEach((assetId) =>
-          formData.append("assetIds", assetId),
+        assetIds.forEach((assetId) => formData.append("assetIds", assetId));
+        formData.set(
+          "updateImages",
+          String(assetIds.join(",") !== initialAssetIds.join(",")),
         );
       }
 
-      setProgressLabel("게시글 등록 중…");
-      const response = await fetch("/api/admin/articles", {
-        method: "POST",
-        body: formData,
-      });
+      setProgressLabel(isEdit ? "게시글 수정 중…" : "게시글 등록 중…");
+      const response = await fetch(
+        isEdit
+          ? `/api/admin/articles/${encodeURIComponent(articleId)}`
+          : "/api/admin/articles",
+        {
+          method: isEdit ? "PUT" : "POST",
+          body: formData,
+        },
+      );
       const result = await readApiResult(response);
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.message ?? "게시글 등록에 실패했습니다.");
+        throw new Error(
+          result.message ??
+            (isEdit
+              ? "게시글 수정에 실패했습니다."
+              : "게시글 등록에 실패했습니다."),
+        );
+      }
+
+      if (isEdit) {
+        toast({
+          status: "success",
+          title: "수정이 완료되었습니다.",
+          description: String(formData.get("title") ?? ""),
+        });
+        router.push(`${categoryToContentUrl(category)}/${articleId}`);
+        router.refresh();
+        return;
       }
 
       form.reset();
       setTitle("");
+      setYoutubeUrl("");
       setThumbnailTitle("");
       setThumbnailBible("");
       setImages([]);
@@ -240,7 +359,7 @@ export default function AdminUploadClient() {
       await deleteImages(uploadedAssetIds);
       toast({
         status: "error",
-        title: "업로드에 실패했습니다.",
+        title: isEdit ? "수정에 실패했습니다." : "업로드에 실패했습니다.",
         description: error instanceof Error ? error.message : undefined,
       });
     } finally {
@@ -260,11 +379,23 @@ export default function AdminUploadClient() {
     return <AdminLogin onLogin={login} />;
   }
 
+  if (loadState !== "ready") {
+    return (
+      <Box py="80px" textAlign="center">
+        <Text color="grayLetter">
+          {loadState === "loading"
+            ? "게시글을 불러오는 중입니다."
+            : "게시글을 불러오지 못했습니다."}
+        </Text>
+      </Box>
+    );
+  }
+
   return (
     <Box>
       <Flex justify="space-between" align="center" gap="16px">
         <Heading as="h2" size="lg">
-          게시글 업로드
+          {isEdit ? "게시글 수정" : "게시글 업로드"}
         </Heading>
 
         <Button variant="outline" flexShrink={0} onClick={handleLogout}>
@@ -284,6 +415,7 @@ export default function AdminUploadClient() {
               options={CATEGORY_OPTIONS}
               value={category}
               onChange={setCategory}
+              isDisabled={isEdit}
             />
           </FormControl>
 
@@ -416,6 +548,8 @@ export default function AdminUploadClient() {
                   name="youtubeUrl"
                   type="url"
                   placeholder="https://www.youtube.com/watch?v="
+                  value={youtubeUrl}
+                  onChange={(event) => setYoutubeUrl(event.target.value)}
                   {...fieldStyle}
                 />
                 <FormHelperText fontSize="13px" color="gray.500">
@@ -465,7 +599,7 @@ export default function AdminUploadClient() {
             isLoading={progressLabel !== null}
             loadingText={progressLabel ?? undefined}
           >
-            업로드
+            {isEdit ? "수정" : "업로드"}
           </Button>
         </Stack>
       </Box>

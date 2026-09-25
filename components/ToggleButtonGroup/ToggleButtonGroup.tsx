@@ -5,6 +5,7 @@ type Props<T extends string> = {
   value: T | null;
   onChange: (value: T) => void;
   isInvalid?: boolean;
+  isDisabled?: boolean;
 };
 
 const ToggleButtonGroup = <T extends string>({
@@ -12,6 +13,7 @@ const ToggleButtonGroup = <T extends string>({
   value,
   onChange,
   isInvalid = false,
+  isDisabled = false,
 }: Props<T>) => {
   return (
     <SimpleGrid columns={options.length} spacing="8px">
@@ -33,6 +35,7 @@ const ToggleButtonGroup = <T extends string>({
             fontWeight="700"
             _hover={{ bg: selected ? "blue.50" : "gray.50" }}
             aria-pressed={selected}
+            isDisabled={isDisabled}
             onClick={() => onChange(option)}
           >
             {option}

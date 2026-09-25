@@ -13,10 +13,15 @@ import {
 import type { ChangeEvent } from "react";
 import { useEffect, useMemo } from "react";
 
+// 새로 고른 파일이거나, 수정 화면에서 불러온 기존 Contentful asset이다.
+export type ImageUploadItem =
+  | { kind: "file"; file: File }
+  | { kind: "asset"; id: string; url: string; name: string };
+
 type Props = {
   id: string;
-  value: File[];
-  onChange: (value: File[]) => void;
+  value: ImageUploadItem[];
+  onChange: (value: ImageUploadItem[]) => void;
   max: number;
   maxBytes: number;
   accept: string;
@@ -37,14 +42,27 @@ const ImageUploadField = ({
   onReject,
 }: Props) => {
   const previews = useMemo(
-    () => value.map((file) => ({ file, url: URL.createObjectURL(file) })),
+    () =>
+      value.map((item) =>
+        item.kind === "file"
+          ? {
+              item,
+              name: item.file.name,
+              url: URL.createObjectURL(item.file),
+            }
+          : { item, name: item.name, url: item.url },
+      ),
     [value],
   );
   const isFull = value.length >= max;
 
   useEffect(() => {
     return () => {
-      previews.forEach((preview) => URL.revokeObjectURL(preview.url));
+      previews.forEach(({ item, url }) => {
+        if (item.kind === "file") {
+          URL.revokeObjectURL(url);
+        }
+      });
     };
   }, [previews]);
 
@@ -61,9 +79,11 @@ const ImageUploadField = ({
       );
     }
 
-    const next = [
+    const next: ImageUploadItem[] = [
       ...value,
-      ...selected.filter((file) => file.size <= maxBytes),
+      ...selected
+        .filter((file) => file.size <= maxBytes)
+        .map((file) => ({ kind: "file" as const, file })),
     ];
     if (next.length > max) {
       onReject?.(`이미지는 최대 ${max}장까지 선택할 수 있습니다.`);
@@ -117,7 +137,7 @@ const ImageUploadField = ({
 
       {previews.length > 0 && (
         <SimpleGrid columns={{ base: 3, sm: 5 }} spacing="8px" mt="12px">
-          {previews.map(({ file, url }, index) => (
+          {previews.map(({ item, name, url }, index) => (
             <AspectRatio
               key={url}
               ratio={1}
@@ -129,7 +149,7 @@ const ImageUploadField = ({
               <Box position="relative">
                 <Image
                   src={url}
-                  alt={file.name}
+                  alt={name}
                   w="100%"
                   h="100%"
                   objectFit="cover"
@@ -151,7 +171,7 @@ const ImageUploadField = ({
                   </Text>
                 )}
                 <CloseButton
-                  aria-label={`${file.name} 삭제`}
+                  aria-label={`${name} 삭제`}
                   size="sm"
                   position="absolute"
                   top="4px"
@@ -161,7 +181,7 @@ const ImageUploadField = ({
                   borderRadius="full"
                   _hover={{ bg: "blackAlpha.800" }}
                   onClick={() =>
-                    onChange(value.filter((item) => item !== file))
+                    onChange(value.filter((current) => current !== item))
                   }
                 />
               </Box>
