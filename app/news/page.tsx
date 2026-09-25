@@ -5,7 +5,7 @@ import { ProjectUrl } from "@/constants/projectUrl";
 import { ProjectMenu } from "@/constants/menu";
 import { Metadata } from "next/types";
 import ContentsTable from "@/components/ContentsTable/ContentsTable";
-import { Box } from "@chakra-ui/react";
+import { Box, Divider, Heading } from "@chakra-ui/react";
 import NoPost from "@/components/NoPost/NoPost";
 
 export const metadata: Metadata = {
@@ -29,6 +29,12 @@ export default async function CommunityNews() {
 
   return (
     <AppLayout>
+      <Heading as="h2" size="lg">
+        {ProjectMenu.news.label}
+      </Heading>
+
+      <Divider mt="20px" mb="30px" />
+
       <Box mb="40px">
         <ContentsTable articles={articles} />
       </Box>
