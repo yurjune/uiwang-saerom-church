@@ -1,31 +1,36 @@
 "use client";
 
 import {
-  Alert,
-  AlertIcon,
   Box,
   Button,
   Divider,
   Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
   Heading,
   Input,
-  Select,
+  SimpleGrid,
   Stack,
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
-import { Bible } from "@/constants/bible";
 import AdminLogin from "@/components/AdminLogin/AdminLogin";
+import DatePicker from "@/components/DatePicker/DatePicker";
+import BibleTagSelect from "@/components/BibleTagSelect/BibleTagSelect";
+import ImageUploadField from "@/components/ImageUploadField/ImageUploadField";
+import {
+  MAX_NEWS_IMAGE_BYTES,
+  MAX_NEWS_IMAGES,
+  NEWS_IMAGE_ACCEPT,
+} from "@/constants/upload";
 
 type AuthState = "checking" | "authenticated" | "unauthenticated";
 type Category =
   | typeof CONTENTFUL_CATEGORY.movies
   | typeof CONTENTFUL_CATEGORY.news;
-type SubmitState = "idle" | "submitting";
 
 type ApiResult = {
   ok?: boolean;
@@ -41,6 +46,17 @@ type FormSubmitEvent = {
 
 const CATEGORY_OPTIONS = [CONTENTFUL_CATEGORY.movies, CONTENTFUL_CATEGORY.news];
 
+const fieldStyle = {
+  h: "48px",
+  borderRadius: "10px",
+} as const;
+
+const labelStyle = {
+  fontSize: "14px",
+  fontWeight: "600",
+  color: "gray.700",
+} as const;
+
 async function readApiResult(response: Response): Promise<ApiResult> {
   try {
     return (await response.json()) as ApiResult;
@@ -55,11 +71,12 @@ export default function AdminUploadClient() {
   const [category, setCategory] = useState<Category>(
     CONTENTFUL_CATEGORY.movies,
   );
-  const [submitState, setSubmitState] = useState<SubmitState>("idle");
-  const [lastCreatedId, setLastCreatedId] = useState<string | null>(null);
+  const [progressLabel, setProgressLabel] = useState<string | null>(null);
+  const [images, setImages] = useState<File[]>([]);
+  const [date, setDate] = useState<Date | null>(null);
+  const [tags, setTags] = useState<string[]>([]);
 
   const isMovie = category === CONTENTFUL_CATEGORY.movies;
-  const bibleOptions = useMemo(() => Bible, []);
 
   useEffect(() => {
     let canceled = false;
@@ -117,19 +134,53 @@ export default function AdminUploadClient() {
       method: "DELETE",
     });
     setAuthState("unauthenticated");
-    setLastCreatedId(null);
+  }
+
+  async function uploadImage(image: File) {
+    const body = new FormData();
+    body.append("image", image);
+
+    const response = await fetch("/api/admin/assets", {
+      method: "POST",
+      body,
+    });
+    const result = await readApiResult(response);
+
+    if (!response.ok || !result.ok || !result.id) {
+      throw new Error(result.message ?? `${image.name} 업로드에 실패했습니다.`);
+    }
+
+    return result.id;
+  }
+
+  async function deleteImages(assetIds: string[]) {
+    await Promise.allSettled(
+      assetIds.map((assetId) =>
+        fetch(`/api/admin/assets/${assetId}`, { method: "DELETE" }),
+      ),
+    );
   }
 
   async function handleCreateArticle(event: FormSubmitEvent) {
     event.preventDefault();
-    setSubmitState("submitting");
-    setLastCreatedId(null);
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    formData.set("category", category);
+    const uploadedAssetIds: string[] = [];
 
     try {
-      const form = event.currentTarget;
-      const formData = new FormData(form);
-      formData.set("category", category);
+      if (!isMovie) {
+        for (const [index, image] of images.entries()) {
+          setProgressLabel(`이미지 업로드 중 (${index + 1}/${images.length})…`);
+          uploadedAssetIds.push(await uploadImage(image));
+        }
+        uploadedAssetIds.forEach((assetId) =>
+          formData.append("assetIds", assetId),
+        );
+      }
 
+      setProgressLabel("게시글 등록 중…");
       const response = await fetch("/api/admin/articles", {
         method: "POST",
         body: formData,
@@ -137,29 +188,34 @@ export default function AdminUploadClient() {
       const result = await readApiResult(response);
 
       if (!response.ok || !result.ok) {
-        toast({
-          status: "error",
-          title: "업로드에 실패했습니다.",
-          description: result.message,
-        });
-        return;
+        throw new Error(result.message ?? "게시글 등록에 실패했습니다.");
       }
 
       form.reset();
+      setImages([]);
+      setDate(null);
+      setTags([]);
       setCategory(CONTENTFUL_CATEGORY.movies);
-      setLastCreatedId(result.id ?? null);
       toast({
         status: "success",
         title: "업로드가 완료되었습니다.",
+        description: String(formData.get("title") ?? ""),
+      });
+    } catch (error) {
+      await deleteImages(uploadedAssetIds);
+      toast({
+        status: "error",
+        title: "업로드에 실패했습니다.",
+        description: error instanceof Error ? error.message : undefined,
       });
     } finally {
-      setSubmitState("idle");
+      setProgressLabel(null);
     }
   }
 
   if (authState === "checking") {
     return (
-      <Box w="100%" py="80px" textAlign="center">
+      <Box py="80px" textAlign="center">
         <Text color="grayLetter">확인 중입니다.</Text>
       </Box>
     );
@@ -170,96 +226,128 @@ export default function AdminUploadClient() {
   }
 
   return (
-    <Box
-      w="100%"
-      maxW="720px"
-      mx="auto"
-      px="16px"
-      py={{ base: "24px", md: "48px" }}
-    >
-      <Flex justify="space-between" align="center" gap="16px" mb="24px">
-        <Box>
-          <Heading as="h1" size="lg">
-            관리자
-          </Heading>
-        </Box>
+    <Box>
+      <Flex justify="space-between" align="center" gap="16px">
+        <Heading as="h2" size="lg">
+          게시글 업로드
+        </Heading>
 
-        <Button variant="outline" onClick={handleLogout}>
+        <Button variant="outline" flexShrink={0} onClick={handleLogout}>
           로그아웃
         </Button>
       </Flex>
 
-      <Divider mb="28px" />
+      <Divider mt="20px" mb="30px" />
 
-      <Box as="form" onSubmit={handleCreateArticle}>
-        <Stack spacing="20px">
-          {lastCreatedId && (
-            <Alert status="success">
-              <AlertIcon />
-              생성된 Contentful entry ID: {lastCreatedId}
-            </Alert>
-          )}
-
-          <FormControl isRequired>
-            <FormLabel>카테고리</FormLabel>
-            <Select
-              name="category"
-              value={category}
-              onChange={(event) => setCategory(event.target.value as Category)}
-            >
-              {CATEGORY_OPTIONS.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </Select>
+      <Box as="form" onSubmit={handleCreateArticle} maxW="640px" mx="auto">
+        <Stack spacing="24px">
+          <FormControl as="fieldset">
+            <FormLabel as="legend" {...labelStyle}>
+              카테고리
+            </FormLabel>
+            <SimpleGrid columns={2} spacing="8px">
+              {CATEGORY_OPTIONS.map((option) => {
+                const selected = option === category;
+                return (
+                  <Button
+                    key={option}
+                    type="button"
+                    h="48px"
+                    borderRadius="10px"
+                    border="1px solid"
+                    borderColor={selected ? "blue.500" : "gray.200"}
+                    bg={selected ? "blue.50" : "white"}
+                    color={selected ? "blue.600" : "gray.600"}
+                    fontWeight="700"
+                    _hover={{ bg: selected ? "blue.50" : "gray.50" }}
+                    aria-pressed={selected}
+                    onClick={() => setCategory(option)}
+                  >
+                    {option}
+                  </Button>
+                );
+              })}
+            </SimpleGrid>
           </FormControl>
 
           <FormControl isRequired>
-            <FormLabel>제목</FormLabel>
-            <Input name="title" />
+            <FormLabel {...labelStyle}>제목</FormLabel>
+            <Input
+              name="title"
+              placeholder="제목을 입력하세요"
+              {...fieldStyle}
+            />
           </FormControl>
 
-          <FormControl>
-            <FormLabel>날짜</FormLabel>
-            <Input name="date" type="datetime-local" />
+          <FormControl id="admin-date">
+            <FormLabel {...labelStyle}>날짜</FormLabel>
+            <DatePicker
+              id="admin-date"
+              name="date"
+              value={date}
+              onChange={setDate}
+            />
+            <FormHelperText fontSize="13px" color="gray.500">
+              비워두면 업로드 시각으로 저장됩니다.
+            </FormHelperText>
           </FormControl>
 
           {isMovie ? (
             <>
               <FormControl isRequired>
-                <FormLabel>유튜브 링크</FormLabel>
-                <Input name="youtubeUrl" type="url" />
+                <FormLabel {...labelStyle}>유튜브 링크</FormLabel>
+                <Input
+                  name="youtubeUrl"
+                  type="url"
+                  placeholder="https://www.youtube.com/watch?v="
+                  {...fieldStyle}
+                />
+                <FormHelperText fontSize="13px" color="gray.500">
+                  유튜브 주소를 그대로 붙여넣으면 임베드 주소로 자동 변환되어
+                  저장됩니다.
+                </FormHelperText>
               </FormControl>
 
-              <FormControl>
-                <FormLabel>성경 본문 태그</FormLabel>
-                <Select name="tags" defaultValue="">
-                  <option value="">선택 안 함</option>
-                  {bibleOptions.map((bible) => (
-                    <option key={bible} value={bible}>
-                      {bible}
-                    </option>
-                  ))}
-                </Select>
+              <FormControl id="admin-tags">
+                <FormLabel {...labelStyle}>성경 본문 태그</FormLabel>
+                <BibleTagSelect
+                  labelId="admin-tags-label"
+                  name="tags"
+                  value={tags}
+                  onChange={setTags}
+                />
               </FormControl>
             </>
           ) : (
-            <FormControl isRequired>
-              <FormLabel>이미지</FormLabel>
-              <Input
-                name="image"
-                type="file"
-                accept="image/png,image/jpeg,image/webp"
-                p="6px"
+            <FormControl id="admin-image">
+              <FormLabel {...labelStyle}>이미지</FormLabel>
+              <ImageUploadField
+                id="admin-image"
+                value={images}
+                onChange={setImages}
+                max={MAX_NEWS_IMAGES}
+                accept={NEWS_IMAGE_ACCEPT}
+                maxBytes={MAX_NEWS_IMAGE_BYTES}
+                onReject={(message) =>
+                  toast({ status: "warning", title: message })
+                }
               />
+              <FormHelperText fontSize="13px" color="gray.500">
+                첫 번째 이미지가 대표 이미지로 사용됩니다.
+              </FormHelperText>
             </FormControl>
           )}
 
           <Button
             type="submit"
+            w="100%"
+            h="48px"
+            mt="4px"
+            borderRadius="10px"
             colorScheme="blue"
-            isLoading={submitState === "submitting"}
+            fontWeight="700"
+            isLoading={progressLabel !== null}
+            loadingText={progressLabel ?? undefined}
           >
             업로드
           </Button>
