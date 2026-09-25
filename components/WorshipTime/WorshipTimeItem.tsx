@@ -20,6 +20,8 @@ const WorshipTimeItem = ({
 }: Props) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(!enableAnimation);
+  const isSunday = day.includes("일요일");
+  const accentColor = isSunday ? "#B85C5C" : "first";
 
   useEffect(() => {
     const node = ref.current;
@@ -59,22 +61,28 @@ const WorshipTimeItem = ({
       transition="transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.65s ease, box-shadow 0.2s ease"
       transitionDelay={isVisible ? `${index * 0.06}s` : undefined}
       willChange="transform, opacity"
-      maxW="500px"
+      maxW="425px"
       w="100%"
       mx="auto"
       mb={4}
       borderRadius="16px"
       overflow="hidden"
       border="1px solid"
-      borderColor="rgba(1, 85, 160, 0.18)"
+      borderColor={
+        isSunday ? "rgba(184, 92, 92, 0.22)" : "rgba(1, 85, 160, 0.18)"
+      }
       bg="white"
       boxShadow="0 10px 24px rgba(28, 32, 36, 0.08)"
     >
       <Flex
-        minW={{ base: "108px", md: "132px" }}
+        minW={{ base: "100px", md: "124px" }}
         px={{ base: "12px", md: "16px" }}
         py={{ base: "16px", md: "18px" }}
-        bgGradient="linear(to-b, #3F82BE, #1F6CAF)"
+        bgGradient={
+          isSunday
+            ? "linear(to-b, #C97777, #A84D4D)"
+            : "linear(to-b, #3F82BE, #1F6CAF)"
+        }
         color="white"
         align="center"
         justify="center"
@@ -99,11 +107,17 @@ const WorshipTimeItem = ({
           lineHeight="1.5"
         >
           {day}
-          <Text as="span" color="first" fontWeight="700" ml={1}>
+          <Text as="span" color={accentColor} fontWeight="700" ml={1}>
             {time}
           </Text>
         </Text>
-        <Box w="8px" h="8px" borderRadius="full" bg="first" flexShrink={0} />
+        <Box
+          w="8px"
+          h="8px"
+          borderRadius="full"
+          bg={accentColor}
+          flexShrink={0}
+        />
       </Flex>
     </Flex>
   );
