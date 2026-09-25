@@ -1,5 +1,14 @@
 import NextLink from "next/link";
-import { Badge, Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+import {
+  Table,
+  Tag,
+  TagLabel,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 import { categoryToContentUrl } from "@/utils/category";
 import type { ArticleSummary } from "@/lib/contentful/article";
 
@@ -20,7 +29,7 @@ type Props = {
   articles: ArticleSummary[];
 };
 
-function getNewsTypeBadgeColor(newsType: string | null) {
+function getNewsTypeTagColor(newsType: string | null) {
   return newsType === "주보" ? "blue" : "gray";
 }
 
@@ -30,7 +39,6 @@ const ContentsTable = ({ articles }: Props) => {
       <Thead>
         <Tr>
           <Th {...noWrap}>카테고리</Th>
-          <Th {...noWrap}>종류</Th>
           <Th display={{ base: "none", md: "table-cell" }}>작성자</Th>
           <Th>제목</Th>
           <Th
@@ -53,14 +61,16 @@ const ContentsTable = ({ articles }: Props) => {
               <Tr key={article.sys.id}>
                 <Td {...noWrap} p={0}>
                   <NextLink href={href} style={linkCellStyle}>
-                    {article.fields.category}
-                  </NextLink>
-                </Td>
-                <Td {...noWrap} p={0}>
-                  <NextLink href={href} style={linkCellStyle}>
-                    <Badge colorScheme={getNewsTypeBadgeColor(newsType)}>
-                      {newsType}
-                    </Badge>
+                    <Tag
+                      size="sm"
+                      minW="48px"
+                      justifyContent="center"
+                      borderRadius="full"
+                      colorScheme={getNewsTypeTagColor(newsType)}
+                      variant="subtle"
+                    >
+                      <TagLabel>{newsType}</TagLabel>
+                    </Tag>
                   </NextLink>
                 </Td>
                 <Td
