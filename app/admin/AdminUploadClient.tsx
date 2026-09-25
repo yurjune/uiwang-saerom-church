@@ -18,6 +18,8 @@ import {
 import { useEffect, useState } from "react";
 import { CONTENTFUL_CATEGORY } from "@/constants/category";
 import AdminLogin from "@/components/AdminLogin/AdminLogin";
+import TitleThumbnail from "@/components/ContentListView/TitleThumbnail";
+import { THUMBNAIL_PRESETS } from "@/constants/thumbnail";
 import DatePicker from "@/components/DatePicker/DatePicker";
 import BibleTagSelect from "@/components/BibleTagSelect/BibleTagSelect";
 import ImageUploadField from "@/components/ImageUploadField/ImageUploadField";
@@ -75,6 +77,12 @@ export default function AdminUploadClient() {
   const [images, setImages] = useState<File[]>([]);
   const [date, setDate] = useState<Date | null>(null);
   const [tags, setTags] = useState<string[]>([]);
+  const [title, setTitle] = useState("");
+  const [thumbnailTitle, setThumbnailTitle] = useState("");
+  const [thumbnailBible, setThumbnailBible] = useState("");
+  const [previewSequence] = useState(() =>
+    Math.floor(Math.random() * THUMBNAIL_PRESETS.length),
+  );
 
   const isMovie = category === CONTENTFUL_CATEGORY.movies;
 
@@ -192,6 +200,9 @@ export default function AdminUploadClient() {
       }
 
       form.reset();
+      setTitle("");
+      setThumbnailTitle("");
+      setThumbnailBible("");
       setImages([]);
       setDate(null);
       setTags([]);
@@ -275,6 +286,8 @@ export default function AdminUploadClient() {
             <Input
               name="title"
               placeholder="제목을 입력하세요"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
               {...fieldStyle}
             />
           </FormControl>
@@ -286,6 +299,8 @@ export default function AdminUploadClient() {
                 <Input
                   name="thumbnailTitle"
                   placeholder="썸네일에 표시할 제목을 입력하세요"
+                  value={thumbnailTitle}
+                  onChange={(event) => setThumbnailTitle(event.target.value)}
                   maxLength={256}
                   {...fieldStyle}
                 />
@@ -299,6 +314,8 @@ export default function AdminUploadClient() {
                 <Input
                   name="thumbnailBible"
                   placeholder="예) 창 1:1"
+                  value={thumbnailBible}
+                  onChange={(event) => setThumbnailBible(event.target.value)}
                   maxLength={256}
                   {...fieldStyle}
                 />
@@ -306,6 +323,29 @@ export default function AdminUploadClient() {
                   썸네일에서 제목 아래에 표시됩니다.
                 </FormHelperText>
               </FormControl>
+
+              <Box>
+                <Text {...labelStyle} mb="8px">
+                  썸네일 미리보기
+                </Text>
+                <Box
+                  w="240px"
+                  maxW="100%"
+                  borderRadius="10px"
+                  overflow="hidden"
+                  border="1px solid"
+                  borderColor="gray.200"
+                >
+                  <TitleThumbnail
+                    sequence={previewSequence}
+                    title={thumbnailTitle.trim() || title.trim()}
+                    bible={thumbnailBible.trim()}
+                  />
+                </Box>
+                <Text fontSize="13px" color="gray.500" mt="8px">
+                  배경은 실제 목록과 다를 수 있습니다.
+                </Text>
+              </Box>
             </>
           )}
 
